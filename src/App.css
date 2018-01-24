@@ -1,0 +1,34 @@
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+.App {
+  text-align: center;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background: url("farm.jpeg") cover;
+}
+.header {
+  flex: 2;
+}
+.body {
+  flex: 16;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.tree_container {
+  padding: 20px;
+}
+.tree_img {
+  height: 100%;
+  padding: 15px;
+  background-color: white;
+}
+.footer {
+  flex: 1;
+}
