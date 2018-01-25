@@ -11,11 +11,11 @@ const bitcore = require('bitcore-lib');
 const Bluebird = require('bluebird');
 const BufferUtil = bitcore.util.buffer;
 
-const generateInvoice = () => {
+const generateInvoice = (amt) => {
   return new Promise( function(resolve, reject){
     lightning.addInvoice({
 		memo: "Merkle Tree",
-		value: 1000,
+		value: amt*100000000,
 	}, function(err, response) {
       err ? reject(err) : resolve(response);
     });

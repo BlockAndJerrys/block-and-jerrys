@@ -41,21 +41,22 @@ class App extends Component {
   constructor(props) {
      super(props);
      this.state = {
-	      payReq: "",
+	payreq: "",
         cart: 0,
+	paid: false,
      }
  }
 
   componentDidMount() {
-	// socket = ioClient('http://f7436e5b.ngrok.io');
+	 socket = ioClient('http://b6c31ab4.ngrok.io');
 
-	// socket.on("INVOICE", (payReq) => {
-	// 	this.setState({payReq});
-	// })
-  //
-	// socket.on("PAID", () => {
-	// 	alert("Payment Received");
-	// })
+	 socket.on("INVOICE", (payreq) => {
+	 	this.setState({payreq});
+	 })
+  
+	 socket.on("PAID", () => {
+		this.setState({paid: true}) 
+	})
 }
 
 
@@ -64,9 +65,12 @@ class App extends Component {
   }
 
   generateInvoice = () => {
-    this.setState({payreq: "dnsodjhsjd902j02jwj02jw0jdjd0ja0sjddjasjdjsojdiosjs0i0iaji0jijadis"})
-    // socket.emit("GENERATE_INVOICE", this.state.cart);
+    socket.emit("GENERATE_INVOICE", this.state.cart);
   }
+
+ restart = () => {
+   this.setState({payreq: "", paid: false, cart: 0})
+ }
 
 
   render() {
@@ -79,9 +83,16 @@ class App extends Component {
         <Paper
           className={this.state.payreq ? "invoice_container" : "cart_container"}
           zDepth={3} >
-          {this.state.payreq ? <h1>{"Invoice:"}</h1> : <p>Cart: {this.state.cart} BTC</p>}
+          {this.state.payreq ? <h1>{this.state.paid ? "Thank you, come again!" : "Invoice:"}</h1> : <p>Cart: {this.state.cart} BTC</p>}
 
-            {this.state.payreq ?<p className="invoice">{this.state.payreq}</p> :
+            {this.state.payreq ? 
+		(this.state.paid ? <div>
+			<img className="confirmation_img" src="https://freeiconshop.com/wp-content/uploads/edd/checkmark-flat.png"/><RaisedButton
+		label="Restart"
+		onClick={this.restart.bind(this)}
+		primary={true}
+		fullWidth={true}/> </div>	
+		: <p className="invoice">{this.state.payreq}</p>) :
             <RaisedButton
               label="Generate Invoice"
               onClick={this.generateInvoice.bind(this)}

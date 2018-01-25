@@ -36,8 +36,8 @@ app.get('/', function(req, res){
 io.on('connection', function(socket){
   console.log('a user connected');
   
-  socket.on("GENERATE_INVOICE", async () => {
-	const {payment_request} = await lightning.generateInvoice();
+  socket.on("GENERATE_INVOICE", async (amt) => {
+	const {payment_request} = await lightning.generateInvoice(amt);
 	payreqUserMap[payment_request] = socket;
 	socket.emit("INVOICE", payment_request);
   });
