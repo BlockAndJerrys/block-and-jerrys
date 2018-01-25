@@ -8,11 +8,24 @@ import RaisedButton from 'material-ui/RaisedButton';
 // import SelectField from 'material-ui/SelectField';
 // import MenuItem from 'material-ui/MenuItem';
 // import axios from 'axios';
+//import Lightning from './utils/lightning'
+import ioClient from 'socket.io-client';
+
 
 class App extends Component {
   // constructor(props) {
   //   super(props);
   // }
+
+  componentDidMount() {
+	ioClient('localhost:8081')
+ }
+
+   handleClick = async () => {
+ 	//const invoice = await Lightning.generateInvoice()
+	//console.log(invoice);
+  }
+
 
   render() {
     return (
@@ -30,7 +43,8 @@ class App extends Component {
               <p> 0.0017 BTC</p>
               <RaisedButton
                 label="Generate Invoice"
-                primary={true}
+                onClick={this.handleClick.bind(this)}
+		primary={true}
                 fullWidth={true} />
           </Paper>
         </div>
