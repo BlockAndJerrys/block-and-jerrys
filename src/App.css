@@ -29,6 +29,9 @@ html, body, #root {
   padding: 15px;
   background-color: white;
 }
+.payreq {
+  width: 30%;
+}
 .footer {
   flex: 1;
 }

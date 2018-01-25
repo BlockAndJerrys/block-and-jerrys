@@ -1,9 +1,9 @@
 const grpc = require('grpc');
 const fs = require('fs');
 const path = require('path');
-const lndCert = fs.readFileSync("./lndConnectDocs/tls.cert");
+const lndCert = fs.readFileSync(path.join(__dirname,"lndConnectDocs/tls.cert"));
 const credentials = grpc.credentials.createSsl(lndCert);
-const lnrpcDescriptor = grpc.load("./lndConnectDocs/rpc.proto");
+const lnrpcDescriptor = grpc.load(path.join(__dirname,"lndConnectDocs/rpc.proto"));
 const lnrpc = lnrpcDescriptor.lnrpc;
 const lightning = new lnrpc.Lightning('localhost:10009', credentials);
 const ByteBuffer = require('bytebuffer');
@@ -22,8 +22,13 @@ const generateInvoice = () => {
   })
 }
 
+const streamInvoices = () => {
+   return lightning.subscribeInvoices({});
+}
+
 
 module.exports = {
 	generateInvoice,
+	streamInvoices,
 }
 
