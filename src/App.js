@@ -4,41 +4,21 @@ import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 // import ioClient from 'socket.io-client';
 import logo from './Ben_and_jerry_logo-svg.svg'
+
 import Icecream from './components/icecream'
 import Cart from './components/cart'
 
-var socket;
+import menu from './utils/menu'
 
-const menu = [
-  {
-    img_url: "http://www.benjerry.com/files/live/sites/systemsite/files/flavors/products/us/pint/banana-split-detail.png",
-    flavor: "Ethereum Split",
-    price: 0.000012,
-  },
-  {
-    img_url: "http://www.benjerry.com/files/live/sites/systemsite/files/flavors/products/us/pint/chunky-monkey-detail.png",
-    flavor: "Chunky Blocky",
-    price: 0.000020,
-  },
-  {
-    img_url: "http://www.benjerry.com/files/live/sites/systemsite/files/flavors/products/us/pint/cherry-garcia-detail.png",
-    flavor: "Cherry Garcia",
-    price: 0.000018,
-  },
-  {
-    img_url: "http://www.benjerry.com/files/live/sites/systemsite/files/flavors/products/us/pint/everything-but-the-detail.png",
-    flavor: "Everything But The",
-    price: 0.000031,
-  },
-]
+var socket;
 
 class App extends Component {
   constructor(props) {
      super(props);
      this.state = {
-	payreq: "",
+      	payreq: "",
         cartTotal: 0,
-	paid: false,
+      	paid: false,
      }
  }
 
@@ -52,7 +32,7 @@ class App extends Component {
 	//  socket.on("PAID", () => {
 	// 	this.setState({paid: true})
 	// })
-}
+  }
 
 
   addItemToCart = async (price) => {
@@ -67,8 +47,7 @@ class App extends Component {
    this.setState({payreq: "", paid: false, cart: 0})
  }
 
-
-  render() {
+ render() {
     return (
       <div className="App">
         <div className="header">
@@ -79,9 +58,6 @@ class App extends Component {
           />
         <div className="body">
         {
-          // this.state.payreq ? <div className="body"></div> : <div className="body">
-          // {
-
             menu.map( (x,i) => (
               <div key={i} className="menuitem">
               <Icecream
@@ -92,13 +68,8 @@ class App extends Component {
                 />
               </div>
             ))
-          // }
-
-          // </div>
         }
         </div>
-
-
       </div>
     );
   }
