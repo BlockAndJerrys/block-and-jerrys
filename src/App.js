@@ -1,16 +1,11 @@
 import React, { Component } from 'react';
 import './App.css';
-import tree from './tree.png'
 import Paper from 'material-ui/Paper';
-// import Like from 'material-ui/svg-icons/action/favorite-border';
-// import Heart from 'material-ui/svg-icons/action/favorite';
 import RaisedButton from 'material-ui/RaisedButton';
-// import SelectField from 'material-ui/SelectField';
-// import MenuItem from 'material-ui/MenuItem';
-// import axios from 'axios';
-//import Lightning from './utils/lightning'
-import ioClient from 'socket.io-client';
+// import ioClient from 'socket.io-client';
 import logo from './Ben_and_jerry_logo-svg.svg'
+import Icecream from './components/icecream'
+import Cart from './components/cart'
 
 var socket;
 
@@ -48,15 +43,15 @@ class App extends Component {
  }
 
   componentDidMount() {
-	 socket = ioClient('http://b6c31ab4.ngrok.io');
-
-	 socket.on("INVOICE", (payreq) => {
-	 	this.setState({payreq});
-	 })
-  
-	 socket.on("PAID", () => {
-		this.setState({paid: true}) 
-	})
+	//  socket = ioClient('http://b6c31ab4.ngrok.io');
+  //
+	//  socket.on("INVOICE", (payreq) => {
+	//  	this.setState({payreq});
+	//  })
+  //
+	//  socket.on("PAID", () => {
+	// 	this.setState({paid: true})
+	// })
 }
 
 
@@ -77,53 +72,28 @@ class App extends Component {
     return (
       <div className="App">
         <div className="header">
-          <img className="logo_img" src={logo} />
+          <img className="logo_img" src={logo} alt="blockandjerrys"/>
         </div>
-        <div className="cart">
-        <Paper
-          className={this.state.payreq ? "invoice_container" : "cart_container"}
-          zDepth={3} >
-          {this.state.payreq ? <h1>{this.state.paid ? "Thank you, come again!" : "Invoice:"}</h1> : <p>Cart: {this.state.cart} BTC</p>}
-
-            {this.state.payreq ? 
-		(this.state.paid ? <div>
-			<img className="confirmation_img" src="https://freeiconshop.com/wp-content/uploads/edd/checkmark-flat.png"/><RaisedButton
-		label="Restart"
-		onClick={this.restart.bind(this)}
-		primary={true}
-		fullWidth={true}/> </div>	
-		: <p className="invoice">{this.state.payreq}</p>) :
-            <RaisedButton
-              label="Generate Invoice"
-              onClick={this.generateInvoice.bind(this)}
-              primary={true}
-              fullWidth={true}/>
-            }
-        </Paper>
-        </div>
+        <Cart />
+        <div className="body">
         {
-          this.state.payreq ? <div className="body"></div> : <div className="body">
-          {
-            menu.map( x => (
-              <div className="menuitem">
-              <Paper
-                className="icecream_container"
-                zDepth={3} >
-                  <img className="tree_img" src={x.img_url} alt={x.flavor}></img>
-                  <h1>{x.flavor}</h1>
-    		          <p>{x.price} BTC</p>
-                  <RaisedButton
-                    label="Add to Cart"
-                    onClick={this.handleClick.bind(this, x.price)}
-    		            primary={true}
-                    fullWidth={true} />
-              </Paper>
+          // this.state.payreq ? <div className="body"></div> : <div className="body">
+          // {
+
+            menu.map( (x,i) => (
+              <div key={i} className="menuitem">
+              <Icecream
+                img_url={x.img_url}
+                flavor={x.flavor}
+                price={x.price}
+                />
               </div>
             ))
-          }
+          // }
 
-          </div>
+          // </div>
         }
+        </div>
 
 
       </div>
