@@ -3,7 +3,7 @@ import '../App.css';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 
-export default ({img_url, flavor, price}) => (
+export default ({img_url, flavor, price, handleClick}) => (
   <Paper
     className="icecream_container"
     zDepth={3} >
@@ -13,6 +13,7 @@ export default ({img_url, flavor, price}) => (
       <RaisedButton
         label="Add to Cart"
         primary={true}
-        fullWidth={true} />
+        fullWidth={true}
+        onClick={handleClick}/>
   </Paper>
 );

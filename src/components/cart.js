@@ -3,7 +3,7 @@ import '../App.css';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 
-export default ({img_url, flavor, price}) => (
+export default ({cartTotal}) => (
   <div className="cart">
   <Paper
     className={
@@ -13,7 +13,7 @@ export default ({img_url, flavor, price}) => (
     zDepth={3} >
     {
       // this.state.payreq ? <h1>{this.state.paid ? "Thank you, come again!" : "Invoice:"}</h1> : <p>Cart: {this.state.cart} BTC</p>
-      <p>Cart: {0.000012} BTC</p>
+      <p>Cart: {cartTotal} BTC</p>
     }
 
             {
@@ -27,7 +27,7 @@ export default ({img_url, flavor, price}) => (
       // :
       // <p className="invoice">{this.state.payreq}</p>) :
             <RaisedButton
-              label="Generate Invoice"
+              label="Checkout"
               primary={true}
               fullWidth={true}/>
             }

@@ -37,7 +37,7 @@ class App extends Component {
      super(props);
      this.state = {
 	payreq: "",
-        cart: 0,
+        cartTotal: 0,
 	paid: false,
      }
  }
@@ -55,8 +55,8 @@ class App extends Component {
 }
 
 
-  handleClick = async (price) => {
-	  this.setState({cart: (parseFloat(this.state.cart)+parseFloat(price)).toFixed(6)})
+  addItemToCart = async (price) => {
+	  this.setState({cartTotal: (parseFloat(this.state.cartTotal)+parseFloat(price)).toFixed(6)})
   }
 
   generateInvoice = () => {
@@ -74,7 +74,9 @@ class App extends Component {
         <div className="header">
           <img className="logo_img" src={logo} alt="blockandjerrys"/>
         </div>
-        <Cart />
+        <Cart
+          cartTotal={this.state.cartTotal}
+          />
         <div className="body">
         {
           // this.state.payreq ? <div className="body"></div> : <div className="body">
@@ -86,6 +88,7 @@ class App extends Component {
                 img_url={x.img_url}
                 flavor={x.flavor}
                 price={x.price}
+                handleClick={this.addItemToCart.bind(this, x.price)}
                 />
               </div>
             ))
