@@ -3,7 +3,7 @@ import Browse from './browseCart'
 import Checkout from './checkoutCart'
 import Paid from './paidCart'
 
-export default ({cartTotal, generateInvoice, payreq, paid}) => (
+export default ({cartTotal, generateInvoice, payreq, paid, copyInvoice}) => (
   <div className="cart">
     {
       payreq ?

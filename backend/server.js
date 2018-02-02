@@ -41,7 +41,7 @@ io.on('connection', function(socket){
   	// payreqUserMap[payment_request] = socket;
   	// socket.emit("INVOICE", payment_request);
     console.log("HERE");
-    socket.emit("INVOICE", "test");
+    socket.emit("INVOICE", "shudhsuhd80ss8hds89dsh98sdhs98hsd89dsh98dsh98sdhs98dhsd98hs89dh89sd");
   });
 
 });
