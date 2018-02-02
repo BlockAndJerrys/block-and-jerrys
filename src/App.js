@@ -35,7 +35,6 @@ class App extends Component {
 	})
   }
 
-
   addItemToCart = async (price) => {
 	  this.setState({cartTotal: (parseFloat(this.state.cartTotal)+parseFloat(price)).toFixed(6)})
   }
@@ -43,6 +42,7 @@ class App extends Component {
   generateInvoice = () => {
     socket.emit("GENERATE_INVOICE", this.state.cart);
   }
+
 
  restart = () => {
    this.setState({payreq: "", paid: false, cart: 0})
@@ -61,7 +61,8 @@ class App extends Component {
           paid={this.state.paid}
           />
         <div className="body">
-        {   this.state.payreq ? null :
+        {
+          this.state.payreq ? null :
             menu.map( (x,i) => (
               <div key={i} className="menuitem">
               <Icecream
