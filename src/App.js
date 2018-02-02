@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
-// import ioClient from 'socket.io-client';
+import ioClient from 'socket.io-client';
 import logo from './Ben_and_jerry_logo-svg.svg'
 
 import Icecream from './components/icecream'
@@ -23,15 +23,16 @@ class App extends Component {
  }
 
   componentDidMount() {
-	//  socket = ioClient('http://b6c31ab4.ngrok.io');
-  //
-	//  socket.on("INVOICE", (payreq) => {
-	//  	this.setState({payreq});
-	//  })
-  //
-	//  socket.on("PAID", () => {
-	// 	this.setState({paid: true})
-	// })
+	 socket = ioClient('localhost:8081');
+
+	 socket.on("INVOICE", (payreq) => {
+	 	 this.setState({payreq});
+     // setTimeout(()=>this.setState({paid: true}),2000)
+	 })
+
+	 socket.on("PAID", () => {
+		this.setState({paid: true})
+	})
   }
 
 
@@ -55,9 +56,12 @@ class App extends Component {
         </div>
         <Cart
           cartTotal={this.state.cartTotal}
+          generateInvoice={this.generateInvoice.bind(this)}
+          payreq={this.state.payreq}
+          paid={this.state.paid}
           />
         <div className="body">
-        {
+        {   this.state.payreq ? null :
             menu.map( (x,i) => (
               <div key={i} className="menuitem">
               <Icecream
