@@ -2,7 +2,7 @@ import React from 'react';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 
-export default ({payreq}) => (
+export default ({payreq, restart}) => (
   <Paper
     className={"invoice_container"}
     zDepth={3}
@@ -10,8 +10,11 @@ export default ({payreq}) => (
     <p>Thank you come again!</p>
     <RaisedButton
      label="Restart"
+     backgroundColor={"black"}
+     labelColor={"white"}
      primary={true}
      fullWidth={true}
+     onClick={restart}
      />
   </Paper>
 );

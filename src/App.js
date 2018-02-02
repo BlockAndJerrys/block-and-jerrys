@@ -7,6 +7,7 @@ import logo from './Ben_and_jerry_logo-svg.svg'
 
 import Icecream from './components/icecream'
 import Cart from './components/cart'
+import ConeCounter from './components/coneCounter'
 
 import menu from './utils/menu'
 
@@ -19,6 +20,7 @@ class App extends Component {
       	payreq: "",
         cartTotal: 0,
       	paid: false,
+        quantities: [0,0,0,0]
      }
  }
 
@@ -27,7 +29,6 @@ class App extends Component {
 
 	 socket.on("INVOICE", (payreq) => {
 	 	 this.setState({payreq});
-     // setTimeout(()=>this.setState({paid: true}),2000)
 	 })
 
 	 socket.on("PAID", () => {
@@ -35,8 +36,13 @@ class App extends Component {
 	})
   }
 
-  addItemToCart = async (price) => {
-	  this.setState({cartTotal: (parseFloat(this.state.cartTotal)+parseFloat(price)).toFixed(6)})
+  addItemToCart = async (price, i) => {
+    let temp = this.state.quantities.slice();
+    temp[i] ++;
+	  this.setState({
+      quantities: temp,
+      cartTotal: (parseFloat(this.state.cartTotal)+parseFloat(price)).toFixed(6)
+    })
   }
 
   generateInvoice = () => {
@@ -51,14 +57,23 @@ class App extends Component {
  render() {
     return (
       <div className="App">
+        <div className="top_left_container">
+          Powered By: <img className="lnd_logo_img"src="https://github.com/lightningnetwork/lnd/raw/master/logo.png" />
+        </div>
+        <div className="top_right_container">
+          <ConeCounter totalcones={0}/>
+        </div>
         <div className="header">
           <img className="logo_img" src={logo} alt="blockandjerrys"/>
         </div>
         <Cart
           cartTotal={this.state.cartTotal}
+          restart={this.restart.bind(this)}
           generateInvoice={this.generateInvoice.bind(this)}
           payreq={this.state.payreq}
           paid={this.state.paid}
+          menu={menu}
+          quantities={this.state.quantities}
           />
         <div className="body">
         {
@@ -69,7 +84,7 @@ class App extends Component {
                 img_url={x.img_url}
                 flavor={x.flavor}
                 price={x.price}
-                handleClick={this.addItemToCart.bind(this, x.price)}
+                handleClick={this.addItemToCart.bind(this, x.price, i)}
                 />
               </div>
             ))

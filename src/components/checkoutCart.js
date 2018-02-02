@@ -4,14 +4,22 @@ import RaisedButton from 'material-ui/RaisedButton';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 import QRCode from 'qrcode.react';
 
-export default ({payreq}) => (
+export default ({payreq, cartTotal}) => (
   <Paper
     className={"invoice_container"}
+    style={{backgroundColor: "black"}}
     zDepth={3}
     >
-    <p>Invoice</p>
-    <p className="invoice">{payreq}</p>
-    <QRCode value={payreq} />,
+    <div className="checkout_header">
+      {cartTotal} <span className="bitcoin_sub">BTC</span>
+    </div>
+    <div className="checkout_body">
+      <div className={"qr_code_container"}>
+        <div className={"qr_code"}>
+          <QRCode value={payreq}/>
+        </div>
+      </div>
+      <p className={"invoice"}>{payreq}</p>
       <CopyToClipboard
             options={{message: payreq}}
             text={payreq}>
@@ -21,5 +29,6 @@ export default ({payreq}) => (
               fullWidth={true}
               />
           </CopyToClipboard>
+    </div>
   </Paper>
 );
