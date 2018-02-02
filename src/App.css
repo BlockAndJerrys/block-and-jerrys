@@ -3,6 +3,7 @@ html, body, #root {
   width: 100%;
   padding: 0;
   margin: 0;
+  font-family:monospace;
 }
 .App {
   text-align: center;
@@ -16,6 +17,30 @@ html, body, #root {
   -o-background-size: cover;
   background-size: cover;
   min-width: 900px;
+}
+.top_left_container {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  padding-left: 5px;
+}
+.lnd_logo_img {
+  width: 30;
+  height: 30px;
+}
+.top_right_container {
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 10px;
+  background-color: white;
+}
+.cone_counter_container {
+
 }
 .header {
   margin-top: 30px;
@@ -57,18 +82,44 @@ html, body, #root {
   font-size: 15px;
 }
 .invoice_container {
-  width: 40%;
+  width: 35%;
   padding: 20px;
   margin-top: 20%;
   margin-left: 5%;
+  display: flex;
+  flex-direction: column;
+  background-color: yellow;
+}
+.checkout_header {
+  flex: 1;
+  font-size: 40px;
+  padding-top: 5%;
+  color: white;
+  margin-bottom: 20px;
+}
+.checkout_body {
+  flex: 1;
+}
+.bitcoin_sub {
+  font-size: 14px;
+}
+.qr_code_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.qr_code {
+  background-color: white;
+  padding: 10px;
 }
 .invoice {
-  font-size: 20px;
+  font-size: 15px;
   margin-left: 5%;
   text-align: left;
   width: 90%;
   overflow-wrap: break-word;
-  padding-bottom: 50px;
+  padding-bottom: 5px;
+  color: white;
 }
 .confirmation_img {
   height: 25%;
