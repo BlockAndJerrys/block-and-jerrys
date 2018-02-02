@@ -19,6 +19,7 @@ class App extends Component {
       	payreq: "",
         cartTotal: 0,
       	paid: false,
+        quantities: [0,0,0,0]
      }
  }
 
@@ -35,8 +36,13 @@ class App extends Component {
 	})
   }
 
-  addItemToCart = async (price) => {
-	  this.setState({cartTotal: (parseFloat(this.state.cartTotal)+parseFloat(price)).toFixed(6)})
+  addItemToCart = async (price, i) => {
+    let temp = this.state.quantities.slice();
+    temp[i] ++;
+	  this.setState({
+      quantities: temp,
+      cartTotal: (parseFloat(this.state.cartTotal)+parseFloat(price)).toFixed(6)
+    })
   }
 
   generateInvoice = () => {
@@ -59,6 +65,8 @@ class App extends Component {
           generateInvoice={this.generateInvoice.bind(this)}
           payreq={this.state.payreq}
           paid={this.state.paid}
+          menu={menu}
+          quantities={this.state.quantities}
           />
         <div className="body">
         {
@@ -69,7 +77,7 @@ class App extends Component {
                 img_url={x.img_url}
                 flavor={x.flavor}
                 price={x.price}
-                handleClick={this.addItemToCart.bind(this, x.price)}
+                handleClick={this.addItemToCart.bind(this, x.price, i)}
                 />
               </div>
             ))
