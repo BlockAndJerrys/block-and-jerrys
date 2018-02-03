@@ -5,6 +5,7 @@
   "dependencies": {
     "axios": "^0.17.1",
     "bitcore-lib": "^0.15.0",
+    "bytebuffer": "^5.0.1",
     "express": "^4.16.2",
     "fs": "0.0.1-security",
     "grpc": "^1.8.4",
@@ -24,5 +25,12 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "eslint": "^4.17.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.6.1"
   }
 }

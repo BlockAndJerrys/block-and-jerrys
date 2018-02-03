@@ -1,49 +1,52 @@
-var app = require('express')();
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
-var lightning = require('./utils/lightning.js');
+const app = require('express')();
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
+const path = require('path');
 
-var payreqUserMap = {};
+let coneCounter = 0;
+const lightning = require('./utils/lightning.js');
 
-const call = lightning.streamInvoices()
+const payreqUserMap = {};
 
-call.on('data', function(message) {
-    const payedreq = message.payment_request;
-    payreqUserMap[payedreq].emit("PAID");
+const call = lightning.streamInvoices();
+
+call.on('data', (message) => {
+  const payedreq = message.payment_request;
+  payreqUserMap[payedreq].socket.emit('PAID');
+  coneCounter += payreqUserMap[payedreq].cones;
+  io.emit('CONE', coneCounter);
 });
 
 
-call.on('end', function() {
-    // The server has finished sending
-    console.log("END");
+call.on('end', () => {
+  // The server has finished sending
 });
 
-call.on('status', function(status) {
-    // Process status
-    console.log("Current status: " + status);
+call.on('status', () => {
+  // Process status
 });
 
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
   next();
 });
 
-app.get('/', function(req, res){
-  res.sendFile(__dirname + '/index.html');
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-io.on('connection', function(socket){
-  console.log('a user connected');
-
-  socket.on("GENERATE_INVOICE", async (amt) => {
-  	const {payment_request} = await lightning.generateInvoice(amt);
-  	payreqUserMap[payment_request] = socket;
-  	socket.emit("INVOICE", payment_request);
+io.on('connection', (socket) => {
+  socket.on('GENERATE_INVOICE', (price, cones) => {
+    lightning.generateInvoice(price)
+      .then((resp) => {
+        const paymentRequest = resp.payment_request;
+        payreqUserMap[paymentRequest] = { socket, cones };
+        socket.emit('INVOICE', paymentRequest);
+      }).catch(err => socket.emit('ERROR', err));
   });
-
 });
 
-http.listen(8081, function(){
-  console.log('listening on *:8081');
+http.listen(8081, () => {
+
 });

@@ -1,30 +1,30 @@
 import React from 'react';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
-import CartItem from './cartItem'
+import CartItem from './cartItem';
 
-export default ({cartTotal, generateInvoice, menu, quantities}) => (
+export default ({ cartTotal, generateInvoice, menu, quantities }) => (
   <Paper
-    className={"cart_container"}
+    className="cart_container"
     zDepth={3}
-    >
-    <div className={"cartitem_container"}>
+  >
+    <div className="cartitem_container">
       {
-        menu.map( (x,i) => (
+        menu.map((x, i) => (
           <CartItem
             img_url={x.img_url}
             flavor={x.flavor}
             price={x.price}
             quantity={quantities[i]}
-            />
+          />
         ))
       }
     </div>
     <RaisedButton
-      label={"Checkout ( "+cartTotal+" BTC)"}
-      primary={true}
-      fullWidth={true}
+      label={`Checkout ( ${cartTotal} BTC)`}
+      primary
+      fullWidth
       onClick={generateInvoice}
-      />
-    </Paper>
+    />
+  </Paper>
 );
