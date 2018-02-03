@@ -37,6 +37,7 @@ app.get('/', (req, res) => {
 });
 
 io.on('connection', (socket) => {
+  socket.emit('CONE', coneCounter);
   socket.on('GENERATE_INVOICE', (price, cones) => {
     lightning.generateInvoice(price)
       .then((resp) => {
@@ -47,6 +48,6 @@ io.on('connection', (socket) => {
   });
 });
 
-http.listen(8081, () => {
+http.listen(5000, () => {
 
 });
