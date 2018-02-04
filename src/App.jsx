@@ -17,12 +17,12 @@ class App extends Component {
       cartTotal: 0,
       paid: false,
       quantities: [0, 0, 0, 0],
-      coneCount: 0,
+      coneCount: 'Connecting...',
     };
   }
 
   componentDidMount() {
-    socket = ioClient('localhost:8081');
+    socket = ioClient('https://132c6955.ngrok.io/');
 
     socket.on('INVOICE', (payreq) => {
       this.setState({ payreq });

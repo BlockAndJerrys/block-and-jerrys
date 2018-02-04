@@ -16,7 +16,8 @@ html, body, #root {
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-  min-width: 900px;
+  min-width: 1050px;
+  min-height: 800px;
 }
 .top_left_container {
   position: absolute;
