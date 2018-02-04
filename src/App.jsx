@@ -52,7 +52,7 @@ class App extends Component {
 
 
   restart() {
-    this.setState({ payreq: '', paid: false, cartTotal: 0 });
+    this.setState({ payreq: '', paid: false, cartTotal: 0, quantities: [0, 0, 0, 0] });
   }
 
   render() {
