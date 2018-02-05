@@ -22,7 +22,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    socket = ioClient('https://132c6955.ngrok.io/');
+    socket = ioClient('localhost:5000');
 
     socket.on('INVOICE', (payreq) => {
       this.setState({ payreq });
