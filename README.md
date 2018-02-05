@@ -4,6 +4,8 @@ Motivated by [Starblocks](https://starblocks.acinq.co/#/), I wanted to offer the
 
 ## How to Run
 
+Before this will run properly, you will need to go to App.jsx and input your server's address to establish a websocket connection.
+
 ```
 git clone https://github.com/robertDurst/blockandjerrys.git
 cd blockandjerrys
