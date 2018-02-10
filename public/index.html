@@ -4,52 +4,39 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="theme-color" content="#000000">
-    <!--
-      manifest.json provides metadata used when your web app is added to the
-      homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
-    -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
-
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
     <title>Block & Jerry's</title>
   </head>
+    <style>
+    /* NOTE: The styles were added inline because Prefixfree needs access to your
+    tyles and they must be inlined if they are on local disk! Also note, I did
+    not create these floating clouds; I found this demo code on the internet.
+    Currently searching for the domain so I can give credit where credit is due.
+    */
+    html, body, .container{
+      width: 100%;
+      height: 105%;
+      min-width: 500px;
+      min-height: 500px;
+      margin: 0;
+      padding: 0;
+    }
+    .container{
+      background-color: #007ced;
+      background: linear-gradient(to bottom, #007ced 1%,#cce7ff 100%);
+    }
+    @keyframes wind{
+      0% {
+        background-position: 0 200px, 0 300px, 100px 250px;
+      }
+      100% {
+        background-position: 1000px 200px, 1200px 300px, 1100px 250px;
+      }
 
-      <style>
-      /* NOTE: The styles were added inline because Prefixfree needs access to your styles and they must be inlined if they are on local disk! */
-      html, body, .container{
-  width: 100%;
-  height: 105%;
-  min-width: 500px;
-  min-height: 500px;
-  margin: 0;
-  padding: 0;
-}
-.container{
-  background-color: #007ced;
-  background: linear-gradient(to bottom, #007ced 1%,#cce7ff 100%);
-}
-
-@keyframes wind{
-  0% {
-    background-position: 0 200px, 0 300px, 100px 250px;
-  }
-  100% {
-    background-position: 1000px 200px, 1200px 300px, 1100px 250px;
-  }
-
-}
+    }
     </style>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
-
   <body>
     <noscript>
       You need to enable JavaScript to run this app.
@@ -57,15 +44,5 @@
     <div class="container">
     <div id="root"></div>
   </div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
-
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
-
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
   </body>
 </html>
