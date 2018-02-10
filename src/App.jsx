@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ioClient from 'socket.io-client';
 import './App.css';
-import logo from './Ben_and_jerry_logo-svg.svg';
+import logo from './logo.svg';
 import Icecream from './components/icecream';
 import Cart from './components/cart';
 import ConeCounter from './components/coneCounter';
@@ -19,6 +19,9 @@ class App extends Component {
       quantities: [0, 0, 0, 0],
       coneCount: 'Connecting...',
     };
+    this.restart = this.restart.bind(this);
+    this.generateInvoice = this.generateInvoice.bind(this);
+    this.addItemToCart = this.addItemToCart.bind(this);
   }
 
   componentDidMount() {
@@ -52,7 +55,12 @@ class App extends Component {
 
 
   restart() {
-    this.setState({ payreq: '', paid: false, cartTotal: 0, quantities: [0, 0, 0, 0] });
+    this.setState({
+      payreq: '',
+      paid: false,
+      cartTotal: 0,
+      quantities: [0, 0, 0, 0],
+    });
   }
 
   render() {
@@ -69,8 +77,8 @@ class App extends Component {
         </div>
         <Cart
           cartTotal={this.state.cartTotal}
-          restart={this.restart.bind(this)}
-          generateInvoice={this.generateInvoice.bind(this)}
+          restart={this.restart}
+          generateInvoice={this.generateInvoice}
           payreq={this.state.payreq}
           paid={this.state.paid}
           menu={menu}
@@ -85,7 +93,8 @@ class App extends Component {
                   imgUrl={x.img_url}
                   flavor={x.flavor}
                   price={x.price}
-                  handleClick={this.addItemToCart.bind(this, x.price, i)}
+                  handleClick={this.addItemToCart}
+                  index={i}
                 />
               </div>
             ))

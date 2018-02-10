@@ -3,7 +3,12 @@ import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import CartItem from './cartItem';
 
-export default ({ cartTotal, generateInvoice, menu, quantities }) => (
+export default ({
+  cartTotal,
+  generateInvoice,
+  menu,
+  quantities,
+}) => (
   <Paper
     className="cart_container"
     zDepth={3}
@@ -12,6 +17,7 @@ export default ({ cartTotal, generateInvoice, menu, quantities }) => (
       {
         menu.map((x, i) => (
           <CartItem
+            key={x.price}
             img_url={x.img_url}
             flavor={x.flavor}
             price={x.price}
