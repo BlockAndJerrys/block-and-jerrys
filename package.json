@@ -10,6 +10,7 @@
     "fs": "0.0.1-security",
     "grpc": "^1.8.4",
     "material-ui": "^0.20.0",
+    "mongoose": "^5.0.4",
     "qrcode.react": "^0.7.2",
     "react": "^16.2.0",
     "react-copy-to-clipboard": "^5.0.1",
@@ -21,11 +22,12 @@
   },
   "scripts": {
     "server": "node ./backend/server.js",
+    "serverDev": "nodemon ./backend/server.js",
     "webapp": "react-scripts start",
-    "dev": "concurrently -k \"npm run server\" \"npm run webapp\"",
+    "dev": "concurrently -k \"npm run serverDev\" \"npm run webapp\"",
     "start": "npm run webapp",
     "build": "react-scripts build",
-    "testFrontend": "react-scripts test --env=jsdom --coverage",
+    "testFrontend": "react-scripts test",
     "testBackend": "mocha backend/test/test.js",
     "test": "echo test not setup",
     "eject": "react-scripts eject"
@@ -38,6 +40,10 @@
     "eslint": "^4.17.0",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-import": "^2.8.0",
-    "mocha": "^5.0.0"
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.6.1",
+    "jest": "^22.2.2",
+    "mocha": "^5.0.0",
+    "nodemon": "^1.14.12"
   }
 }
