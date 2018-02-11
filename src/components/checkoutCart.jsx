@@ -1,3 +1,9 @@
+/*
+   checkoutCart.js - displays the invoice -- both QR and copyable plaintext
+   2018 Robert Durst
+   https://github.com/robertDurst/blockandjerrys
+*/
+
 import React from 'react';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';

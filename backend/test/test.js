@@ -1,3 +1,12 @@
+/*
+   test.js - backend unit testing
+   2018 Robert Durst
+   https://github.com/robertDurst/blockandjerrys
+
+   TODO: test generate invoice and invoice listener
+   However, these are both direct from the LND API so they should work.
+ */
+
 const chai = require('chai');
 const axios = require('axios');
 

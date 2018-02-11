@@ -1,7 +1,12 @@
+/*
+   server.js - server with websockets for real time communication
+   2018 Robert Durst
+   https://github.com/robertDurst/blockandjerrys
+*/
+
 const app = require('express')();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
-const path = require('path');
 
 let coneCounter = 0;
 const lightning = require('./utils/lightning.js');
@@ -30,10 +35,6 @@ app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
   next();
-});
-
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 io.on('connection', (socket) => {

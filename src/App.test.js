@@ -1,3 +1,9 @@
+/*
+   App.test.js - smoke tests for components
+   2018 Robert Durst
+   https://github.com/robertDurst/blockandjerrys
+*/
+
 import React from 'react';
 import Enzyme, { shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';

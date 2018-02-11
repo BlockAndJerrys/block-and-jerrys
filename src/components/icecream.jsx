@@ -1,3 +1,9 @@
+/*
+   icecream.js - component for individual ice cream in main view
+   2018 Robert Durst
+   https://github.com/robertDurst/blockandjerrys
+*/
+
 import React from 'react';
 import Paper from 'material-ui/Paper';
 import FlatButton from 'material-ui/FlatButton';
