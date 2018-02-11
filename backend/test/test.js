@@ -45,6 +45,6 @@ describe('Database tests', () => {
   it('Delete cone counter', async () => {
     await ConeCounter.findOne({ id: 2 }).remove().exec();
     const resp = await ConeCounter.findOne({ id: 2 });
-     assert.equal(resp, null);
+    assert.equal(resp, null);
   });
 });

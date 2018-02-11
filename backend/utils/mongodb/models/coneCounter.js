@@ -1,3 +1,9 @@
+/*
+   coneCounter.js - model for cone counter
+   2018 Robert Durst
+   https://github.com/robertDurst/blockandjerrys
+*/
+
 const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
