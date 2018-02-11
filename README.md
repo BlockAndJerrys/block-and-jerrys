@@ -1,17 +1,17 @@
 # Block and Jerry's
 
-Motivated by [Starblocks](https://starblocks.acinq.co/#/), I wanted to offer the world a desert to compliment their testnet coffee. Using Lighting Lab's [LND](https://github.com/lightningnetwork/lnd) as my gateway to the Lightning Network, I built a React front end to generate invoices for ice cream on top of my LND node. 
+Motivated by [Starblocks](https://starblocks.acinq.co/#/), I wanted to offer the world a dessert to compliment their testnet coffee. Using Lighting Lab's [LND](https://github.com/lightningnetwork/lnd) as my gateway to the Lightning Network, I built a React front end to generate invoices for ice cream on top of my LND node. 
 
 ## How to Run
 
-Before this will run properly, you will need to go to App.jsx and input your server's address to establish a websocket connection.
+**NOTE:** Must be running an LND node in background on port 10009. Not sure how to get started with LND? Navigate to [their developer website](http://dev.lightning.community/). This app, unlike the Lighting Desktop app, does not include LND binaries in the build.
 
+To run application locally: 
 ```
 git clone https://github.com/robertDurst/blockandjerrys.git
 cd blockandjerrys
 npm install
-npm run server // middleware server in terminal A
-npm start // front end in terminal B
+npm run dev // Will start server (port 5000) and webapp (port 3000)
 ```
 
 ## Ice Cream POS 
@@ -22,3 +22,6 @@ npm start // front end in terminal B
 My Node: SF Crypto Devs on the testnet
 
 ![LN testnet graph with my node](https://imgur.com/MlfIJQD.png)
+
+## Disclaimer
+No guarantee this will work. Run on mainnet if you dare.
