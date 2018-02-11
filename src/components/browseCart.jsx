@@ -3,6 +3,7 @@ import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import CartItem from './cartItem';
 
+
 export default ({
   cartTotal,
   generateInvoice,

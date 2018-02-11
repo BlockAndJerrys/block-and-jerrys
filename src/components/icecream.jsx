@@ -1,7 +1,6 @@
 import React from 'react';
 import Paper from 'material-ui/Paper';
 import FlatButton from 'material-ui/FlatButton';
-import '../App.css';
 
 export default ({
   imgUrl,

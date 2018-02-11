@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import ioClient from 'socket.io-client';
-import './App.css';
-import logo from './logo.svg';
-import Icecream from './components/icecream';
-import Cart from './components/cart';
-import ConeCounter from './components/coneCounter';
-import menu from './utils/menu';
+import '../styles/App.css';
+import logo from '../assets/logo.svg';
+import Icecream from './icecream';
+import Cart from './cart';
+import ConeCounter from './coneCounter';
+import menu from '../utils/menu';
 
 let socket;
 
