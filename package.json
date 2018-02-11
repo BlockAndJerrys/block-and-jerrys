@@ -24,14 +24,18 @@
     "webapp": "react-scripts start",
     "start": "npm run webapp",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom --coverage",
+    "testFrontend": "react-scripts test --env=jsdom --coverage --exit",
+    "testBackend": "mocha backend/test/test.js",
+    "test": "npm run testBackend && npm run testFrontend",
     "eject": "react-scripts eject"
   },
   "devDependencies": {
+    "chai": "^4.1.2",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "eslint": "^4.17.0",
     "eslint-config-airbnb": "^16.1.0",
-    "eslint-plugin-import": "^2.8.0"
+    "eslint-plugin-import": "^2.8.0",
+    "mocha": "^5.0.0"
   }
 }
