@@ -27,9 +27,9 @@
     "dev": "concurrently -k \"npm run serverDev\" \"npm run webapp\"",
     "start": "npm run webapp",
     "build": "react-scripts build",
-    "testFrontend": "react-scripts test",
-    "testBackend": "mocha backend/test/test.js",
-    "test": "echo test not setup",
+    "testFrontend": "react-scripts test --env=jsdom",
+    "testBackend": "mocha backend/test/test.js --exit",
+    "test": "npm run testBackend && npm run testFrontend",
     "eject": "react-scripts eject"
   },
   "devDependencies": {
@@ -42,7 +42,6 @@
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.6.1",
-    "jest": "^22.2.2",
     "mocha": "^5.0.0",
     "nodemon": "^1.14.12"
   }
