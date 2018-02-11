@@ -12,6 +12,13 @@ const data = require('./utils/mongodb/dataAccess');
 const lightning = require('./utils/lightning.js');
 
 let coneCounter;
+
+/*
+ Maps invoices to socket and cone quantity
+ Thus, when app "hears" an invoice has been
+ paid, it increments cone counter and tells
+ socket its invoice is paid.
+*/
 const payreqUserMap = {};
 
 const call = lightning.streamInvoices();

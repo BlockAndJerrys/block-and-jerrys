@@ -10,6 +10,10 @@ To run application locally:
 ```
 git clone https://github.com/robertDurst/blockandjerrys.git
 cd blockandjerrys
+
+// Now setup a MongoDB database and note the URI
+export MONGODB_URI=<YOUR_MONGODB_URI>
+
 npm install
 npm run dev // Will start server (port 5000) and webapp (port 3000)
 ```
