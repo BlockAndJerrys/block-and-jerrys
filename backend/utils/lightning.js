@@ -10,9 +10,9 @@ const grpc = require('grpc');
 const fs = require('fs');
 const path = require('path');
 
-const lndCert = fs.readFileSync(__dirname + '/lndConnectDocs/tls.cert');
+const lndCert = fs.readFileSync(path.join(__dirname, 'lndConnectDocs/tls.cert'));
 const credentials = grpc.credentials.createSsl(lndCert);
-const lnrpcDescriptor = grpc.load(__dirname + '/lndConnectDocs/rpc.proto');
+const lnrpcDescriptor = grpc.load(path.join(__dirname, 'lndConnectDocs/rpc.proto'));
 const { lnrpc } = lnrpcDescriptor;
 
 const lightning = new lnrpc.Lightning('localhost:10009', credentials);
