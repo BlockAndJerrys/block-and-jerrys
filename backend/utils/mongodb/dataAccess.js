@@ -35,7 +35,10 @@ async function getConeCount() {
   return resp;
 }
 
+// db exported strictly for testing purposes
+// otherwise all db actions reside here
 module.exports = {
   incrementConeCounter,
   getConeCount,
+  db,
 };
