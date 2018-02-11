@@ -1,3 +1,12 @@
+/*
+   cart.js - simplified navigation logic between the three views:
+      1. browseCart
+      2. checkoutCart
+      3. paidCart
+   2018 Robert Durst
+   https://github.com/robertDurst/blockandjerrys
+*/
+
 import React from 'react';
 import Browse from './browseCart';
 import Checkout from './checkoutCart';

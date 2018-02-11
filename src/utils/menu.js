@@ -1,3 +1,9 @@
+/*
+   menu.js - structure with organized menu data
+   2018 Robert Durst
+   https://github.com/robertDurst/blockandjerrys
+*/
+
 export default [
   {
     img_url: 'https://imgur.com/3ANZiYa.png',

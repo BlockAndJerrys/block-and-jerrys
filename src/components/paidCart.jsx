@@ -1,3 +1,9 @@
+/*
+   paidCart.js - cart component for final screen after invoice has been paid
+   2018 Robert Durst
+   https://github.com/robertDurst/blockandjerrys
+*/
+
 import React from 'react';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';

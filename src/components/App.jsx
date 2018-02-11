@@ -1,11 +1,28 @@
+/*
+   App.js - Main Component
+   2018 Robert Durst
+   https://github.com/robertDurst/blockandjerrys
+
+   The structure of the this view is as follows:
+
+    TOP LEFT: "Powered by LND."
+    TOP RIGHT: Cone counter.
+    HEADER: Block and Jerry's logo.
+    CART: Varies by state.
+      1. browseCart: shopping state, displays current cart
+      2. checkoutCart: checkout state, displays invoice
+      3. paidCart: paid state, displays paid confirmation and restart button
+    BODY: Displays the ice cream selection.
+*/
+
 import React, { Component } from 'react';
 import ioClient from 'socket.io-client';
-import './App.css';
-import logo from './logo.svg';
-import Icecream from './components/icecream';
-import Cart from './components/cart';
-import ConeCounter from './components/coneCounter';
-import menu from './utils/menu';
+import '../styles/App.css';
+import logo from '../assets/logo.svg';
+import Icecream from './icecream';
+import Cart from './cart';
+import ConeCounter from './coneCounter';
+import menu from '../utils/menu';
 
 let socket;
 
@@ -52,7 +69,6 @@ class App extends Component {
   generateInvoice() {
     socket.emit('GENERATE_INVOICE', this.state.cartTotal, this.state.quantities.reduce((x, y) => x + y));
   }
-
 
   restart() {
     this.setState({
