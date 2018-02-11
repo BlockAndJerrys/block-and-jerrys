@@ -8,17 +8,19 @@ const app = require('express')();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 
-let coneCounter = 0;
+const data = require('./utils/mongodb/dataAccess');
 const lightning = require('./utils/lightning.js');
 
+let coneCounter;
 const payreqUserMap = {};
 
 const call = lightning.streamInvoices();
 
-call.on('data', (message) => {
+call.on('data', async (message) => {
   const payedreq = message.payment_request;
   payreqUserMap[payedreq].socket.emit('PAID');
   coneCounter += payreqUserMap[payedreq].cones;
+  await data.incrementConeCounter(payreqUserMap[payedreq].cones);
   io.emit('CONE', coneCounter);
 });
 
@@ -49,6 +51,11 @@ io.on('connection', (socket) => {
   });
 });
 
-http.listen(5000, () => {
+async function init() {
+  const resp = await data.getConeCount();
+  coneCounter = resp.count;
+}
 
+http.listen(5000, () => {
+  init();
 });
