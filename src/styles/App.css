@@ -1,200 +1,23 @@
-html, body, #root {
-  height: 100%;
-  width: 100%;
-  padding: 0;
-  margin: 0;
-  font-family:monospace;
-  margin: auto;
-}
-.App {
-  text-align: center;
-  height: 100%;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  min-width: 1050px;
-  min-height: 800px;
-  overflow: scroll;
-}
-.top_left_container {
-  position:fixed;
-  left: 0;
-  top: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: white;
-  padding-left: 5px;
-}
-.lnd_logo_img {
-  width: 30;
-  height: 30px;
-}
-.top_right_container {
-  position:fixed;
-  right: 0;
-  top: 0;
-  padding: 10px;
-  background-color: white;
-}
-.cone_counter_container {
-
-}
-.header {
-  margin-top: 30px;
-  margin-bottom: 30px;
-  flex: 4;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.logo_img {
-  width: 25%;
-}
-.cart {
-  flex: 8;
-  color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.cart_container {
-  width: 25%;
-  height: 60%;
-}
-.cartitem_container {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
-}
-.cartitem {
-  margin-top: 0;
-  margin-bottom: 0;
-  padding: 0;
-  line-height: 5px;
-  text-align: left;
-  padding-left: 5px;
-}
-.cartitem_title {
-  font-size: 15px;
-}
-.invoice_container {
-  width: 35%;
-  padding: 20px;
-  margin-top: 20%;
-  margin-left: 5%;
-  display: flex;
-  flex-direction: column;
-  background-color: yellow;
-}
-.checkout_header {
-  flex: 1;
-  font-size: 40px;
-  padding-top: 5%;
-  color: white;
-  margin-bottom: 20px;
-}
-.checkout_body {
-  flex: 1;
-}
-.bitcoin_sub {
-  font-size: 14px;
-}
-.qr_code_container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.qr_code {
-  background-color: white;
-  padding: 10px;
-}
-.invoice {
-  font-size: 15px;
-  margin-left: 5%;
-  text-align: left;
-  width: 90%;
-  overflow-wrap: break-word;
-  padding-bottom: 5px;
-  color: white;
-}
-.confirmation_img {
-  height: 25%;
-  width: 25%;
-}
-.body {
-  flex: 12;
-  display: flex;
-}
-.body_invoice {
-  flex: 10;
-}
-.menuitem {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.icecream_container {
-  margin: 10px;
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  background-color: transparent;
-}
-.icecream_img_container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.icecream_img {
-  width: 100%;
-  background-color: #ffad12;
-  padding: 10px;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-}
-.icecream_info_container {
-  width: 100%;
-  color: white;
-  margin-top: 0;
-  margin-bottom: 0;
-  background-color: #2a2a2b;
-  border-radius: 10px;
-  border: 3px solid #ffad12;
-  border-bottom: none;
-}
-.flavor_title {
-  font-size: 25px;
-}
-.price_title {
-  font-size: 15px;
-  line-height: 5px;
-}
-.payreq {
-  width: 30%;
-}
-
-html, body, .container{
-margin: 0;
-padding: 0;
-overflow: scroll;
-}
-
-.container{
+html, body {
   background-color: #007ced;
   background: linear-gradient(to bottom, #007ced 1%,#cce7ff 100%);
 }
-#root{
+
+html, body, .container {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+}
+
+.container{
   position: relative;
-  background: url(https://static.radulescu.me/examples/clouds/clouds1000.png);
-  background: url(https://static.radulescu.me/examples/clouds/clouds1000.png) 0 200px,
-              url(https://static.radulescu.me/examples/clouds/clouds1200_1.png) 0 300px,
-              url(https://static.radulescu.me/examples/clouds/clouds1000_blur3.png) 100px 250px;
+  background: url(http://static.radulescu.me/examples/clouds/clouds1000.png) 0 200px,
+              url(http://static.radulescu.me/examples/clouds/clouds1200_1.png) 0 300px,
+              url(http://static.radulescu.me/examples/clouds/clouds1000_blur3.png) 100px 250px;
   animation: wind 20s linear infinite;
   overflow: scroll;
 }
+
 @keyframes wind{
   0% {
     background-position: 0 200px, 0 300px, 100px 250px;
@@ -203,6 +26,7 @@ overflow: scroll;
     background-position: 1000px 200px, 1200px 300px, 1100px 250px;
   }
 }
+
 .Error {
   text-align: center;
   height: 100%;
