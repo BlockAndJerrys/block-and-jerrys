@@ -34,10 +34,10 @@ export default ({
     curView = <Paid restart={restart} />;
   } else if (payreq) { // invoice generated
     curView = (
-      <Paper zDepth={3} style={{ display: 'flex', flexFlow: 'column nowrap', }}>
+      <Paper zDepth={3} style={{ display: 'flex', flexFlow: 'column nowrap' }}>
         <div style={{ display: 'flex', padding: '1em' }} >
           <QRCode value={payreq} />
-          <div style={{ marginLeft: '1em', }}>
+          <div style={{ marginLeft: '1em' }}>
             {cartTotal} BTC <br />
             {payreq}
           </div>
@@ -49,9 +49,9 @@ export default ({
         </div>
       </Paper>
     );
-  } else if (forms) {
-    curView = <UserInfo generateInvoice={generateInvoice} />
-  } else { // default
+  } else if (forms) { // show user input forms
+    curView = <UserInfo generateInvoice={generateInvoice} />;
+  } else { // home default: flavor x quantity
     curView = (
       <Paper zDepth={3} >
         <List>
@@ -67,7 +67,7 @@ export default ({
           secondary
           fullWidth
           onClick={showForms}
-          /*disabled={cartTotal == 0}*/
+          /* disabled={cartTotal == 0} */
         />
       </Paper>
     );

@@ -34,6 +34,16 @@ import ConeCounter from './coneCounter';
 import Cart from './cart';
 import menu from '../utils/menu';
 
+const styles = {
+  gridList: {
+    display: 'flex',
+    flexFlow: 'row nowrap',
+    overflowX: 'auto',
+    marginTop: '1.5em',
+  },
+  titleBackground: 'linear-gradient(to top, rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)',
+};
+
 let socket;
 
 class App extends Component {
@@ -133,8 +143,8 @@ class App extends Component {
             {menu.map((x, i) => (
               <GridTile
                 key={x.price}
-                titleBackground="linear-gradient(to top, rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)"
-                children={<img src={x.img_url} />}
+                titleBackground={styles.titleBackground}
+                children={<img src={x.img_url} alt={x.flavor} />}
                 actionIcon={
                   <RaisedButton
                     onClick={() => this.addItemToCart(x.price, i)}
@@ -153,15 +163,5 @@ class App extends Component {
     );
   }
 }
-
-const styles = {
-  gridList: {
-    display: 'flex',
-    flexFlow: 'row nowrap',
-    overflowX: 'auto',
-    marginTop: '1.5em',
-  },
-};
-
 
 export default App;

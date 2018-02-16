@@ -14,6 +14,14 @@ import {
   orange500,
 } from 'material-ui/styles/colors';
 
+const styles = {
+  form: {
+    display: 'flex',
+    flexFlow: 'column nowrap',
+    alignItems: 'center',
+  },
+};
+
 class UserInfo extends React.Component {
   constructor(props) {
     super(props);
@@ -25,9 +33,9 @@ class UserInfo extends React.Component {
     this.handleChange = this.handleChange.bind(this);
   }
   handleChange(event) {
-    const target = event.target;
+    const { target } = event;
     const value = target.type === 'checkbox' ? target.checked : target.value;
-    const name = target.name;
+    const { name } = target;
     this.setState({
       [name]: value,
     });
@@ -50,8 +58,8 @@ class UserInfo extends React.Component {
             floatingLabelText="Delivery Address"
             name="address"
             type="text"
-            multiLine={true}
             rows={2}
+            multiLine
             rowsMax={4}
             value={this.state.address}
             onChange={this.handleChange}
@@ -68,10 +76,10 @@ class UserInfo extends React.Component {
           label="Confirm"
           secondary
           fullWidth
-          /*disabled={!(this.state.name &&
+          /* disabled={!(this.state.name &&
             this.state.address &&
             this.state.phone.length >= 10
-          )}*/
+          )} */
           onClick={this.props.generateInvoice}
           style={{ marginTop: '1em' }}
         />
@@ -79,13 +87,5 @@ class UserInfo extends React.Component {
     );
   }
 }
-
-const styles = {
-  form: {
-    display: 'flex',
-    flexFlow: 'column nowrap',
-    alignItems: 'center',
-  },
-};
 
 export default UserInfo;
