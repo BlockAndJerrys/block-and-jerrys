@@ -17,20 +17,22 @@
 
 import React, { Component } from 'react';
 import ioClient from 'socket.io-client';
-import '../styles/App.css';
-import logo from '../assets/logo.svg';
-import ConeCounter from './coneCounter';
-import Cart from './cart';
-import menu from '../utils/menu';
 
 import {
   Grid,
   Row,
   Col,
-  // Clearfix,
-  Button,
   Image,
 } from 'react-bootstrap';
+
+import RaisedButton from 'material-ui/RaisedButton';
+import { GridTile, GridList } from 'material-ui/GridList';
+
+import '../styles/App.css';
+import logo from '../assets/logo.svg';
+import ConeCounter from './coneCounter';
+import Cart from './cart';
+import menu from '../utils/menu';
 
 let socket;
 
@@ -70,12 +72,12 @@ class App extends Component {
     temp[i] += 1;
     this.setState({
       quantities: temp,
-      artTotal: (parseFloat(this.state.cartTotal) + parseFloat(price)).toFixed(6),
+      cartTotal: (parseFloat(this.state.cartTotal) + parseFloat(price)).toFixed(6),
     });
   }
 
   generateInvoice() {
-    socket.emit('GENERATE_INVOICE', this.state.cartTotal, this.state.quantities.reduce((x, y) => x + y));
+    // socket.emit('GENERATE_INVOICE', this.state.cartTotal, this.state.quantities.reduce((x, y) => x + y));
   }
 
   restart() {
@@ -94,16 +96,14 @@ class App extends Component {
           <Col xs={1} style={{ backgroundColor: 'white' }}>
             <Image responsive rounded src="https://github.com/lightningnetwork/lnd/raw/master/logo.png" alt="LND logo" />
           </Col>
-          <Col xsOffset={9} xs={2} style={{ backgroundColor: 'white' }}>
+          <Col xs={4} xsOffset={3}>
+            <Image responsive rounded src={logo} alt="LND logo" />
+          </Col>
+          <Col xsOffset={2} xs={2} style={{ backgroundColor: 'white' }}>
             <ConeCounter totalcones={this.state.coneCount} />
           </Col>
         </Row>
-        <Row>
-          <Col xs={4} xsOffset={4}>
-            <Image responsive rounded src={logo} alt="LND logo" />
-          </Col>
-        </Row>
-        <Row style={{marginTop: '2em'}}>
+        <Row style={{ marginTop: '2em' }}>
           <Col xs={4} xsOffset={4}>
             <Cart
               cartTotal={this.state.cartTotal}
@@ -116,42 +116,41 @@ class App extends Component {
             />
           </Col>
         </Row>
-        <div style={styles.cones}>
-          {
-            this.state.payreq ? null :
-            menu.map(x => (
-              <Col key={x.price}
-                xs={8} xsOffset={2}
-                sm={5} smOffset={0}
-                md={2} mdOffset={0}
-                style={styles.cone}
-              >
-                <Image src={x.img_url} />
-                <p>{x.flavor}</p>
-                <p>{x.price}</p>
-                <Button onClick={this.addItemToCart}>Add Item To Cart</Button>
-              </Col>
-            ))
-          }
-        </div>
+        <Row>
+          <GridList
+            cellHeight="auto"
+            style={styles.gridList}
+          >
+            {menu.map((x, i) => (
+              <GridTile
+                key={x.price}
+                titleBackground="linear-gradient(to top, rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)"
+                children={<img src={x.img_url} />}
+                actionIcon={
+                  <RaisedButton
+                    onClick={() => this.addItemToCart(x.price, i)}
+                    label="Add to Cart"
+                    fullWidth
+                    secondary
+                  />
+                }
+                title={x.flavor}
+                subtitle={x.price + ' BTC'}
+              />
+            ))}
+          </GridList>
+        </Row>
       </Grid>
     );
   }
 }
 
 const styles = {
-  cone: {
+  gridList: {
     display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexFlow: 'column nowrap',
-    marginTop: '2em',
-  },
-  cones: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    flexFlow: 'row wrap',
+    flexFlow: 'row nowrap',
+    overflowX: 'auto',
+    marginTop: '1.5em',
   },
 };
 

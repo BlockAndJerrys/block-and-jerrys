@@ -7,8 +7,9 @@
 import React from 'react';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
-import CartItem from './cartItem';
-
+import Divider from 'material-ui/Divider';
+import { List, ListItem } from 'material-ui/List';
+// import CartItem from './cartItem';
 
 export default ({
   cartTotal,
@@ -17,25 +18,24 @@ export default ({
   quantities,
 }) => (
   <Paper
-    className="cart_container"
     zDepth={3}
   >
-    <div className="cartitem_container">
+    <List>
       {
         menu.map((x, i) => (
-          <CartItem
-            key={x.price}
-            img_url={x.img_url}
-            flavor={x.flavor}
-            price={x.price}
-            quantity={quantities[i]}
-          />
+          <div key={x.flavor}>
+            <ListItem
+              disabled
+              primaryText={`${x.flavor} x ${quantities[i]}`}
+            />
+            <Divider />
+          </div>
         ))
       }
-    </div>
+    </List>
     <RaisedButton
-      label={`Checkout ( ${cartTotal} BTC)`}
-      primary
+      label={`Checkout (${cartTotal} BTC)`}
+      secondary
       fullWidth
       onClick={generateInvoice}
     />

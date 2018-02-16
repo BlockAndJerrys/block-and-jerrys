@@ -10,6 +10,9 @@ import {
   Paper,
   TextField,
 } from 'material-ui';
+import {
+  orange500,
+} from 'material-ui/styles/colors';
 // import { CopyToClipboard } from 'react-copy-to-clipboard';
 // import QRCode from 'qrcode.react';
 // import {
@@ -43,7 +46,7 @@ class CheckoutCart extends React.Component {
       <Paper
         zDepth={3}
       >
-        <form action="" style={styles.form} className="col-xs-offset-1">
+        <form action="" style={styles.form} >
           <TextField
             floatingLabelText="Name"
             name="name"
@@ -52,7 +55,10 @@ class CheckoutCart extends React.Component {
             onChange={this.handleChange}
           />
           <TextField
-            floatingLabelText="Address"
+            hintText="Delivery address must be in the city of San Francisco."
+            hintStyle={{ color: orange500 }}
+            floatingLabelStyle={{ color: orange500 }}
+            floatingLabelText="Delivery Address"
             name="address"
             type="text"
             multiLine={true}
@@ -73,6 +79,7 @@ class CheckoutCart extends React.Component {
           label="Confirm"
           primary
           fullWidth
+          style={{ marginTop: '1em' }}
         />
         {/*
         {this.props.cartTotal} BTC
@@ -92,12 +99,13 @@ class CheckoutCart extends React.Component {
       </Paper>
     );
   }
-};
+}
 
 const styles = {
   form: {
     display: 'flex',
     flexFlow: 'column nowrap',
+    alignItems: 'center',
   },
 };
 
