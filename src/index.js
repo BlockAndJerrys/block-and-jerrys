@@ -20,7 +20,7 @@ import registerServiceWorker from './registerServiceWorker';
   to styled components.
 */
 
-axios.get('http://localhost:10009')
+axios.get('http://localhost:3000') // XXX
   .then(() => {
     ReactDOM.render(
       <MuiThemeProvider>

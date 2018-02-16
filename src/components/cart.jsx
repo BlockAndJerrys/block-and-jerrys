@@ -22,18 +22,18 @@ export default ({
   restart,
 }) => {
   let curView;
-  if (payreq && paid) {
-    curView = <Paid restart={restart} />;
-  } else if (payreq) {
+  // if (payreq && paid) {
+  //   curView = <Paid restart={restart} />;
+  // } else if (payreq) {
     curView = <Checkout payreq={payreq} cartTotal={cartTotal} />;
-  } else {
-    curView = (<Browse
-      generateInvoice={generateInvoice}
-      cartTotal={cartTotal}
-      menu={menu}
-      quantities={quantities}
-    />);
-  }
+  // } else {
+    // curView = (<Browse
+    //   generateInvoice={generateInvoice}
+    //   cartTotal={cartTotal}
+    //   menu={menu}
+    //   quantities={quantities}
+    // />);
+  // }
   return (
     <div className="cart">
       {curView}

@@ -19,7 +19,6 @@ import React, { Component } from 'react';
 import ioClient from 'socket.io-client';
 import '../styles/App.css';
 import logo from '../assets/logo.svg';
-// import Icecream from './icecream';
 import ConeCounter from './coneCounter';
 import Cart from './cart';
 import menu from '../utils/menu';
@@ -76,7 +75,7 @@ class App extends Component {
   }
 
   generateInvoice() {
-    // socket.emit('GENERATE_INVOICE', this.state.cartTotal, this.state.quantities.reduce((x, y) => x + y));
+    socket.emit('GENERATE_INVOICE', this.state.cartTotal, this.state.quantities.reduce((x, y) => x + y));
   }
 
   restart() {
