@@ -5,17 +5,20 @@
 */
 
 import React from 'react';
-import Paper from 'material-ui/Paper';
-import RaisedButton from 'material-ui/RaisedButton';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
-import QRCode from 'qrcode.react';
 import {
-  Button,
-  FormGroup,
-  ControlLabel,
-  FormControl,
-  HelpBlock,
-} from 'react-bootstrap';
+  RaisedButton,
+  Paper,
+  TextField,
+} from 'material-ui';
+// import { CopyToClipboard } from 'react-copy-to-clipboard';
+// import QRCode from 'qrcode.react';
+// import {
+// Button,
+// FormGroup,
+// ControlLabel,
+// FormControl,
+// HelpBlock,
+// } from 'react-bootstrap';
 
 class CheckoutCart extends React.Component {
   constructor(props) {
@@ -40,44 +43,37 @@ class CheckoutCart extends React.Component {
       <Paper
         zDepth={3}
       >
-        {this.state.address} | {this.state.name} | {this.state.phone}
-        <form action="">
-          <FormGroup>
-            <ControlLabel>Name</ControlLabel>
-            <FormControl
-              type="text"
-              value={this.state.name}
-              placeholder="Name"
-              name="name"
-              onChange={this.handleChange}
-            />
-            <FormControl.Feedback />
-          </FormGroup>
-          <FormGroup>
-            <ControlLabel>Phone Number</ControlLabel>
-            <FormControl
-              type="number"
-              value={this.state.phone}
-              placeholder="Phone number"
-              name="phone"
-              onChange={this.handleChange}
-            />
-            <FormControl.Feedback />
-          </FormGroup>
-          <FormGroup>
-            <ControlLabel>Address</ControlLabel>
-            <FormControl
-              type="text"
-              value={this.state.address}
-              placeholder="Address"
-              onChange={this.handleChange}
-              name="address"
-            />
-            <FormControl.Feedback />
-            <HelpBlock>Must be within the city of San Francisco.</HelpBlock>
-          </FormGroup>
-          <Button type="submit">Submit</Button>
+        <form action="" style={styles.form} className="col-xs-offset-1">
+          <TextField
+            floatingLabelText="Name"
+            name="name"
+            type="text"
+            value={this.state.name}
+            onChange={this.handleChange}
+          />
+          <TextField
+            floatingLabelText="Address"
+            name="address"
+            type="text"
+            multiLine={true}
+            rows={2}
+            rowsMax={4}
+            value={this.state.address}
+            onChange={this.handleChange}
+          />
+          <TextField
+            floatingLabelText="Phone Number"
+            name="phone"
+            type="number"
+            value={this.state.phone}
+            onChange={this.handleChange}
+          />
         </form>
+        <RaisedButton
+          label="Confirm"
+          primary
+          fullWidth
+        />
         {/*
         {this.props.cartTotal} BTC
         <QRCode value={this.props.payreq} />
@@ -96,6 +92,13 @@ class CheckoutCart extends React.Component {
       </Paper>
     );
   }
+};
+
+const styles = {
+  form: {
+    display: 'flex',
+    flexFlow: 'column nowrap',
+  },
 };
 
 export default CheckoutCart;

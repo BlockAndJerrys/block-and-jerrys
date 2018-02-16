@@ -50,19 +50,19 @@ class App extends Component {
   }
 
   componentDidMount() {
-    socket = ioClient('localhost:5000');
-
-    socket.on('INVOICE', (payreq) => {
-      this.setState({ payreq });
-    });
-
-    socket.on('PAID', () => {
-      this.setState({ paid: true });
-    });
-
-    socket.on('CONE', (count) => {
-      this.setState({ coneCount: count });
-    });
+    // socket = ioClient('localhost:5000');
+    //
+    // socket.on('INVOICE', (payreq) => {
+    //   this.setState({ payreq });
+    // });
+    //
+    // socket.on('PAID', () => {
+    //   this.setState({ paid: true });
+    // });
+    //
+    // socket.on('CONE', (count) => {
+    //   this.setState({ coneCount: count });
+    // });
   }
 
   addItemToCart(price, i) {
@@ -89,7 +89,7 @@ class App extends Component {
 
   render() {
     return (
-      <Grid id='grid'>
+      <Grid>
         <Row>
           <Col xs={1} style={{ backgroundColor: 'white' }}>
             <Image responsive rounded src="https://github.com/lightningnetwork/lnd/raw/master/logo.png" alt="LND logo" />
@@ -116,14 +116,14 @@ class App extends Component {
             />
           </Col>
         </Row>
-        <Row>
+        <div style={styles.cones}>
           {
             this.state.payreq ? null :
             menu.map(x => (
               <Col key={x.price}
                 xs={8} xsOffset={2}
-                sm={6} smOffset={0}
-                md={3} mdOffset={0}
+                sm={5} smOffset={0}
+                md={2} mdOffset={0}
                 style={styles.cone}
               >
                 <Image src={x.img_url} />
@@ -133,7 +133,7 @@ class App extends Component {
               </Col>
             ))
           }
-        </Row>
+        </div>
       </Grid>
     );
   }
@@ -146,6 +146,12 @@ const styles = {
     justifyContent: 'center',
     flexFlow: 'column nowrap',
     marginTop: '2em',
+  },
+  cones: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flexFlow: 'row wrap',
   },
 };
 
