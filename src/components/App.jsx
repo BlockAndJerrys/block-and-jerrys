@@ -45,10 +45,12 @@ class App extends Component {
       paid: false,
       quantities: [0, 0, 0, 0],
       coneCount: 'Connecting...',
+      forms: false,
     };
     this.restart = this.restart.bind(this);
     this.generateInvoice = this.generateInvoice.bind(this);
     this.addItemToCart = this.addItemToCart.bind(this);
+    this.showForms = this.showForms.bind(this);
   }
 
   componentDidMount() {
@@ -67,6 +69,10 @@ class App extends Component {
     // });
   }
 
+  showForms() {
+    this.setState({ forms: true });
+  }
+
   addItemToCart(price, i) {
     const temp = this.state.quantities.slice();
     temp[i] += 1;
@@ -77,6 +83,7 @@ class App extends Component {
   }
 
   generateInvoice() {
+    this.setState({ payreq: '123' });
     // socket.emit('GENERATE_INVOICE', this.state.cartTotal, this.state.quantities.reduce((x, y) => x + y));
   }
 
@@ -113,6 +120,8 @@ class App extends Component {
               paid={this.state.paid}
               menu={menu}
               quantities={this.state.quantities}
+              showForms={this.showForms}
+              forms={this.state.forms}
             />
           </Col>
         </Row>
