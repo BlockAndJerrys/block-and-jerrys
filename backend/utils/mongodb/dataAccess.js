@@ -6,7 +6,7 @@
 
 const mongoose = require('mongoose');
 
-const { ConeCounter } = require('./models/coneCounter');
+const { Order } = require('./models/order');
 
 mongoose.connect(process.env.MONGODB_URI);
 const db = mongoose.connection;
@@ -16,29 +16,48 @@ db.once('open', async () => {
 });
 
 /**
- * Increment cone counter.
- * @param {Amount} amt
- * @returns {Promise} - Returns {Cone Count}.
+ * Add order.
+ * @param {time, name, location, phone} time, name, loccation, phone
+ * @returns {Promise} - Returns {Order}.
  */
 
-async function incrementConeCounter(amt) {
-  await ConeCounter.findOneAndUpdate({ id: 1 }, { $inc: { count: amt } });
+async function addOrder(time, name, location, phone) {
+  const resp = await Order.create({
+    time,
+    name,
+    location,
+    phone,
+  });
+  return resp;
 }
 
 /**
- * Get cone count.
- * @returns {Promise} - Returns {Cone Count}.
+ * Get order.
+ * @param {id} id
+ * @returns {Promise} - Returns {Order}.
  */
 
-async function getConeCount() {
-  const resp = await ConeCounter.findOne({ id: 1 });
+async function getOrder(id) {
+  const resp = await Order.findById(id);
+  return resp;
+}
+
+/**
+ * Delete order.
+ * @param {id} id
+ * @returns {Promise} - Returns {Order}.
+ */
+
+async function deleteOrder(id) {
+  const resp = await Order.findById(id).remove().exec();
   return resp;
 }
 
 // db exported strictly for testing purposes
 // otherwise all db actions reside here
 module.exports = {
-  incrementConeCounter,
-  getConeCount,
+  addOrder,
+  getOrder,
+  deleteOrder,
   db,
 };

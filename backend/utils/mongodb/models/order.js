@@ -8,14 +8,16 @@ const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
-const ConeCounterSchema = new Schema({
-  count: Number,
-  id: Number,
+const OrderSchema = new Schema({
+  time: Date,
+  name: String,
+  location: String,
+  phone: String,
 });
 
 // Compile model from schema
-const ConeCounter = mongoose.model('ConeCounter', ConeCounterSchema);
+const Order = mongoose.model('Order', OrderSchema);
 
 module.exports = {
-  ConeCounter,
+  Order,
 };

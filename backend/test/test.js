@@ -11,7 +11,7 @@ const chai = require('chai');
 const axios = require('axios');
 
 const { db } = require('../utils/mongodb/dataAccess');
-const { ConeCounter } = require('../utils/mongodb/models/coneCounter');
+const { addOrder, getOrder, deleteOrder } = require('../utils/mongodb/dataAccess');
 
 const { assert } = chai;
 
@@ -30,21 +30,19 @@ describe('LND tests', () => {
 
 describe('Database tests', () => {
   it('Mongodb is connected', async () => {
-    assert.equal(db.name, 'cones');
+    assert.equal(db.name, 'icecream');
   });
-  it('Add cone counter document to collection', async () => {
-    await ConeCounter.create({ id: 2, count: 0 });
-    const resp = await ConeCounter.findOne({ id: 2 });
-    assert.equal(resp.count, 0);
-  });
-  it('Increment added cone counter', async () => {
-    await ConeCounter.findOneAndUpdate({ id: 2 }, { $inc: { count: 1 } });
-    const resp = await ConeCounter.findOne({ id: 2 });
-    assert.equal(resp.count, 1);
-  });
-  it('Delete cone counter', async () => {
-    await ConeCounter.findOne({ id: 2 }).remove().exec();
-    const resp = await ConeCounter.findOne({ id: 2 });
+  it('Add order document to collection and then delete it', async () => {
+    const newOrder = await addOrder(
+      new Date(),
+      'Rob',
+      '874 Fell',
+      '9254133647',
+    );
+    let resp = await getOrder(newOrder._id);
+    assert.equal(resp.name, 'Rob');
+    resp = await deleteOrder(resp._id)
+    resp = await getOrder(resp._id);
     assert.equal(resp, null);
   });
 });
