@@ -51,19 +51,19 @@ class App extends Component {
   }
 
   componentDidMount() {
-    // socket = ioClient('localhost:5000');
-    //
-    // socket.on('INVOICE', (payreq) => {
-    //   this.setState({ payreq });
-    // });
-    //
-    // socket.on('PAID', () => {
-    //   this.setState({ paid: true });
-    // });
-    //
-    // socket.on('CONE', (count) => {
-    //   this.setState({ coneCount: count });
-    // });
+    socket = ioClient('localhost:5000');
+
+    socket.on('INVOICE', (payreq) => {
+      this.setState({ payreq });
+    });
+
+    socket.on('PAID', () => {
+      this.setState({ paid: true });
+    });
+
+    socket.on('CONE', (count) => {
+      this.setState({ coneCount: count });
+    });
   }
 
   addItemToCart(price, i) {
