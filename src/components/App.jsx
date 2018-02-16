@@ -19,10 +19,19 @@ import React, { Component } from 'react';
 import ioClient from 'socket.io-client';
 import '../styles/App.css';
 import logo from '../assets/logo.svg';
-import Icecream from './icecream';
-import Cart from './cart';
+// import Icecream from './icecream';
 import ConeCounter from './coneCounter';
+import Cart from './cart';
 import menu from '../utils/menu';
+
+import {
+  Grid,
+  Row,
+  Col,
+  // Clearfix,
+  Button,
+  Image,
+} from 'react-bootstrap';
 
 let socket;
 
@@ -62,12 +71,12 @@ class App extends Component {
     temp[i] += 1;
     this.setState({
       quantities: temp,
-      cartTotal: (parseFloat(this.state.cartTotal) + parseFloat(price)).toFixed(6),
+      artTotal: (parseFloat(this.state.cartTotal) + parseFloat(price)).toFixed(6),
     });
   }
 
   generateInvoice() {
-    socket.emit('GENERATE_INVOICE', this.state.cartTotal, this.state.quantities.reduce((x, y) => x + y));
+    // socket.emit('GENERATE_INVOICE', this.state.cartTotal, this.state.quantities.reduce((x, y) => x + y));
   }
 
   restart() {
@@ -81,45 +90,65 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <div className="top_left_container">
-          Powered By: <img className="lnd_logo_img"src="https://github.com/lightningnetwork/lnd/raw/master/logo.png" alt="LND logo" />
-        </div>
-        <div className="top_right_container">
-          <ConeCounter totalcones={this.state.coneCount} />
-        </div>
-        <div className="header">
-          <img className="logo_img" src={logo} alt="blockandjerrys" />
-        </div>
-        <Cart
-          cartTotal={this.state.cartTotal}
-          restart={this.restart}
-          generateInvoice={this.generateInvoice}
-          payreq={this.state.payreq}
-          paid={this.state.paid}
-          menu={menu}
-          quantities={this.state.quantities}
-        />
-        <div className="body">
+      <Grid id='grid'>
+        <Row>
+          <Col xs={1} style={{ backgroundColor: 'white' }}>
+            <Image responsive rounded src="https://github.com/lightningnetwork/lnd/raw/master/logo.png" alt="LND logo" />
+          </Col>
+          <Col xsOffset={9} xs={2} style={{ backgroundColor: 'white' }}>
+            <ConeCounter totalcones={this.state.coneCount} />
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={4} xsOffset={4}>
+            <Image responsive rounded src={logo} alt="LND logo" />
+          </Col>
+        </Row>
+        <Row style={{marginTop: '2em'}}>
+          <Col xs={4} xsOffset={4}>
+            <Cart
+              cartTotal={this.state.cartTotal}
+              restart={this.restart}
+              generateInvoice={this.generateInvoice}
+              payreq={this.state.payreq}
+              paid={this.state.paid}
+              menu={menu}
+              quantities={this.state.quantities}
+            />
+          </Col>
+        </Row>
+        <Row>
           {
             this.state.payreq ? null :
-            menu.map((x, i) => (
-              <div key={x.price} className="menuitem">
-                <Icecream
-                  imgUrl={x.img_url}
-                  flavor={x.flavor}
-                  price={x.price}
-                  handleClick={this.addItemToCart}
-                  index={i}
-                />
-              </div>
+            menu.map(x => (
+              <Col key={x.price}
+                xs={8} xsOffset={2}
+                sm={6} smOffset={0}
+                md={3} mdOffset={0}
+                style={styles.cone}
+              >
+                <Image src={x.img_url} />
+                <p>{x.flavor}</p>
+                <p>{x.price}</p>
+                <Button onClick={this.addItemToCart}>Add Item To Cart</Button>
+              </Col>
             ))
-        }
-        </div>
-      </div>
+          }
+        </Row>
+      </Grid>
     );
   }
 }
+
+const styles = {
+  cone: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexFlow: 'column nowrap',
+    marginTop: '2em',
+  },
+};
 
 
 export default App;
