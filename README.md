@@ -1,5 +1,7 @@
 # Block and Jerry's
 
+*NOTE:* Work in progress... gearing up for mainnet launch.
+
 Motivated by [Starblocks](https://starblocks.acinq.co/#/), I wanted to offer the world a dessert to compliment their testnet coffee. Using Lighting Lab's [LND](https://github.com/lightningnetwork/lnd) as my gateway to the Lightning Network, I built a React front end to generate invoices for ice cream on top of my LND node.
 
 ## How to Run
