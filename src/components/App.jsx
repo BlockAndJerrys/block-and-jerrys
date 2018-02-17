@@ -43,7 +43,7 @@ const styles = {
   titleBackground: 'linear-gradient(to top, rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)',
 };
 
-const App = ({ coneCounter, handleAdd }) => (
+const App = ({ coneCount, handleAdd }) => (
   <Grid>
     <Row>
       <Col xs={1} style={{ backgroundColor: 'white' }}>
@@ -55,7 +55,7 @@ const App = ({ coneCounter, handleAdd }) => (
         <Image responsive rounded src={logo} alt="LND logo" />
       </Col>
       <Col xsOffset={2} xs={2} style={{ backgroundColor: 'white' }}>
-        Total Cones Bought: <b>{coneCounter}</b>
+        Total Cones Bought: <b>{coneCount}</b>
       </Col>
     </Row>
     <Row style={{ marginTop: '2em' }}>
@@ -96,7 +96,7 @@ const App = ({ coneCounter, handleAdd }) => (
 );
 
 const mapStateToProps = state => ({
-  coneCounter: state.coneCounter,
+  coneCount: state.coneCount,
   quantities: state.quantities,
 });
 

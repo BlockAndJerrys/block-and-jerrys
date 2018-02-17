@@ -40,6 +40,7 @@
     "testBackend": "mocha backend/test/test.js --exit --timeout=5000",
     "test": "npm run testBackend && npm run testFrontend",
     "eject": "react-scripts eject",
+    "pgDev": "concurrently -k \"nodemon backend/pgserver.js\" \"npm run webapp\"",
     "sync": "node backend/utils/postgres/sync.js"
   },
   "devDependencies": {

@@ -7,39 +7,20 @@
 const app = require('express')();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
-
 const {
   Order,
   Icecream,
   OrderIcecream,
 } = require('./utils/postgres');
-
 const lightning = require('./utils/lightning.js');
 
-// let coneCounter;
-
-/*
- Maps invoices to socket and cone quantity
- Thus, when app "hears" an invoice has been
- paid, it increments cone counter and tells
- socket its invoice is paid.
-*/
-const payreqUserMap = {};
-
 const call = lightning.streamInvoices();
-
 call.on('data', async (message) => {
-  const payedreq = message.payment_request;
-  payreqUserMap[payedreq].socket.emit('PAID');
-  coneCounter += payreqUserMap[payedreq].cones;
-  await data.incrementConeCounter(payreqUserMap[payedreq].cones);
-  io.emit('CONE', coneCounter);
+  console.log('call.ondata', message);
 });
-
 call.on('end', () => {
   // The server has finished sending
 });
-
 call.on('status', () => {
   // Process status
 });
@@ -50,26 +31,19 @@ app.use((req, res, next) => {
   next();
 });
 
-io.on('connection', (socket) => {
-  socket.emit('CONE', coneCounter);
-  socket.on('GENERATE_INVOICE', (price, cones) => {
-    lightning.generateInvoice(price)
-      .then((resp) => {
-        const paymentRequest = resp.payment_request;
-        payreqUserMap[paymentRequest] = { socket, cones };
-        console.log('SERVER GEN');
-        console.log(paymentRequest);
-        socket.emit('INVOICE', paymentRequest);
-      }).catch(err => socket.emit('ERROR', err));
+let coneCount = 0;
+io.on('connection', async (socket) => {
+  const menu = await Icecream.findAll();
+  socket.emit('INIT', { coneCount, menu });
+  socket.on('GENERATE_INVOICE', (order) => {
+    console.log('SERVER GEN INVOICE', order);
   });
 });
 
-async function init() {
-  const resp = await data.getConeCount();
-  coneCounter = resp.count;
-}
-
 http.listen(5000, () => {
   console.log('SERVER RUNNING');
-  init();
+  (async () => {
+    coneCount = (await OrderIcecream.findAll()).length;
+    console.log('coneCount', coneCount);
+  })();
 });

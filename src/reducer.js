@@ -11,11 +11,18 @@ const initialState = {
   phone: '',
   invoice: '',
   paid: false,
-  coneCounter: 'loading cones...',
+  coneCount: 'loading cones...',
+  menu: [],
 };
 
 export default function (state = initialState, action) {
   switch (action.type) {
+    case 'INIT':
+      return {
+        ...state,
+        coneCount: action.coneCount,
+        menu: action.menu,
+      };
     case 'ADD_ITEM': {
       const temp = state.quantities.slice();
       temp[action.i] += 1;
@@ -34,11 +41,6 @@ export default function (state = initialState, action) {
         [name]: value,
       };
     }
-    case 'CONE_UPDATE':
-      return {
-        ...state,
-        coneCounter: action.coneCount,
-      };
     case 'GENERATE_INVOICE':
       state.socket.emit(
         'GENERATE_INVOICE',
