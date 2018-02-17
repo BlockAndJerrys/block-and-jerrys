@@ -7,6 +7,7 @@
 const app = require('express')();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
+const client = require('twilio')(process.env.TWILIO_SID, process.env.TWILIO_AUTH_TOKEN);
 
 const data = require('./utils/mongodb/dataAccess');
 
@@ -39,6 +40,11 @@ io.on('connection', (socket) => {
       socket.emit('PAID');
       coneCounter += quantity;
       io.emit('CONE', coneCounter);
+      client.messages.create({
+        to: process.env.PHONE_NUMBER,
+        from: '(207) 248-8331',
+        body: `NEW ORDER \nNAME: ${name}\nADDRESS: ${address}\nPHONE: ${phone}`,
+      });
     }, 2000);
   });
 });
