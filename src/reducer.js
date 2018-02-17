@@ -11,7 +11,7 @@ const initialState = {
   phone: '',
   invoice: '',
   paid: false,
-  coneCounter: 'Loading cones...',
+  coneCounter: 'loading cones...',
 };
 
 export default function (state = initialState, action) {

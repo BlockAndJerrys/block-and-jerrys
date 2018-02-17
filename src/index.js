@@ -8,13 +8,19 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import { BrowserRouter as Router } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Route,
+} from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
-import reducer from './reducer';
 
-import App from './components/App';
 import registerServiceWorker from './registerServiceWorker';
+import reducer from './reducer';
+import App from './components/App';
+import TAndC from './components/TAndC';
+
+console.log(TAndC);
 
 const store = createStore(reducer);
 
@@ -32,7 +38,10 @@ axios.get('http://localhost:3000') // TODO: change back
       <Provider store={store} >
         <Router >
           <MuiThemeProvider>
-            <App />
+            <div>
+              <Route path="/" exact component={App} />
+              <Route path="/t-and-c" exact component={TAndC} />
+            </div>
           </MuiThemeProvider>
         </Router>
       </Provider>,
