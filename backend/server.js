@@ -8,7 +8,7 @@ const app = require('express')();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 
-// const data = require('./utils/mongodb/dataAccess');
+const data = require('./utils/mongodb/dataAccess');
 
 const lightning = require('./utils/lightning.js');
 
@@ -24,13 +24,13 @@ const payreqUserMap = {};
 
 const call = lightning.streamInvoices();
 
-// call.on('data', async (message) => {
-//   const payedreq = message.payment_request;
-//   payreqUserMap[payedreq].socket.emit('PAID');
-//   coneCounter += payreqUserMap[payedreq].cones;
-//   await data.incrementConeCounter(payreqUserMap[payedreq].cones);
-//   io.emit('CONE', coneCounter);
-// });
+call.on('data', async (message) => {
+  const payedreq = message.payment_request;
+  payreqUserMap[payedreq].socket.emit('PAID');
+  coneCounter += payreqUserMap[payedreq].cones;
+  await data.incrementConeCounter(payreqUserMap[payedreq].cones);
+  io.emit('CONE', coneCounter);
+});
 
 call.on('end', () => {
   // The server has finished sending
@@ -60,12 +60,12 @@ io.on('connection', (socket) => {
   });
 });
 
-// async function init() {
-//   const resp = await data.getConeCount();
-//   coneCounter = resp.count;
-// }
+async function init() {
+  const resp = await data.getConeCount();
+  coneCounter = resp.count;
+}
 
 http.listen(5000, () => {
   console.log('SERVER RUNNING');
-  // init();
+  init();
 });
