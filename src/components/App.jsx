@@ -29,7 +29,7 @@ import { GridTile, GridList } from 'material-ui/GridList';
 import { connect } from 'react-redux';
 
 import '../styles/App.css';
-import logo from '../assets/logo.svg';
+import logo from '../assets/logo.png';
 import Cart from './cart';
 import menu from '../utils/menu';
 
