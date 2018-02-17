@@ -10,6 +10,7 @@ const initialState = {
   address: '',
   phone: '',
   invoice: '',
+  paid: false,
   coneCounter: 'Loading cones...',
 };
 
@@ -43,6 +44,10 @@ export default function (state = initialState, action) {
         'GENERATE_INVOICE',
         state.cartTotal,
         state.quantities.reduce((x, y) => x + y),
+        state.name,
+        state.address,
+        state.phone,
+        action.cones,
       );
       return state;
     case 'RECEIVED_INVOICE':
@@ -61,6 +66,9 @@ export default function (state = initialState, action) {
         invoice: '',
         paid: false,
         cartTotal: 0,
+        name: '',
+        address: '',
+        phone: '',
         quantities: [0, 0, 0, 0],
       };
     default:

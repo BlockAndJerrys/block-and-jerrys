@@ -25,7 +25,6 @@ const Cart = ({ socket, handleInvoice, handlePaid, handleConeUpdate }) => {
 
   socket.on('CONE', (coneCount) => {
     handleConeUpdate(coneCount);
-    history.push('/paid');
   });
 
   return (

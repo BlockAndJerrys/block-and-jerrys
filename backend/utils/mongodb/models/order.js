@@ -34,6 +34,10 @@ const OrderSchema = new Schema({
     type: Boolean,
     required: true,
   },
+  cones: {
+    type: Number,
+    required: true,
+  },
 });
 
 // Compile model from schema

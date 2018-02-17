@@ -17,11 +17,11 @@ db.once('open', async () => {
 
 /**
  * Add order.
- * @param {time, name, address, phone, invoice} time, name, loccation, phone, invoice
+ * @param {time, name, address, phone, invoice, cones} time, name, loccation, phone, invoice, cones
  * @returns {Promise} - Returns {Order}.
  */
 
-async function addOrder(time, name, address, phone, invoice) {
+async function addOrder(time, name, address, phone, invoice, cones) {
   const resp = await Order.create({
     time,
     name,
@@ -29,6 +29,7 @@ async function addOrder(time, name, address, phone, invoice) {
     phone,
     invoice,
     paid: false,
+    cones,
   });
   return resp;
 }
@@ -73,7 +74,7 @@ async function orderPaid(invoice) {
 
 async function getConeCount() {
   const resp = await Order.find();
-  return resp.length;
+  return resp.reduce((sum, x) => sum + x.cones, 0);
 }
 
 

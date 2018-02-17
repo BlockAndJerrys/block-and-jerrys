@@ -20,15 +20,16 @@ app.use((req, res, next) => {
 
 io.on('connection', (socket) => {
   socket.emit('CONE', coneCounter);
-  socket.on('GENERATE_INVOICE', async (price, quantity) => {
+  socket.on('GENERATE_INVOICE', async (price, quantity, name, address, phone) => {
     const timeNow = new Date();
     const payreq = 'this is a testinvoice'+timeNow.getTime();
     await data.addOrder(
       timeNow, // time
-      'rob', // name
-      'test address', // address
-      '1029381910', // phone
+      name, // name
+      address, // address
+      phone, // phone
       payreq, // invoice
+      quantity,
     );
 
     socket.emit('INVOICE', payreq);
