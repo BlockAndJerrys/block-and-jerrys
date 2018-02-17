@@ -33,6 +33,11 @@ export default function (state = initialState, action) {
         [name]: value,
       };
     }
+    case 'CONE_UPDATE':
+      return {
+        ...state,
+        coneCounter: action.coneCount,
+      };
     case 'GENERATE_INVOICE':
       state.socket.emit(
         'GENERATE_INVOICE',
@@ -41,10 +46,14 @@ export default function (state = initialState, action) {
       );
       return state;
     case 'RECEIVED_INVOICE':
-      console.log('RECEIVED', action.invoice);
       return {
         ...state,
         invoice: action.invoice,
+      };
+    case 'PAID':
+      return {
+        ...state,
+        paid: true,
       };
     case 'RESTART':
       return {
