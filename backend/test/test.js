@@ -11,7 +11,13 @@ const chai = require('chai');
 const axios = require('axios');
 
 const { db } = require('../utils/mongodb/dataAccess');
-const { addOrder, getOrder, deleteOrder, orderPaid } = require('../utils/mongodb/dataAccess');
+const {
+  addOrder,
+  getOrder,
+  deleteOrder,
+  orderPaid,
+  getConeCount,
+} = require('../utils/mongodb/dataAccess');
 
 const { assert } = chai;
 
@@ -43,6 +49,8 @@ describe('Database tests', () => {
     let resp = await getOrder('this is a test invoice');
     assert.equal(resp.name, 'Rob');
     assert.equal(resp.paid, false);
+    resp = await getConeCount();
+    assert.equal(resp, 1);
     await orderPaid('this is a test invoice')
     resp = await getOrder('this is a test invoice');
     assert.equal(resp.name, 'Rob');
@@ -50,5 +58,7 @@ describe('Database tests', () => {
     await deleteOrder('this is a test invoice')
     resp = await getOrder('this is a test invoice');
     assert.equal(resp, null);
+    resp = await getConeCount();
+    assert.equal(resp, 0);
   });
 });
