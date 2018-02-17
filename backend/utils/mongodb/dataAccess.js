@@ -6,7 +6,7 @@
 
 const mongoose = require('mongoose');
 
-const { ConeCounter } = require('./models/coneCounter');
+const { Order } = require('./models/order');
 
 mongoose.connect(process.env.MONGODB_URI);
 const db = mongoose.connection;
@@ -16,29 +16,62 @@ db.once('open', async () => {
 });
 
 /**
- * Increment cone counter.
- * @param {Amount} amt
- * @returns {Promise} - Returns {Cone Count}.
+ * Add order.
+ * @param {time, name, address, phone, invoice} time, name, loccation, phone, invoice
+ * @returns {Promise} - Returns {Order}.
  */
 
-async function incrementConeCounter(amt) {
-  await ConeCounter.findOneAndUpdate({ id: 1 }, { $inc: { count: amt } });
+async function addOrder(time, name, address, phone, invoice) {
+  const resp = await Order.create({
+    time,
+    name,
+    address,
+    phone,
+    invoice,
+    paid: false,
+  });
+  return resp;
 }
 
 /**
- * Get cone count.
- * @returns {Promise} - Returns {Cone Count}.
+ * Get order.
+ * @param {invoice} invoice
+ * @returns {Promise} - Returns {Order}.
  */
 
-async function getConeCount() {
-  const resp = await ConeCounter.findOne({ id: 1 });
+async function getOrder(invoice) {
+  const resp = await Order.findOne({ invoice });
+  return resp;
+}
+
+/**
+ * Delete order.
+ * @param {invoice} invoice
+ * @returns {Promise} - Returns {Order}.
+ */
+
+async function deleteOrder(invoice) {
+  const resp = await Order.findOne({ invoice }).remove().exec();
+  return resp;
+}
+
+/**
+ * Set order as paid.
+ * @param {invoice} invoice
+ * @returns {Promise} - Returns {Order}.
+ */
+
+async function orderPaid(invoice) {
+  const resp = await Order.findOneAndUpdate({ invoice }, { paid: true });
   return resp;
 }
 
 // db exported strictly for testing purposes
 // otherwise all db actions reside here
 module.exports = {
-  incrementConeCounter,
-  getConeCount,
+  addOrder,
+  getOrder,
+  deleteOrder,
+  orderPaid,
   db,
 };
