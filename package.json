@@ -11,6 +11,8 @@
     "grpc": "^1.8.4",
     "material-ui": "^0.20.0",
     "mongoose": "^5.0.4",
+    "pg": "^7.4.1",
+    "pg-hstore": "^2.3.2",
     "qrcode.react": "^0.7.2",
     "react": "^16.2.0",
     "react-bootstrap": "^0.32.1",
@@ -22,6 +24,7 @@
     "react-scripts": "1.0.17",
     "react-test-renderer": "^16.2.0",
     "redux": "^3.7.2",
+    "sequelize": "^4.33.4",
     "socket.io": "^2.0.4",
     "socket.io-client": "^2.0.4",
     "twilio": "^3.11.3"
@@ -36,7 +39,8 @@
     "testFrontend": "react-scripts test --env=jsdom",
     "testBackend": "mocha backend/test/test.js --exit --timeout=5000",
     "test": "npm run testBackend && npm run testFrontend",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "sync": "node backend/utils/postgres/sync.js"
   },
   "devDependencies": {
     "chai": "^4.1.2",
