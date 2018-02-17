@@ -3,6 +3,10 @@ html, body {
   background: linear-gradient(to bottom, #007ced 1%,#cce7ff 100%);
 }
 
+html * {
+  font-family: 'Patrick Hand SC', cursive;
+}
+
 html, body, #root {
   width: 100%;
   height: 100%;

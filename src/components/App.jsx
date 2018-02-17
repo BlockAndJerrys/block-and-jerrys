@@ -47,7 +47,9 @@ const App = ({ coneCounter, handleAdd }) => (
   <Grid>
     <Row>
       <Col xs={1} style={{ backgroundColor: 'white' }}>
-        <Image responsive rounded src="https://github.com/lightningnetwork/lnd/raw/master/logo.png" alt="LND logo" />
+        <a href="http://dev.lightning.community/" target="_blank" rel="noopener noreferrer">
+          <Image responsive rounded src="https://github.com/lightningnetwork/lnd/raw/master/logo.png" alt="LND logo" />
+        </a>
       </Col>
       <Col xs={4} xsOffset={3}>
         <Image responsive rounded src={logo} alt="LND logo" />

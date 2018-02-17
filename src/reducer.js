@@ -10,7 +10,7 @@ const initialState = {
   address: '',
   phone: '',
   invoice: '',
-  coneCounter: 'Loading cones...',
+  coneCounter: 'loading cones...',
 };
 
 export default function (state = initialState, action) {
@@ -41,7 +41,6 @@ export default function (state = initialState, action) {
       );
       return state;
     case 'RECEIVED_INVOICE':
-      console.log('RECEIVED', action.invoice);
       return {
         ...state,
         invoice: action.invoice,

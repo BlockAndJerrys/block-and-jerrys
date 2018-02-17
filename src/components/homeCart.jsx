@@ -8,17 +8,34 @@ import {
 } from 'react-router-dom';
 import { connect } from 'react-redux';
 
+import Happy from 'material-ui/svg-icons/social/sentiment-very-satisfied';
+import Sad from 'material-ui/svg-icons/social/sentiment-very-dissatisfied';
 import menu from '../utils/menu';
 
 const HomeCart = ({ quantities, cartTotal }) => (
   <Paper zDepth={3} >
     <List>
-      {menu.map((x, i) => (
-        <div key={x.flavor}>
-          <ListItem disabled primaryText={`${x.flavor} x ${quantities[i]}`} />
-          <Divider />
-        </div>
-        ))}
+      {menu.map((x, i) => {
+        const len = quantities[i];
+        let rightIcon;
+        if (len === 0) {
+          rightIcon = <Sad key={Math.random()} color="red" />;
+        } else {
+          let arr = new Array(len).fill(null);
+          arr = arr.map(() => Math.random());
+          rightIcon = (
+            <div style={{ display: 'flex', justifyContent: 'flex-end', width: '75%' }}>
+              {arr.map(j => <Happy key={j} color="green" />)}
+            </div>
+          );
+        }
+        return (
+          <div key={x.flavor} >
+            <ListItem disabled rightIcon={rightIcon} primaryText={`${x.flavor} x ${quantities[i]}`} />
+            <Divider />
+          </div>
+        );
+        })}
     </List>
     <Link to="/checkout">
       <RaisedButton
