@@ -8,72 +8,46 @@
 */
 
 import React from 'react';
-import Paper from 'material-ui/Paper';
-import RaisedButton from 'material-ui/RaisedButton';
-import Divider from 'material-ui/Divider';
-import { List, ListItem } from 'material-ui/List';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
-import QRCode from 'qrcode.react';
+import {
+  BrowserRouter as Router,
+  Route,
+  withRouter,
+} from 'react-router-dom';
+import { connect } from 'react-redux';
 
-import UserInfo from './userInfo';
+import HomeCart from './homeCart';
+import InfoCart from './infoCart';
+import QRCart from './qrCart';
 import Paid from './paidCart';
 
-export default ({
-  cartTotal,
-  generateInvoice,
-  payreq,
-  paid,
-  menu,
-  quantities,
-  restart,
-  forms,
-  showForms,
-}) => {
-  let curView;
-  if (payreq && paid) {
-    curView = <Paid restart={restart} />;
-  } else if (payreq) { // invoice generated
-    curView = (
-      <Paper zDepth={3} style={{ display: 'flex', flexFlow: 'column nowrap' }}>
-        <div style={{ display: 'flex', padding: '1em' }} >
-          <QRCode value={payreq} />
-          <div style={{ marginLeft: '1em' }}>
-            {cartTotal} BTC <br />
-            {payreq}
-          </div>
-        </div>
-        <div>
-          <CopyToClipboard options={{ message: payreq }} text={payreq} >
-            <RaisedButton label="Copy" secondary fullWidth />
-          </CopyToClipboard>
-        </div>
-      </Paper>
-    );
-  } else if (forms) { // show user input forms
-    curView = <UserInfo generateInvoice={generateInvoice} />;
-  } else { // home default: flavor x quantity
-    curView = (
-      <Paper zDepth={3} >
-        <List>
-          {menu.map((x, i) => (
-            <div key={x.flavor}>
-              <ListItem disabled primaryText={`${x.flavor} x ${quantities[i]}`} />
-              <Divider />
-            </div>
-            ))}
-        </List>
-        <RaisedButton
-          label={`Checkout (${cartTotal} BTC)`}
-          secondary
-          fullWidth
-          onClick={showForms}
-          /* disabled={cartTotal == 0} */
-        />
-      </Paper>
-    );
-  }
+const Cart = ({ socket, handleInvoice, history }) => {
+  socket.on('INVOICE', (invoice) => {
+    console.log('GOTIT INVOICE', invoice);
+    handleInvoice(invoice);
+    history.push('/qr');
+  });
+
   return (
-    <div className="cart">
-      {curView}
-    </div>);
+    <Router>
+      <div>
+        <Route path="/" exact component={HomeCart} />
+        <Route path="/checkout" exact component={InfoCart} />
+        <Route path="/qr" exact component={QRCart} />
+        <Route path="/paid" exact component={Paid} />
+      </div>
+    </Router>
+  );
 };
+
+const mapStateToProps = state => ({
+  socket: state.socket,
+  quantities: state.quantities,
+});
+
+const mapDispatchToProps = dispatch => ({
+  handleInvoice: (invoice) => {
+    dispatch({ type: 'RECEIVED_INVOICE', invoice });
+  },
+});
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Cart));

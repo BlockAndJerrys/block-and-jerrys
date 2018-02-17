@@ -8,9 +8,15 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import './styles/index.css';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+import reducer from './reducer';
+
 import App from './components/App';
 import registerServiceWorker from './registerServiceWorker';
+
+const store = createStore(reducer);
 
 /*
   Checks to see if LND running on port 10009.
@@ -23,9 +29,13 @@ import registerServiceWorker from './registerServiceWorker';
 axios.get('http://localhost:3000') // XXX
   .then(() => {
     ReactDOM.render(
-      <MuiThemeProvider>
-        <App />
-      </MuiThemeProvider>,
+      <Provider store={store} >
+        <Router >
+          <MuiThemeProvider>
+            <App />
+          </MuiThemeProvider>
+        </Router>
+      </Provider>,
       document.getElementById('root'),
     );
   })
