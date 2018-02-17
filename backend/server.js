@@ -67,5 +67,5 @@ async function init() {
 
 http.listen(5000, () => {
   console.log('SERVER RUNNING');
-  init();
+  // init();
 });

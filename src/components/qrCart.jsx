@@ -17,7 +17,7 @@ const qrCart = ({ invoice, cartTotal }) => (
   <Paper zDepth={3} style={{ display: 'flex', flexFlow: 'column nowrap' }}>
     <div style={{ display: 'flex', padding: '1em' }} >
       <QRCode value={invoice} />
-      <div style={{ marginLeft: '1em', overflowWrap: 'break-word', width: '45%' }}>
+      <div style={{ marginLeft: '1em', overflowWrap: 'break-word', width: '75%' }}>
         {cartTotal} BTC <br />
         {invoice}
       </div>
