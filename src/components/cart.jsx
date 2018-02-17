@@ -22,7 +22,6 @@ import Paid from './paidCart';
 
 const Cart = ({ socket, handleInvoice, history }) => {
   socket.on('INVOICE', (invoice) => {
-    console.log('GOTIT INVOICE', invoice);
     handleInvoice(invoice);
     history.push('/qr');
   });

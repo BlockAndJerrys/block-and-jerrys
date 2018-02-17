@@ -26,7 +26,7 @@ const store = createStore(reducer);
   to styled components.
 */
 
-axios.get('http://localhost:3000') // XXX
+axios.get('http://localhost:3000') // TODO: change back
   .then(() => {
     ReactDOM.render(
       <Provider store={store} >

@@ -9,10 +9,31 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const OrderSchema = new Schema({
-  time: Date,
-  name: String,
-  location: String,
-  phone: String,
+  time: {
+    type: Date,
+    required: true,
+  },
+  name: {
+    type: String,
+    required: true,
+  },
+  location: {
+    type: String,
+    required: true,
+  },
+  phone: {
+    type: String,
+    required: true,
+  },
+  invoice: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  paid: {
+    type: Boolean,
+    required: true,
+  },
 });
 
 // Compile model from schema

@@ -17,39 +17,52 @@ db.once('open', async () => {
 
 /**
  * Add order.
- * @param {time, name, location, phone} time, name, loccation, phone
+ * @param {time, name, location, phone, invoice} time, name, loccation, phone, invoice
  * @returns {Promise} - Returns {Order}.
  */
 
-async function addOrder(time, name, location, phone) {
+async function addOrder(time, name, location, phone, invoice) {
   const resp = await Order.create({
     time,
     name,
     location,
     phone,
+    invoice,
+    paid: false,
   });
   return resp;
 }
 
 /**
  * Get order.
- * @param {id} id
+ * @param {invoice} invoice
  * @returns {Promise} - Returns {Order}.
  */
 
-async function getOrder(id) {
-  const resp = await Order.findById(id);
+async function getOrder(invoice) {
+  const resp = await Order.findOne({ invoice });
   return resp;
 }
 
 /**
  * Delete order.
- * @param {id} id
+ * @param {invoice} invoice
  * @returns {Promise} - Returns {Order}.
  */
 
-async function deleteOrder(id) {
-  const resp = await Order.findById(id).remove().exec();
+async function deleteOrder(invoice) {
+  const resp = await Order.findOne({ invoice }).remove().exec();
+  return resp;
+}
+
+/**
+ * Set order as paid.
+ * @param {invoice} invoice
+ * @returns {Promise} - Returns {Order}.
+ */
+
+async function orderPaid(invoice) {
+  const resp = await Order.findOneAndUpdate({ invoice }, { paid: true });
   return resp;
 }
 
@@ -59,5 +72,6 @@ module.exports = {
   addOrder,
   getOrder,
   deleteOrder,
+  orderPaid,
   db,
 };
