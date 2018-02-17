@@ -1,8 +1,13 @@
 # Block and Jerry's
 
-*NOTE:* Work in progress... gearing up for mainnet launch.
-
+## Background
 Motivated by [Starblocks](https://starblocks.acinq.co/#/), I wanted to offer the world a dessert to compliment their testnet coffee. Using Lighting Lab's [LND](https://github.com/lightningnetwork/lnd) as my gateway to the Lightning Network, I built a React front end to generate invoices for ice cream on top of my LND node.
+
+450 testnet cones later, it's time for the big leagues.
+
+![Big Leagues](https://media.giphy.com/media/3oAt20WaK4ZpWdD63m/giphy.gif)
+
+*LAUNCHING SOON:* Block and Jerry's is coming to the Bitcoin main net.
 
 ## How to Run
 
@@ -16,23 +21,30 @@ cd blockandjerrys
 // Now setup a MongoDB database and note the URI (name it 'cones' to pass tests)
 export MONGODB_URI=<YOUR_MONGODB_URI>
 
-npm install
-npm run dev // Will start server (port 5000) and webapp (port 3000)
+// Setup a Twilio account and get your AUTH_TOKEN and AUTH_TOKEN
+export TWILIO_AUTH_TOKEN=<YOUR_TWILIO_AUTH_TOKEN>
+export TWILIO_SID=<YOUR_TWILIO_SID>
+
+yarn install
 ```
 
-**NOTE:** May need to install watchman to run frontend smoke tests on a Mac. To do this:
+Testing
 ```
-brew install watchman
+yarn run testBackend
 ```
 
-## Ice Cream POS
-![Block and Jerry's Landing Page](https://imgur.com/mF46Acb.png)
+Development
+```
+yarn run dev // Will start server (port 5000) and webapp (port 3000)
+```
 
-## Powered by the Lighting Network
+Production
+```
+yarn run server
 
-My Node: SF Crypto Devs on the testnet
-
-![LN testnet graph with my node](https://imgur.com/MlfIJQD.png)
+// Open new terminal window
+yarn build
+```
 
 ## Disclaimer
-No guarantee this will work. Run on mainnet if you dare.
+This is the pre-alpha version... nuff said.
