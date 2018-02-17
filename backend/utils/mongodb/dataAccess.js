@@ -17,15 +17,15 @@ db.once('open', async () => {
 
 /**
  * Add order.
- * @param {time, name, location, phone, invoice} time, name, loccation, phone, invoice
+ * @param {time, name, address, phone, invoice} time, name, loccation, phone, invoice
  * @returns {Promise} - Returns {Order}.
  */
 
-async function addOrder(time, name, location, phone, invoice) {
+async function addOrder(time, name, address, phone, invoice) {
   const resp = await Order.create({
     time,
     name,
-    location,
+    address,
     phone,
     invoice,
     paid: false,
