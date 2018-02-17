@@ -66,6 +66,17 @@ async function orderPaid(invoice) {
   return resp;
 }
 
+/**
+ * Get order count.
+ * @returns {Promise} - Returns {OrderCount}.
+ */
+
+async function getConeCount() {
+  const resp = await Order.find();
+  return resp.length;
+}
+
+
 // db exported strictly for testing purposes
 // otherwise all db actions reside here
 module.exports = {
@@ -73,5 +84,6 @@ module.exports = {
   getOrder,
   deleteOrder,
   orderPaid,
+  getConeCount,
   db,
 };
