@@ -8,34 +8,46 @@
 */
 
 import React from 'react';
-import Browse from './browseCart';
-import Checkout from './checkoutCart';
+import {
+  BrowserRouter as Router,
+  Route,
+  withRouter,
+} from 'react-router-dom';
+import { connect } from 'react-redux';
+
+import HomeCart from './homeCart';
+import InfoCart from './infoCart';
+import QRCart from './qrCart';
 import Paid from './paidCart';
 
-export default ({
-  cartTotal,
-  generateInvoice,
-  payreq,
-  paid,
-  menu,
-  quantities,
-  restart,
-}) => {
-  let curView;
-  if (payreq && paid) {
-    curView = <Paid restart={restart} />;
-  } else if (payreq) {
-    curView = <Checkout payreq={payreq} cartTotal={cartTotal} />;
-  } else {
-    curView = (<Browse
-      generateInvoice={generateInvoice}
-      cartTotal={cartTotal}
-      menu={menu}
-      quantities={quantities}
-    />);
-  }
+const Cart = ({ socket, handleInvoice, history }) => {
+  socket.on('INVOICE', (invoice) => {
+    console.log('GOTIT INVOICE', invoice);
+    handleInvoice(invoice);
+    history.push('/qr');
+  });
+
   return (
-    <div className="cart">
-      {curView}
-    </div>);
+    <Router>
+      <div>
+        <Route path="/" exact component={HomeCart} />
+        <Route path="/checkout" exact component={InfoCart} />
+        <Route path="/qr" exact component={QRCart} />
+        <Route path="/paid" exact component={Paid} />
+      </div>
+    </Router>
+  );
 };
+
+const mapStateToProps = state => ({
+  socket: state.socket,
+  quantities: state.quantities,
+});
+
+const mapDispatchToProps = dispatch => ({
+  handleInvoice: (invoice) => {
+    dispatch({ type: 'RECEIVED_INVOICE', invoice });
+  },
+});
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Cart));

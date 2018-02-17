@@ -7,20 +7,29 @@
 import React from 'react';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
+import { connect } from 'react-redux';
 
-export default ({ restart }) => (
-  <Paper
-    className="invoice_container"
-    zDepth={3}
-  >
+const PaidCart = ({ handleRestart }) => (
+  <Paper zDepth={3} >
     <p>Thank you come again!</p>
     <RaisedButton
       label="Restart"
       backgroundColor="black"
       labelColor="white"
-      onClick={restart}
       primary
       fullWidth
+      onClick={handleRestart}
     />
   </Paper>
 );
+
+const mapStateToProps = state => ({
+});
+
+const mapDispatchToProps = dispatch => ({
+  handleRestart: () => {
+    dispatch({ type: 'RESTART' });
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(PaidCart);
