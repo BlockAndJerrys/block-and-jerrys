@@ -10,6 +10,7 @@ const initialState = {
   address: '',
   phone: '',
   invoice: '',
+  paid: false,
   coneCounter: 'loading cones...',
 };
 
@@ -33,11 +34,20 @@ export default function (state = initialState, action) {
         [name]: value,
       };
     }
+    case 'CONE_UPDATE':
+      return {
+        ...state,
+        coneCounter: action.coneCount,
+      };
     case 'GENERATE_INVOICE':
       state.socket.emit(
         'GENERATE_INVOICE',
         state.cartTotal,
         state.quantities.reduce((x, y) => x + y),
+        state.name,
+        state.address,
+        state.phone,
+        action.cones,
       );
       return state;
     case 'RECEIVED_INVOICE':
@@ -45,12 +55,20 @@ export default function (state = initialState, action) {
         ...state,
         invoice: action.invoice,
       };
+    case 'PAID':
+      return {
+        ...state,
+        paid: true,
+      };
     case 'RESTART':
       return {
         ...state,
         invoice: '',
         paid: false,
         cartTotal: 0,
+        name: '',
+        address: '',
+        phone: '',
         quantities: [0, 0, 0, 0],
       };
     default:

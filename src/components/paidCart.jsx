@@ -9,6 +9,8 @@ import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import { connect } from 'react-redux';
 
+import history from '../history';
+
 const PaidCart = ({ handleRestart }) => (
   <Paper zDepth={3} >
     <p>Thank you come again!</p>
@@ -29,6 +31,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   handleRestart: () => {
     dispatch({ type: 'RESTART' });
+    history.push('/')
   },
 });
 

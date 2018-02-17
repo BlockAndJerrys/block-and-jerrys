@@ -14,9 +14,9 @@ import {
 import {
   orange500,
 } from 'material-ui/styles/colors';
-import {
-  Link,
-} from 'react-router-dom';
+// import {
+//   Link,
+// } from 'react-router-dom';
 
 const styles = {
   form: {
@@ -57,19 +57,17 @@ const InfoCart = ({ name, address, phone, handleInputChange, handleGenerate }) =
         onChange={handleInputChange}
       />
     </form>
-    <Link to="/qr">
-      <RaisedButton
-        label="Request"
-        secondary
-        fullWidth
-        /* disabled={!(this.state.name &&
-          this.state.address &&
-          this.state.phone.length >= 10
-        )} */
-        onClick={handleGenerate}
-        style={{ marginTop: '1em' }}
-      />
-    </Link>
+    <RaisedButton
+      label="Request"
+      secondary
+      fullWidth
+      /* disabled={!(this.state.name &&
+        this.state.address &&
+        this.state.phone.length >= 10
+      )} */
+      onClick={handleGenerate}
+      style={{ marginTop: '1em' }}
+    />
   </Paper>
 );
 

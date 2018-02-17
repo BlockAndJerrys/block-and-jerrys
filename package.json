@@ -23,17 +23,18 @@
     "react-test-renderer": "^16.2.0",
     "redux": "^3.7.2",
     "socket.io": "^2.0.4",
-    "socket.io-client": "^2.0.4"
+    "socket.io-client": "^2.0.4",
+    "twilio": "^3.11.3"
   },
   "scripts": {
     "server": "node ./backend/server.js",
-    "serverDev": "nodemon ./backend/server.js",
+    "serverDev": "nodemon ./backend/testServer.js",
     "webapp": "react-scripts start",
     "dev": "concurrently -k \"npm run serverDev\" \"npm run webapp\"",
     "start": "npm run webapp",
     "build": "react-scripts build",
     "testFrontend": "react-scripts test --env=jsdom",
-    "testBackend": "mocha backend/test/test.js --exit",
+    "testBackend": "mocha backend/test/test.js --exit --timeout=5000",
     "test": "npm run testBackend && npm run testFrontend",
     "eject": "react-scripts eject"
   },
