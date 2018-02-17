@@ -87,6 +87,11 @@ const App = ({ coneCounter, handleAdd }) => (
         ))}
       </GridList>
     </Row>
+    <Row>
+      <Col>
+        Use of this website constitutes your acceptance of BlockAndJerry&#39;s <a href="/t-and-c">Terms & Conditions</a>.
+      </Col>
+    </Row>
   </Grid>
 );
 
