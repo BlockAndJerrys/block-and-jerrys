@@ -44,18 +44,19 @@ describe('Database tests', () => {
       'Rob',
       '874 Fell',
       '9254133647',
-      'this is a test invoice'
+      'this is a test invoice',
+      5,
     );
     let resp = await getOrder('this is a test invoice');
     assert.equal(resp.name, 'Rob');
     assert.equal(resp.paid, false);
     resp = await getConeCount();
-    assert.equal(resp, 1);
-    await orderPaid('this is a test invoice')
+    assert.equal(resp, 5);
+    await orderPaid('this is a test invoice');
     resp = await getOrder('this is a test invoice');
     assert.equal(resp.name, 'Rob');
     assert.equal(resp.paid, true);
-    await deleteOrder('this is a test invoice')
+    await deleteOrder('this is a test invoice');
     resp = await getOrder('this is a test invoice');
     assert.equal(resp, null);
     resp = await getConeCount();

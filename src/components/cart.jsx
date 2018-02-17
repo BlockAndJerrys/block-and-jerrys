@@ -18,6 +18,15 @@ const Cart = ({ socket, handleInvoice, handlePaid, handleConeUpdate }) => {
     history.push('/qr');
   });
 
+  socket.on('PAID', () => {
+    handlePaid();
+    history.push('/paid');
+  });
+
+  socket.on('CONE', (coneCount) => {
+    handleConeUpdate(coneCount);
+  });
+
   return (
     <Router history={history}>
       <div>
@@ -38,6 +47,12 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   handleInvoice: (invoice) => {
     dispatch({ type: 'RECEIVED_INVOICE', invoice });
+  },
+  handlePaid: () => {
+    dispatch({ type: 'PAID' });
+  },
+  handleConeUpdate: (coneCount) => {
+    dispatch({ type: 'CONE_UPDATE', coneCount });
   },
 });
 
