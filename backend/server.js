@@ -9,6 +9,7 @@ const http = require('http').Server(app);
 const io = require('socket.io')(http);
 
 const data = require('./utils/mongodb/dataAccess');
+
 const lightning = require('./utils/lightning.js');
 
 let coneCounter;
@@ -31,7 +32,6 @@ call.on('data', async (message) => {
   io.emit('CONE', coneCounter);
 });
 
-
 call.on('end', () => {
   // The server has finished sending
 });
@@ -53,6 +53,8 @@ io.on('connection', (socket) => {
       .then((resp) => {
         const paymentRequest = resp.payment_request;
         payreqUserMap[paymentRequest] = { socket, cones };
+        console.log('SERVER GEN');
+        console.log(paymentRequest);
         socket.emit('INVOICE', paymentRequest);
       }).catch(err => socket.emit('ERROR', err));
   });
@@ -64,5 +66,6 @@ async function init() {
 }
 
 http.listen(5000, () => {
+  console.log('SERVER RUNNING');
   init();
 });

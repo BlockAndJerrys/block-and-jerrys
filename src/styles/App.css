@@ -3,13 +3,13 @@ html, body {
   background: linear-gradient(to bottom, #007ced 1%,#cce7ff 100%);
 }
 
-html, body, .container {
+html, body, #root {
   width: 100%;
   height: 100%;
   padding: 0;
 }
 
-.container{
+#root {
   position: relative;
   background: url(http://static.radulescu.me/examples/clouds/clouds1000.png) 0 200px,
               url(http://static.radulescu.me/examples/clouds/clouds1200_1.png) 0 300px,

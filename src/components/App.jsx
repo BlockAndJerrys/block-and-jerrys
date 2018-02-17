@@ -15,140 +15,174 @@
     BODY: Displays the ice cream selection.
 */
 
-import React, { Component } from 'react';
-import ioClient from 'socket.io-client';
-import '../styles/App.css';
-import logo from '../assets/logo.svg';
-// import Icecream from './icecream';
-import ConeCounter from './coneCounter';
-import Cart from './cart';
-import menu from '../utils/menu';
-
+import React from 'react';
 import {
   Grid,
   Row,
   Col,
-  // Clearfix,
-  Button,
   Image,
 } from 'react-bootstrap';
 
-let socket;
+import RaisedButton from 'material-ui/RaisedButton';
+import { GridTile, GridList } from 'material-ui/GridList';
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      payreq: '',
-      cartTotal: 0,
-      paid: false,
-      quantities: [0, 0, 0, 0],
-      coneCount: 'Connecting...',
-    };
-    this.restart = this.restart.bind(this);
-    this.generateInvoice = this.generateInvoice.bind(this);
-    this.addItemToCart = this.addItemToCart.bind(this);
-  }
+import { connect } from 'react-redux';
 
-  componentDidMount() {
-    socket = ioClient('localhost:5000');
-
-    socket.on('INVOICE', (payreq) => {
-      this.setState({ payreq });
-    });
-
-    socket.on('PAID', () => {
-      this.setState({ paid: true });
-    });
-
-    socket.on('CONE', (count) => {
-      this.setState({ coneCount: count });
-    });
-  }
-
-  addItemToCart(price, i) {
-    const temp = this.state.quantities.slice();
-    temp[i] += 1;
-    this.setState({
-      quantities: temp,
-      artTotal: (parseFloat(this.state.cartTotal) + parseFloat(price)).toFixed(6),
-    });
-  }
-
-  generateInvoice() {
-    // socket.emit('GENERATE_INVOICE', this.state.cartTotal, this.state.quantities.reduce((x, y) => x + y));
-  }
-
-  restart() {
-    this.setState({
-      payreq: '',
-      paid: false,
-      cartTotal: 0,
-      quantities: [0, 0, 0, 0],
-    });
-  }
-
-  render() {
-    return (
-      <Grid id='grid'>
-        <Row>
-          <Col xs={1} style={{ backgroundColor: 'white' }}>
-            <Image responsive rounded src="https://github.com/lightningnetwork/lnd/raw/master/logo.png" alt="LND logo" />
-          </Col>
-          <Col xsOffset={9} xs={2} style={{ backgroundColor: 'white' }}>
-            <ConeCounter totalcones={this.state.coneCount} />
-          </Col>
-        </Row>
-        <Row>
-          <Col xs={4} xsOffset={4}>
-            <Image responsive rounded src={logo} alt="LND logo" />
-          </Col>
-        </Row>
-        <Row style={{marginTop: '2em'}}>
-          <Col xs={4} xsOffset={4}>
-            <Cart
-              cartTotal={this.state.cartTotal}
-              restart={this.restart}
-              generateInvoice={this.generateInvoice}
-              payreq={this.state.payreq}
-              paid={this.state.paid}
-              menu={menu}
-              quantities={this.state.quantities}
-            />
-          </Col>
-        </Row>
-        <Row>
-          {
-            this.state.payreq ? null :
-            menu.map(x => (
-              <Col key={x.price}
-                xs={8} xsOffset={2}
-                sm={6} smOffset={0}
-                md={3} mdOffset={0}
-                style={styles.cone}
-              >
-                <Image src={x.img_url} />
-                <p>{x.flavor}</p>
-                <p>{x.price}</p>
-                <Button onClick={this.addItemToCart}>Add Item To Cart</Button>
-              </Col>
-            ))
-          }
-        </Row>
-      </Grid>
-    );
-  }
-}
+import '../styles/App.css';
+import logo from '../assets/logo.svg';
+import Cart from './cart';
+import menu from '../utils/menu';
 
 const styles = {
-  cone: {
+  gridList: {
     display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexFlow: 'column nowrap',
-    marginTop: '2em',
+    flexFlow: 'row nowrap',
+    overflowX: 'auto',
+    marginTop: '1.5em',
   },
+  titleBackground: 'linear-gradient(to top, rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)',
 };
 
+const App = ({ coneCounter, handleAdd }) => (
+  <Grid>
+    <Row>
+      <Col xs={1} style={{ backgroundColor: 'white' }}>
+        <Image responsive rounded src="https://github.com/lightningnetwork/lnd/raw/master/logo.png" alt="LND logo" />
+      </Col>
+      <Col xs={4} xsOffset={3}>
+        <Image responsive rounded src={logo} alt="LND logo" />
+      </Col>
+      <Col xsOffset={2} xs={2} style={{ backgroundColor: 'white' }}>
+        Total Cones Bought: <b>{coneCounter}</b>
+      </Col>
+    </Row>
+    <Row style={{ marginTop: '2em' }}>
+      <Col xs={4} xsOffset={4}>
+        <Cart />
+      </Col>
+    </Row>
+    <Row>
+      <GridList
+        cellHeight="auto"
+        style={styles.gridList}
+      >
+        {menu.map((x, i) => (
+          <GridTile
+            key={x.price}
+            titleBackground={styles.titleBackground}
+            children={<img src={x.img_url} alt={x.flavor} />}
+            actionIcon={
+              <RaisedButton
+                onClick={() => handleAdd({ price: x.price, i })}
+                label="Add to Cart"
+                fullWidth
+                secondary
+              />
+            }
+            title={x.flavor}
+            subtitle={`${x.price} BTC`}
+          />
+        ))}
+      </GridList>
+    </Row>
+  </Grid>
+);
 
-export default App;
+const mapStateToProps = state => ({
+  coneCounter: state.coneCounter,
+  quantities: state.quantities,
+});
+
+const mapDispatchToProps = dispatch => ({
+  handleAdd: ({ i, price }) => {
+    dispatch({ type: 'ADD_ITEM', i, price });
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
+
+// class App extends Component {
+//   constructor(props) {
+//     super(props);
+//     this.state = {
+//       payreq: '',
+//       cartTotal: 0,
+//       paid: false,
+//       coneCount: 'Connecting...',
+//     };
+//     this.restart = this.restart.bind(this);
+//     this.props.socket.on('INVOICE', (payreq) => {
+//       // this.setState({ payreq });
+//       console.log('INVOICE', payreq);
+//     });
+//     // socket.on('PAID', () => {
+//     //   // this.setState({ paid: true });
+//     // });
+//     // socket.on('CONE', (count) => {
+//     //   // this.setState({ coneCount: count });
+//     // });
+//   }
+//   componentDidMount() {
+//   }
+//   restart() {
+//     this.setState({
+//       payreq: '',
+//       paid: false,
+//       cartTotal: 0,
+//       quantities: [0, 0, 0, 0],
+//     });
+//   }
+//   render() {
+//     return (
+//       <Grid>
+//         <Row>
+//           <Col xs={1} style={{ backgroundColor: 'white' }}>
+//             <Image responsive rounded src="https://github.com/lightningnetwork/lnd/raw/master/logo.png" alt="LND logo" />
+//           </Col>
+//           <Col xs={4} xsOffset={3}>
+//             <Image responsive rounded src={logo} alt="LND logo" />
+//           </Col>
+//           <Col xsOffset={2} xs={2} style={{ backgroundColor: 'white' }}>
+//             <ConeCounter totalcones={this.state.coneCount} />
+//           </Col>
+//         </Row>
+//         <Row style={{ marginTop: '2em' }}>
+//           <Col xs={4} xsOffset={4}>
+//             <Cart
+//               cartTotal={this.state.cartTotal}
+//               restart={this.restart}
+//               payreq={this.state.payreq}
+//               paid={this.state.paid}
+//               menu={menu}
+//               quantities={this.state.quantities}
+//             />
+//           </Col>
+//         </Row>
+//         <Row>
+//           <GridList
+//             cellHeight="auto"
+//             style={styles.gridList}
+//           >
+//             {menu.map((x, i) => (
+//               <GridTile
+//                 key={x.price}
+//                 titleBackground={styles.titleBackground}
+//                 children={<img src={x.img_url} alt={x.flavor} />}
+//                 actionIcon={
+//                   <RaisedButton
+//                     onClick={() => this.props.handleAdd({ price: x.price, i })}
+//                     label="Add to Cart"
+//                     fullWidth
+//                     secondary
+//                   />
+//                 }
+//                 title={x.flavor}
+//                 subtitle={x.price + ' BTC'}
+//               />
+//             ))}
+//           </GridList>
+//         </Row>
+//       </Grid>
+//     );
+//   }
+// }
