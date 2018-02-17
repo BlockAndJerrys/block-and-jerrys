@@ -57,7 +57,6 @@ const InfoCart = ({ name, address, phone, handleInputChange, handleGenerate }) =
         onChange={handleInputChange}
       />
     </form>
-    <Link to="/qr">
       <RaisedButton
         label="Request"
         secondary
@@ -69,7 +68,6 @@ const InfoCart = ({ name, address, phone, handleInputChange, handleGenerate }) =
         onClick={handleGenerate}
         style={{ marginTop: '1em' }}
       />
-    </Link>
   </Paper>
 );
 
