@@ -62,7 +62,6 @@ app.use('/dashboard/order/:orderId', async (req, res) => {
     },
     include: [{ model: Icecream }],
   });
-  console.log(data[0].get());
   res.json({ data });
 });
 

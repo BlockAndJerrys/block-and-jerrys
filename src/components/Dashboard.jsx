@@ -23,7 +23,7 @@ class Dashboard extends React.Component {
     super(props);
     this.state = {
       open: true,
-      baseball: 'colbycheese69',
+      baseball: '',
       success: null,
       data: [
         { id: 1, description: 'Loading' },
@@ -53,7 +53,6 @@ class Dashboard extends React.Component {
       data: res.data.data,
     });
     history.push('/dashboard/orders');
-    console.log(history);
   }
   render() {
     if (this.state.success === true) {
@@ -113,10 +112,11 @@ class Dashboard extends React.Component {
           <TextField
             value={this.state.baseball}
             floatingLabelText="Baseball"
+            type="password"
             onChange={this.handleChange}
           />
           <RaisedButton
-            label="Icecream"
+            label="Baseball"
             onClick={this.handleClick}
             secondary
           />
@@ -132,4 +132,4 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Dashboard));
+export default (connect(mapStateToProps, mapDispatchToProps)(Dashboard));
