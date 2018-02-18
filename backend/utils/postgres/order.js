@@ -19,7 +19,6 @@ module.exports = (db, Sequelize) => (
     invoice: {
       type: Sequelize.STRING(1234),
       unique: true,
-      defaultValue: 'Loading',
     },
   }, {
     underscored: true,

@@ -13,8 +13,8 @@ import Paid from './paidCart';
 import history from '../history';
 
 const Cart = ({ socket, handleInvoice, handlePaid, handleInit }) => {
-  socket.on('INVOICE', (invoice) => {
-    handleInvoice(invoice);
+  socket.on('INVOICE', ({ invoice }) => {
+    handleInvoice({ invoice });
     history.push('/qr');
   });
 
@@ -23,8 +23,8 @@ const Cart = ({ socket, handleInvoice, handlePaid, handleInit }) => {
     history.push('/paid');
   });
 
-  socket.on('INIT', ({ coneCount, menu }) => {
-    handleInit({ coneCount, menu });
+  socket.on('INIT', ({ coneCount, cart }) => {
+    handleInit({ coneCount, cart });
   });
 
   return (
@@ -45,14 +45,14 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  handleInvoice: (invoice) => {
+  handleInvoice: ({ invoice }) => {
     dispatch({ type: 'RECEIVED_INVOICE', invoice });
   },
   handlePaid: () => {
     dispatch({ type: 'PAID' });
   },
-  handleInit: ({ coneCount, menu }) => {
-    dispatch({ type: 'INIT', coneCount, menu });
+  handleInit: ({ coneCount, cart }) => {
+    dispatch({ type: 'INIT', coneCount, cart });
   },
 });
 

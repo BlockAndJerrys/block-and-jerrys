@@ -4,32 +4,38 @@ const socket = ioClient('localhost:5000');
 
 const initialState = {
   socket,
-  quantities: [0, 0, 0, 0],
+  paid: false,
+  coneCount: 'loading cones...',
+  cart: [],
   cartTotal: 0,
   name: '',
   address: '',
   phone: '',
   invoice: '',
-  paid: false,
-  coneCount: 'loading cones...',
-  menu: [],
 };
 
 export default function (state = initialState, action) {
   switch (action.type) {
-    case 'INIT':
+    case 'INIT': {
+      const { cart } = action;
+      cart.forEach((x, i) => {
+        cart[i].quantity = 0;
+      });
       return {
         ...state,
         coneCount: action.coneCount,
-        menu: action.menu,
+        cart,
       };
-    case 'ADD_ITEM': {
-      const temp = state.quantities.slice();
-      temp[action.i] += 1;
+    }
+    case 'ADD': {
+      const newCart = state.cart.map(x => {
+        if (x.id === action.id) x.quantity += 1;
+        return x;
+      });
       return {
         ...state,
-        quantities: temp,
-        cartTotal: (parseFloat(state.cartTotal) + parseFloat(action.price)).toFixed(6),
+        cart: newCart,
+        cartTotal: state.cartTotal + 7,
       };
     }
     case 'INPUT_CHANGE': {
@@ -44,12 +50,13 @@ export default function (state = initialState, action) {
     case 'GENERATE_INVOICE':
       state.socket.emit(
         'GENERATE_INVOICE',
-        state.cartTotal,
-        state.quantities.reduce((x, y) => x + y),
-        state.name,
-        state.address,
-        state.phone,
-        action.cones,
+        {
+          name: state.name,
+          address: state.address,
+          phone: state.phone,
+          cart: state.cart,
+          cartTotal: state.cartTotal,
+        },
       );
       return state;
     case 'RECEIVED_INVOICE':

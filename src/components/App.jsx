@@ -31,7 +31,7 @@ import { connect } from 'react-redux';
 import '../styles/App.css';
 import logo from '../assets/logo.png';
 import Cart from './cart';
-import menu from '../utils/menu';
+// import menu from '../utils/menu';
 
 const styles = {
   gridList: {
@@ -43,7 +43,7 @@ const styles = {
   titleBackground: 'linear-gradient(to top, rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)',
 };
 
-const App = ({ coneCount, handleAdd }) => (
+const App = ({ cart, coneCount, handleAdd }) => (
   <Grid>
     <Row>
       <Col xs={1} style={{ backgroundColor: 'white' }}>
@@ -68,21 +68,21 @@ const App = ({ coneCount, handleAdd }) => (
         cellHeight="auto"
         style={styles.gridList}
       >
-        {menu.map((x, i) => (
+        {cart.map(x => (
           <GridTile
-            key={x.price}
+            key={x.id}
             titleBackground={styles.titleBackground}
             children={<img src={x.img_url} alt={x.flavor} />}
             actionIcon={
               <RaisedButton
-                onClick={() => handleAdd({ price: x.price, i })}
+                onClick={() => handleAdd({ id: x.id })}
                 label="Add to Cart"
                 fullWidth
                 secondary
               />
             }
             title={x.flavor}
-            subtitle={`${x.price} BTC`}
+            subtitle={`$${x.price}.00 USD`}
           />
         ))}
       </GridList>
@@ -97,12 +97,12 @@ const App = ({ coneCount, handleAdd }) => (
 
 const mapStateToProps = state => ({
   coneCount: state.coneCount,
-  quantities: state.quantities,
+  cart: state.cart,
 });
 
 const mapDispatchToProps = dispatch => ({
-  handleAdd: ({ i, price }) => {
-    dispatch({ type: 'ADD_ITEM', i, price });
+  handleAdd: ({ id }) => {
+    dispatch({ type: 'ADD', id });
   },
 });
 
