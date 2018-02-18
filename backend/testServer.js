@@ -16,15 +16,14 @@ app.use((req, res, next) => {
 });
 
 io.on('connection', (socket) => {
-  socket.on('GENERATE_INVOICE', async (price, quantity, name, address, phone) => {
+  socket.on('GENERATE_INVOICE', async () => {
     const timeNow = new Date();
     const payreq = 'this is a testinvoice'+timeNow.getTime();
 
-    socket.emit('INVOICE', payreq);
+    socket.emit('INVOICE', {invoice: payreq});
 
     setTimeout(async () => {
       socket.emit('PAID');
-      coneCounter += quantity;
     }, 2000);
   });
 });

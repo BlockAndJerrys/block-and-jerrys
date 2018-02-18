@@ -31,6 +31,7 @@
   },
   "scripts": {
     "server": "node ./backend/server.js",
+    "testServer": "node ./backend/testServer.js",
     "webapp": "react-scripts start",
     "dev": "concurrently -k \"npm run testServer\" \"npm run webapp\"",
     "start": "npm run webapp",
