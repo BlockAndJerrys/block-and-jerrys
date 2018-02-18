@@ -23,10 +23,10 @@ const lightning = new lnrpc.Lightning('localhost:10009', credentials);
  * @returns {Promise} - Returns {Pay Request}.
  */
 
-const generateInvoice = amt =>
+const generateInvoice = (amt, memo) =>
   new Promise((resolve, reject) => {
     lightning.addInvoice({
-      memo: "Block and Jerry's Ice Cream",
+      memo,
       value: amt * 100000000,
     }, (err, response) => {
       if (err) reject(err);
