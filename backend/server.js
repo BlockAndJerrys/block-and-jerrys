@@ -8,11 +8,24 @@ const app = require('express')();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const client = require('twilio')(process.env.TWILIO_SID, process.env.TWILIO_AUTH_TOKEN);
+const axios = require('axios');
 
-const data = require('./utils/mongodb/dataAccess');
+const {
+  Order,
+  Icecream,
+  OrderIcecream,
+} = require('./utils/postgres');
 const lightning = require('./utils/lightning.js');
 
-let coneCounter;
+async function getBtcPrice() {
+  try {
+    const res = await axios.get('https://api.coinmarketcap.com/v1/ticker/bitcoin/');
+    return parseFloat(res.data[0].price_usd);
+  } catch (err) { console.log(err); }
+}
+
+let coneCount = 0;
+let cart = [];
 const payreqUserMap = {};
 
 const call = lightning.streamInvoices();
@@ -20,7 +33,6 @@ const call = lightning.streamInvoices();
 call.on('data', async (message) => {
   const payedreq = message.payment_request;
   payreqUserMap[payedreq].socket.emit('PAID');
-  io.emit('CONE', coneCounter);
   client.messages.create({
     to: process.env.PHONE_NUMBER,
     from: '(207) 248-8331',
@@ -43,35 +55,41 @@ app.use((req, res, next) => {
 });
 
 io.on('connection', (socket) => {
-  socket.emit('CONE', coneCounter);
-  socket.on('GENERATE_INVOICE', (price, quantity, name, address, phone) => {
+  socket.emit('INIT', { coneCount, cart });
+  socket.on('GENERATE_INVOICE', async (order) => {
+    const btcCartTotal = parseFloat(order.cartTotal) / (await getBtcPrice());
     const timeNow = new Date();
-    const invoiceData = timeNow.getTime() + name + address + phone;
-
-    lightning.generateInvoice(price, invoiceData)
-      .then(async (resp) => {
-        const paymentRequest = resp.payment_request;
-
-        await data.addOrder(
-          timeNow, // time
-          name, // name
-          address, // address
-          phone, // phone
-          paymentRequest, // invoice
-          quantity,
-        );
-
-        payreqUserMap[paymentRequest] = { socket, quantity };
-
-        socket.emit('INVOICE', paymentRequest);
-      }).catch(err => socket.emit('ERROR', err));
+    const invoiceData = timeNow.getTime() + order.name + order.address + order.phone;
+    const genInvoice = await lightning.generateInvoice(btcCartTotal, invoiceData);
+    const invoice = genInvoice.payment_request;
+    const o = await Order.create({
+      name: order.name,
+      address: order.address,
+      phone: order.phone,
+      invoice,
+    });
+    payreqUserMap[invoice] = { socket, quantity: order.quantity };
+    socket.emit('INVOICE', { invoice });
+    order.cart.forEach(x => {
+      if (x.quantity > 0) {
+        OrderIcecream.create({
+          order_id: o.id,
+          icecream_id: x.id,
+          quantity: x.quantity,
+        });
+      }
+    });
   });
 });
 
 async function init() {
   // Since this is centralized, only need to get cone count on init
-  const resp = await data.getConeCount();
-  coneCounter = resp;
+  coneCount = (await OrderIcecream.findAll()).length;
+  cart = await Icecream.findAll({
+    order: [
+      ['id', 'ASC'],
+    ],
+  })
 }
 
 http.listen(5000, () => {
