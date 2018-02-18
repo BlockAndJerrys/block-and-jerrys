@@ -31,8 +31,9 @@
   },
   "scripts": {
     "server": "node ./backend/server.js",
+    "testServer": "node ./backend/testServer.js",
     "webapp": "react-scripts start",
-    "dev": "concurrently -k \"npm run server\" \"npm run webapp\"",
+    "dev": "concurrently -k \"npm run testServer\" \"npm run webapp\"",
     "start": "npm run webapp",
     "build": "react-scripts build",
     "testFrontend": "react-scripts test --env=jsdom",
