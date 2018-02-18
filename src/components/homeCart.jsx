@@ -10,13 +10,13 @@ import { connect } from 'react-redux';
 
 import Happy from 'material-ui/svg-icons/social/sentiment-very-satisfied';
 import Sad from 'material-ui/svg-icons/social/sentiment-very-dissatisfied';
-import menu from '../utils/menu';
+// import menu from '../utils/menu';
 
-const HomeCart = ({ quantities, cartTotal }) => (
+const HomeCart = ({ cart, cartTotal }) => (
   <Paper zDepth={3} >
     <List>
-      {menu.map((x, i) => {
-        const len = quantities[i];
+      {cart.map((x) => {
+        const len = x.quantity;
         let rightIcon;
         if (len === 0) {
           rightIcon = <Sad key={Math.random()} color="red" />;
@@ -31,7 +31,7 @@ const HomeCart = ({ quantities, cartTotal }) => (
         }
         return (
           <div key={x.flavor} >
-            <ListItem disabled rightIcon={rightIcon} primaryText={`${x.flavor} x ${quantities[i]}`} />
+            <ListItem disabled rightIcon={rightIcon} primaryText={`${x.flavor} x ${x.quantity}`} />
             <Divider />
           </div>
         );
@@ -39,7 +39,7 @@ const HomeCart = ({ quantities, cartTotal }) => (
     </List>
     <Link to="/checkout">
       <RaisedButton
-        label={`Checkout (${cartTotal} BTC)`}
+        label={`Checkout ($${cartTotal}.00 USD)`}
         secondary
         fullWidth
         /* disabled={cartTotal == 0} */
@@ -49,8 +49,8 @@ const HomeCart = ({ quantities, cartTotal }) => (
 );
 
 const mapStateToProps = state => ({
-  quantities: state.quantities,
   cartTotal: state.cartTotal,
+  cart: state.cart,
 });
 
 export default connect(mapStateToProps)(HomeCart);

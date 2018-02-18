@@ -12,9 +12,9 @@ import QRCart from './qrCart';
 import Paid from './paidCart';
 import history from '../history';
 
-const Cart = ({ socket, handleInvoice, handlePaid, handleConeUpdate }) => {
-  socket.on('INVOICE', (invoice) => {
-    handleInvoice(invoice);
+const Cart = ({ socket, handleInvoice, handlePaid, handleInit }) => {
+  socket.on('INVOICE', ({ invoice }) => {
+    handleInvoice({ invoice });
     history.push('/qr');
   });
 
@@ -23,8 +23,8 @@ const Cart = ({ socket, handleInvoice, handlePaid, handleConeUpdate }) => {
     history.push('/paid');
   });
 
-  socket.on('CONE', (coneCount) => {
-    handleConeUpdate(coneCount);
+  socket.on('INIT', ({ coneCount, cart }) => {
+    handleInit({ coneCount, cart });
   });
 
   return (
@@ -45,14 +45,14 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  handleInvoice: (invoice) => {
+  handleInvoice: ({ invoice }) => {
     dispatch({ type: 'RECEIVED_INVOICE', invoice });
   },
   handlePaid: () => {
     dispatch({ type: 'PAID' });
   },
-  handleConeUpdate: (coneCount) => {
-    dispatch({ type: 'CONE_UPDATE', coneCount });
+  handleInit: ({ coneCount, cart }) => {
+    dispatch({ type: 'INIT', coneCount, cart });
   },
 });
 

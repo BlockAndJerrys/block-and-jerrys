@@ -18,7 +18,7 @@ const qrCart = ({ invoice, cartTotal }) => (
     <div style={{ display: 'flex', padding: '1em' }} >
       <QRCode value={invoice} />
       <div style={{ marginLeft: '1em', overflowWrap: 'break-word', width: '75%' }}>
-        {cartTotal} BTC <br />
+        ${cartTotal} USD <br />
         {invoice}
       </div>
     </div>

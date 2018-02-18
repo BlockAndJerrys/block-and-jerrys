@@ -20,8 +20,6 @@ import reducer from './reducer';
 import App from './components/App';
 import TAndC from './components/TAndC';
 
-console.log(TAndC);
-
 const store = createStore(reducer);
 
 /*
