@@ -17,13 +17,13 @@ const initialState = {
 export default function (state = initialState, action) {
   switch (action.type) {
     case 'INIT': {
-      const { cart } = action;
+      const { cart, coneCount } = action;
       cart.forEach((x, i) => {
         cart[i].quantity = 0;
       });
       return {
         ...state,
-        coneCount: action.coneCount,
+        coneCount,
         cart,
       };
     }
@@ -56,6 +56,7 @@ export default function (state = initialState, action) {
           phone: state.phone,
           cart: state.cart,
           cartTotal: state.cartTotal,
+          quantity: state.cart.reduce((sum, x) => x.quantity + sum, 0),
         },
       );
       return state;
@@ -68,6 +69,11 @@ export default function (state = initialState, action) {
       return {
         ...state,
         paid: true,
+      };
+    case 'CONE_UPDATE':
+      return {
+        ...state,
+        coneCount: action.coneCount,
       };
     case 'RESTART':
       return {
