@@ -18,13 +18,14 @@ export default function (state = initialState, action) {
   switch (action.type) {
     case 'INIT': {
       const { cart, coneCount, btcPrice } = action;
-      cart.forEach((x, i) => {
-        cart[i].quantity = 0;
+      const cartOrder = cart.map((x) => {
+        x.quantity = 0;
+        return x;
       });
       return {
         ...state,
         coneCount,
-        cart,
+        cart: cartOrder,
         btcPrice,
       };
     }
@@ -65,23 +66,27 @@ export default function (state = initialState, action) {
         ...state,
         invoice: action.invoice,
       };
-    case 'PAID':
-      return state;
     case 'CONE_UPDATE':
-      console.log(action);
+      console.log('ALL SOCKETS SHOULD RECEIVE THIS', action);
       return {
         ...state,
         coneCount: action.coneCount,
       };
-    case 'RESTART':
+    case 'RESTART': {
+      const cartOrder = state.cart.map((x) => {
+        x.quantity = 0;
+        return x;
+      });
       return {
         ...state,
         invoice: '',
+        cart: cartOrder,
         cartTotal: 0,
         name: '',
         address: '',
         phone: '',
       };
+    }
     default:
       return state;
   }
