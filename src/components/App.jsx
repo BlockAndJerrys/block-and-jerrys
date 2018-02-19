@@ -25,46 +25,17 @@ import {
 
 import RaisedButton from 'material-ui/RaisedButton';
 import Dialog from 'material-ui/Dialog';
-import ContentAdd from 'material-ui/svg-icons/content/add';
-import FloatingActionButton from 'material-ui/FloatingActionButton';
-import Right from 'material-ui/svg-icons/hardware/keyboard-arrow-right';
 
 import { connect } from 'react-redux';
 
 import '../styles/App.css';
 import logo from '../assets/logo.png';
 import Cart from './cart';
+import Gallery from './gallery';
 
 const styles = {
   grid: { display: 'flex', flexFlow: 'column nowrap' },
   coneCount: { backgroundColor: 'white', textAlign: 'center', padding: '0' },
-  opaque: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    background: 'linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.5) 70%, rgba(0, 0, 0, 0.2) 100%)',
-    position: 'absolute',
-    bottom: '0',
-    width: '100%',
-    color: 'white',
-    fontSize: '3em',
-    lineHeight: '1em',
-  },
-  gallery: {
-    display: 'flex',
-    flexFlow: 'row nowrap',
-    paddingTop: '1em',
-    marginBottom: '1em',
-    overflowX: 'auto',
-    boxShadow: '3px 5px 6px black',
-  },
-  col: {
-    display: 'flex',
-    flexFlow: 'column nowrap',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: '2px',
-  },
 };
 
 class App extends React.Component {
@@ -103,34 +74,7 @@ class App extends React.Component {
           </Col>
         </Row>
         <Row>
-
-          <div style={styles.gallery}>
-            {
-              this.props.cart.map(x => (
-                <Col key={x.id} xs={12} md={6} style={styles.col} >
-                  <Image src={x.img_url} style={{}} />
-                  <div style={styles.opaque}>
-                    <p>{x.flavor} <br />
-                      <span style={{ fontSize: '0.5em', lineHeight: '0' }}>
-                        ${x.price} ~ {x.priceBtc.toFixed(6)} BTC
-                      </span>
-                    </p>
-                    <FloatingActionButton
-                      secondary
-                      mini
-                      onClick={() => this.props.handleAdd({ id: x.id })}
-                      zDepth={0}
-                      style={{ fontSize: '1rem' }}
-                    >
-                      <ContentAdd />
-                    </FloatingActionButton>
-                    { x.id < 4 && <Right color="white" style={{ position: 'absolute', right: '0', height: '1.1em', width: 'auto' }} /> }
-                  </div>
-                </Col>
-                ))
-            }
-          </div>
-
+          <Gallery />
         </Row>
         <Dialog open={this.state.open} onRequestClose={this.handleClose}>
           <Cart />

@@ -4,15 +4,14 @@ const socket = ioClient('localhost:5000');
 
 const initialState = {
   socket,
-  paid: false,
   coneCount: 'loading cones...',
   cart: [],
   cartTotal: 0,
+  btcPrice: 0,
   name: '',
   address: '',
   phone: '',
   invoice: '',
-  btcPrice: 0,
 };
 
 export default function (state = initialState, action) {
@@ -56,9 +55,8 @@ export default function (state = initialState, action) {
           name: state.name,
           address: state.address,
           phone: state.phone,
-          cart: state.cart,
+          cartOrder: state.cart,
           cartTotal: state.cartTotal,
-          quantity: state.cart.reduce((sum, x) => x.quantity + sum, 0),
         },
       );
       return state;
@@ -68,11 +66,9 @@ export default function (state = initialState, action) {
         invoice: action.invoice,
       };
     case 'PAID':
-      return {
-        ...state,
-        paid: true,
-      };
+      return state;
     case 'CONE_UPDATE':
+      console.log(action);
       return {
         ...state,
         coneCount: action.coneCount,
@@ -81,12 +77,10 @@ export default function (state = initialState, action) {
       return {
         ...state,
         invoice: '',
-        paid: false,
         cartTotal: 0,
         name: '',
         address: '',
         phone: '',
-        quantities: [0, 0, 0, 0],
       };
     default:
       return state;

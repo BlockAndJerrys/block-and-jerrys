@@ -25,6 +25,26 @@ Icecream.hasMany(OrderIcecream);
 OrderIcecream.belongsTo(Order);
 OrderIcecream.belongsTo(Icecream);
 
+OrderIcecream.coneCount = async () => {
+  const oics = await OrderIcecream.findAll({
+    include: [{
+      model: Order,
+      where: { status: 'paid' },
+    }],
+  });
+  const coneCount = oics.reduce((sum, x) => x.quantity + sum, 0);
+  return coneCount;
+};
+
+Icecream.cart = async () => {
+  const cart = await Icecream.findAll({
+    order: [
+      ['id', 'ASC'],
+    ],
+  });
+  return cart;
+};
+
 module.exports = {
   db,
   Op,
