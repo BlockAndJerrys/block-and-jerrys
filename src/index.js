@@ -19,6 +19,7 @@ import registerServiceWorker from './registerServiceWorker';
 import reducer from './reducer';
 import App from './components/App';
 import TAndC from './components/TAndC';
+import Dashboard from './components/Dashboard';
 
 const store = createStore(reducer);
 
@@ -39,6 +40,7 @@ axios.get('http://localhost:3000') // TODO: change back
             <div>
               <Route path="/" exact component={App} />
               <Route path="/t-and-c" exact component={TAndC} />
+              <Route path="/dashboard" exact component={Dashboard} />
             </div>
           </MuiThemeProvider>
         </Router>

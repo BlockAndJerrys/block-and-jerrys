@@ -5,6 +5,7 @@
   "dependencies": {
     "axios": "^0.17.1",
     "bitcore-lib": "^0.15.0",
+    "body-parser": "^1.18.2",
     "bytebuffer": "^5.0.1",
     "express": "^4.16.2",
     "fs": "0.0.1-security",
@@ -22,6 +23,7 @@
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.0.17",
+    "react-table": "^6.7.6",
     "react-test-renderer": "^16.2.0",
     "redux": "^3.7.2",
     "sequelize": "^4.33.4",
@@ -30,15 +32,13 @@
     "twilio": "^3.11.3"
   },
   "scripts": {
-    "server": "node ./backend/server.js",
-    "serverDev": "nodemon ./backend/testServer.js",
+    "server": "nodemon ./backend/server.js",
+    "testServer": "node ./backend/testServer.js",
     "webapp": "react-scripts start",
-    "dev": "concurrently -k \"npm run serverDev\" \"npm run webapp\"",
+    "dev": "concurrently -k \"npm run testServer\" \"npm run webapp\"",
+    "dev2": "concurrently -k \"npm run server\" \"npm run webapp\"",
     "start": "npm run webapp",
     "build": "react-scripts build",
-    "testFrontend": "react-scripts test --env=jsdom",
-    "testBackend": "mocha backend/test/test.js --exit --timeout=5000",
-    "test": "npm run testBackend && npm run testFrontend",
     "eject": "react-scripts eject",
     "pgDev": "concurrently -k \"nodemon backend/pgserver.js\" \"npm run webapp\"",
     "sync": "node backend/utils/postgres/sync.js"

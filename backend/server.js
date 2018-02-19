@@ -7,19 +7,26 @@
 const app = require('express')();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
+const client = require('twilio')(process.env.TWILIO_SID, process.env.TWILIO_AUTH_TOKEN);
+const axios = require('axios');
+const bp = require('body-parser');
 
-const data = require('./utils/mongodb/dataAccess');
-
+const {
+  Order,
+  Icecream,
+  OrderIcecream,
+} = require('./utils/postgres');
 const lightning = require('./utils/lightning.js');
 
-let coneCounter;
+async function getBtcPrice() {
+  try {
+    const res = await axios.get('https://api.coinmarketcap.com/v1/ticker/bitcoin/');
+    return parseFloat(res.data[0].price_usd);
+  } catch (err) { console.log(err); }
+}
 
-/*
- Maps invoices to socket and cone quantity
- Thus, when app "hears" an invoice has been
- paid, it increments cone counter and tells
- socket its invoice is paid.
-*/
+let coneCount = 0;
+let cart = [];
 const payreqUserMap = {};
 
 const call = lightning.streamInvoices();
@@ -27,9 +34,11 @@ const call = lightning.streamInvoices();
 call.on('data', async (message) => {
   const payedreq = message.payment_request;
   payreqUserMap[payedreq].socket.emit('PAID');
-  coneCounter += payreqUserMap[payedreq].cones;
-  await data.incrementConeCounter(payreqUserMap[payedreq].cones);
-  io.emit('CONE', coneCounter);
+  client.messages.create({
+    to: process.env.PHONE_NUMBER,
+    from: '(207) 248-8331',
+    body: `NEW ORDER`,
+  });
 });
 
 call.on('end', () => {
@@ -46,23 +55,64 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use('/dashboard/order/:orderId', async (req, res) => {
+  const data = await OrderIcecream.findAll({
+    where: {
+      order_id: req.params.orderId,
+    },
+    include: [{ model: Icecream }],
+  });
+  res.json({ data });
+});
+
+app.use('/dashboard', bp.json(), bp.urlencoded({ extended: false }), async (req, res) => {
+  if (req.body.baseball === process.env.BASEBALL) {
+    const data = await Order.findAll({
+    });
+    res.json({ success: true, data });
+  } else {
+    res.json({ success: false });
+    // ping us that there was an incorrect password attempt
+    // log and save request data
+  }
+});
+
 io.on('connection', (socket) => {
-  socket.emit('CONE', coneCounter);
-  socket.on('GENERATE_INVOICE', (price, cones) => {
-    lightning.generateInvoice(price)
-      .then((resp) => {
-        const paymentRequest = resp.payment_request;
-        payreqUserMap[paymentRequest] = { socket, cones };
-        console.log('SERVER GEN');
-        console.log(paymentRequest);
-        socket.emit('INVOICE', paymentRequest);
-      }).catch(err => socket.emit('ERROR', err));
+  socket.emit('INIT', { coneCount, cart });
+  socket.on('GENERATE_INVOICE', async (order) => {
+    const btcCartTotal = parseFloat(order.cartTotal) / (await getBtcPrice());
+    const timeNow = new Date();
+    const invoiceData = timeNow.getTime() + order.name + order.address + order.phone;
+    const genInvoice = await lightning.generateInvoice(btcCartTotal, invoiceData);
+    const invoice = genInvoice.payment_request;
+    const o = await Order.create({
+      name: order.name,
+      address: order.address,
+      phone: order.phone,
+      invoice,
+    });
+    payreqUserMap[invoice] = { socket, quantity: order.quantity };
+    socket.emit('INVOICE', { invoice });
+    order.cart.forEach(x => {
+      if (x.quantity > 0) {
+        OrderIcecream.create({
+          order_id: o.id,
+          icecream_id: x.id,
+          quantity: x.quantity,
+        });
+      }
+    });
   });
 });
 
 async function init() {
-  const resp = await data.getConeCount();
-  coneCounter = resp.count;
+  // Since this is centralized, only need to get cone count on init
+  coneCount = (await OrderIcecream.findAll()).length;
+  cart = await Icecream.findAll({
+    order: [
+      ['id', 'ASC'],
+    ],
+  });
 }
 
 http.listen(5000, () => {

@@ -18,8 +18,11 @@ const populate = async () => {
       address: '874 Fell St.',
       phone: '5136966969',
     });
-    // for each if ice cream obj, if quantity is greater than 0, find the ice cream
-    // and create an OrderIcecream with order_id o1 and ice_cream obj.icecream[i].id
+    await OrderIcecream.create({
+      order_id: o1.id,
+      icecream_id: 1,
+      quantity: 2,
+    });
   } catch (err) { console.log('Error populating', err); }
 };
 
