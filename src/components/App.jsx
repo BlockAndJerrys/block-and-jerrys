@@ -35,8 +35,37 @@ import '../styles/App.css';
 import logo from '../assets/logo.png';
 import Cart from './cart';
 
-// const styles = {
-// };
+const styles = {
+  grid: { display: 'flex', flexFlow: 'column nowrap' },
+  coneCount: { backgroundColor: 'white', textAlign: 'center', padding: '0' },
+  opaque: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    background: 'linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.5) 70%, rgba(0, 0, 0, 0.2) 100%)',
+    position: 'absolute',
+    bottom: '0',
+    width: '100%',
+    color: 'white',
+    fontSize: '3em',
+    lineHeight: '1em',
+  },
+  gallery: {
+    display: 'flex',
+    flexFlow: 'row nowrap',
+    paddingTop: '1em',
+    marginBottom: '1em',
+    overflowX: 'auto',
+    boxShadow: '3px 5px 6px black',
+  },
+  col: {
+    display: 'flex',
+    flexFlow: 'column nowrap',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: '2px',
+  },
+};
 
 class App extends React.Component {
   constructor(props) {
@@ -44,8 +73,11 @@ class App extends React.Component {
     this.state = {
       open: false,
     };
-    this.props.socket.on('INIT', ({ coneCount, cart }) => {
-      this.props.handleInit({ coneCount, cart });
+    this.props.socket.on('INIT', async ({ coneCount, cart, btcPrice }) => {
+      cart.forEach((x, i) => {
+        cart[i].priceBtc = cart[i].price / btcPrice;
+      });
+      this.props.handleInit({ coneCount, cart, btcPrice });
     });
     this.handleOpen = this.handleOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
@@ -56,7 +88,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <Grid style={{ display: 'flex', flexFlow: 'column nowrap' }}>
+      <Grid style={styles.grid}>
         <Row>
           <Col xs={2} md={1} style={{ backgroundColor: 'white' }}>
             <a href="http://dev.lightning.community/" target="_blank" rel="noopener noreferrer">
@@ -66,21 +98,23 @@ class App extends React.Component {
           <Col xs={6} xsOffset={1} mdOffset={2} >
             <Image responsive rounded src={logo} alt="LND logo" style={{ paddingTop: '0.5em' }} />
           </Col>
-          <Col xsOffset={0} xs={3} md={1} mdOffset={2} style={{ backgroundColor: 'white', padding: '0' }}>
+          <Col xsOffset={0} xs={3} md={1} mdOffset={2} style={styles.coneCount}>
             ConeCount: <b>{this.props.coneCount}</b>
           </Col>
         </Row>
         <Row>
 
-          <div style={{ paddingTop: '1em', marginBottom: '1em', display: 'flex', flexFlow: 'row nowrap', overflowX: 'auto', boxShadow: '3px 5px 6px black' }}>
+          <div style={styles.gallery}>
             {
               this.props.cart.map(x => (
-                <Col key={x.id} xs={12} md={6}
-                  style={{ display: 'flex', flexFlow: 'column nowrap', alignItems: 'center', justifyContent: 'center', marginRight: '2px'  }}
-                >
-                  <Image src={x.img_url} style={{}}/>
-                  <div style={{ display: 'flex', background: 'linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.5) 70%, rgba(0, 0, 0, 0.2) 100%)', position: 'absolute', bottom: '0', width: '100%', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: '3em', lineHeight: '1em' }}>
-                    <p>{x.flavor} <br /> <span style={{ fontSize: '0.5em', marginLeft: '0.5em' }}>${x.price}.00</span></p>
+                <Col key={x.id} xs={12} md={6} style={styles.col} >
+                  <Image src={x.img_url} style={{}} />
+                  <div style={styles.opaque}>
+                    <p>{x.flavor} <br />
+                      <span style={{ fontSize: '0.5em', lineHeight: '0' }}>
+                        ${x.price} ~ {x.priceBtc.toFixed(6)} BTC
+                      </span>
+                    </p>
                     <FloatingActionButton
                       secondary
                       mini
@@ -126,8 +160,8 @@ const mapDispatchToProps = dispatch => ({
   handleAdd: ({ id }) => {
     dispatch({ type: 'ADD', id });
   },
-  handleInit: ({ coneCount, cart }) => {
-    dispatch({ type: 'INIT', coneCount, cart });
+  handleInit: ({ coneCount, cart, btcPrice }) => {
+    dispatch({ type: 'INIT', coneCount, cart, btcPrice });
   },
 });
 

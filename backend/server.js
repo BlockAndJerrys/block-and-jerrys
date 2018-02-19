@@ -27,8 +27,9 @@ async function getBtcPrice() {
 
 let coneCount = 0;
 let cart = [];
-const payreqUserMap = {};
+let btcPrice;
 
+const payreqUserMap = {};
 const call = lightning.streamInvoices();
 
 call.on('data', async (message) => {
@@ -78,7 +79,7 @@ app.use('/dashboard', bp.json(), bp.urlencoded({ extended: false }), async (req,
 });
 
 io.on('connection', (socket) => {
-  socket.emit('INIT', { coneCount, cart });
+  socket.emit('INIT', { coneCount, cart, btcPrice });
   socket.on('GENERATE_INVOICE', async (order) => {
     const btcCartTotal = parseFloat(order.cartTotal) / (await getBtcPrice());
     const timeNow = new Date();
@@ -113,6 +114,7 @@ async function init() {
       ['id', 'ASC'],
     ],
   });
+  btcPrice = await getBtcPrice();
 }
 
 http.listen(5000, () => {

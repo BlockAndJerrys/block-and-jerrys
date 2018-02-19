@@ -10,9 +10,12 @@ import { connect } from 'react-redux';
 
 import Happy from 'material-ui/svg-icons/social/sentiment-very-satisfied';
 import Sad from 'material-ui/svg-icons/social/sentiment-very-dissatisfied';
-// import menu from '../utils/menu';
 
-const HomeCart = ({ cart, cartTotal }) => (
+const styles = {
+  rightIcon: { display: 'flex', justifyContent: 'flex-end', width: '30%' },
+};
+
+const HomeCart = ({ cart, cartTotal, btcPrice }) => (
   <Paper zDepth={3} >
     <List>
       {cart.map((x) => {
@@ -24,7 +27,7 @@ const HomeCart = ({ cart, cartTotal }) => (
           let arr = new Array(len).fill(null);
           arr = arr.map(() => Math.random());
           rightIcon = (
-            <div style={{ display: 'flex', justifyContent: 'flex-end', width: '75%' }}>
+            <div style={styles.rightIcon}>
               {arr.map(j => <Happy key={j} color="green" />)}
             </div>
           );
@@ -36,10 +39,11 @@ const HomeCart = ({ cart, cartTotal }) => (
           </div>
         );
         })}
+      <ListItem disabled primaryText={`$${cartTotal} ~ ${(cartTotal / btcPrice).toFixed(6)} BTC`} />
     </List>
     <Link to="/checkout">
       <RaisedButton
-        label={`Checkout ($${cartTotal}.00 USD)`}
+        label="Order"
         secondary
         fullWidth
         /* disabled={cartTotal == 0} */
@@ -51,6 +55,7 @@ const HomeCart = ({ cart, cartTotal }) => (
 const mapStateToProps = state => ({
   cartTotal: state.cartTotal,
   cart: state.cart,
+  btcPrice: state.btcPrice,
 });
 
 export default connect(mapStateToProps)(HomeCart);

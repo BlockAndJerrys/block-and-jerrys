@@ -13,12 +13,12 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import QRCode from 'qrcode.react';
 import { connect } from 'react-redux';
 
-const qrCart = ({ invoice, cartTotal }) => (
+const qrCart = ({ invoice, cartTotal, btcPrice }) => (
   <Paper zDepth={3} style={{ display: 'flex', flexFlow: 'column nowrap' }}>
     <div style={{ display: 'flex', padding: '1em' }} >
       <QRCode value={invoice} />
       <div style={{ marginLeft: '1em', overflowWrap: 'break-word', width: '75%' }}>
-        ${cartTotal} USD <br />
+        ${cartTotal} ~ {(cartTotal / btcPrice).toFixed(6)} BTC<br />
         {invoice}
       </div>
     </div>
@@ -33,6 +33,7 @@ const qrCart = ({ invoice, cartTotal }) => (
 const mapStateToProps = state => ({
   invoice: state.invoice,
   cartTotal: state.cartTotal,
+  btcPrice: state.btcPrice,
 });
 
 export default connect(mapStateToProps)(qrCart);
