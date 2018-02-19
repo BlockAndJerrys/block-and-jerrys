@@ -15,9 +15,10 @@ module.exports = (db, Sequelize) => (
     address: {
       type: Sequelize.STRING(1234),
     },
-    paid: {
-      type: Sequelize.BOOLEAN,
-      defaultValue: false,
+    // unpaid, paid, delivered
+    status: {
+      type: Sequelize.STRING,
+      defaultValue: 'unpaid',
     },
     invoice: {
       type: Sequelize.STRING(1234),

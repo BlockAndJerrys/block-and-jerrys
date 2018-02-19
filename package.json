@@ -40,7 +40,6 @@
     "start": "npm run webapp",
     "build": "react-scripts build",
     "eject": "react-scripts eject",
-    "pgDev": "concurrently -k \"nodemon backend/pgserver.js\" \"npm run webapp\"",
     "sync": "node backend/utils/postgres/sync.js"
   },
   "devDependencies": {

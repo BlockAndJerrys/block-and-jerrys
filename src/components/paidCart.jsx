@@ -31,7 +31,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   handleRestart: () => {
     dispatch({ type: 'RESTART' });
-    history.push('/')
+    history.push('/');
   },
 });
 
