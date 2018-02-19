@@ -33,13 +33,16 @@ const payreqUserMap = {};
 const call = lightning.streamInvoices();
 
 call.on('data', async (message) => {
+
   const payedreq = message.payment_request;
+  coneCount += payreqUserMap[payedreq].quantity;
   payreqUserMap[payedreq].socket.emit('PAID');
-  client.messages.create({
-    to: process.env.PHONE_NUMBER,
-    from: '(207) 248-8331',
-    body: `NEW ORDER`,
-  });
+  io.emit('CONE_UPDATE', { coneCount });
+  // client.messages.create({
+  //   to: process.env.PHONE_NUMBER,
+  //   from: '(207) 248-8331',
+  //   body: `NEW ORDER`,
+  // });
 });
 
 call.on('end', () => {
@@ -79,7 +82,9 @@ app.use('/dashboard', bp.json(), bp.urlencoded({ extended: false }), async (req,
 });
 
 io.on('connection', (socket) => {
+  console.log('New connect');
   socket.emit('INIT', { coneCount, cart, btcPrice });
+  console.log('INIT CALLED');
   socket.on('GENERATE_INVOICE', async (order) => {
     const btcCartTotal = parseFloat(order.cartTotal) / (await getBtcPrice());
     const timeNow = new Date();
