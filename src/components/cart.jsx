@@ -23,8 +23,8 @@ const Cart = ({ socket, handleInvoice, handlePaid, handleInit, handleConeUpdate 
     history.push('/paid');
   });
 
-  socket.on('INIT', ({ coneCount, cart }) => {
-    handleInit({ coneCount, cart });
+  socket.on('INIT', ({ coneCount, cart, btcPrice }) => {
+    handleInit({ coneCount, cart, btcPrice });
   });
 
   socket.on('CONE_UPDATE', ({ coneCount }) => {
@@ -55,8 +55,8 @@ const mapDispatchToProps = dispatch => ({
   handlePaid: () => {
     dispatch({ type: 'PAID' });
   },
-  handleInit: ({ coneCount, cart }) => {
-    dispatch({ type: 'INIT', coneCount, cart });
+  handleInit: ({ coneCount, cart, btcPrice }) => {
+    dispatch({ type: 'INIT', coneCount, cart, btcPrice });
   },
   handleConeUpdate: ({ coneCount }) => {
     dispatch({ type: 'CONE_UPDATE', coneCount });

@@ -1,11 +1,17 @@
 {
-    "extends": "airbnb",
-    "rules": {
-      "react/prop-types": 0,
-      "react/no-children-prop": 0,
-      "jsx-a11y/anchor-is-valid": 0,
-      "no-console": 0,
-      "arrow-parens": 0,
-      "no-param-reassign": 0
-    }
+  "extends": "airbnb",
+  "rules": {
+    "react/prop-types": 0,
+    "react/no-children-prop": 0,
+    "jsx-a11y/anchor-is-valid": 0,
+    "no-console": 0,
+    "arrow-parens": 0,
+    "no-param-reassign": 0,
+    "react/jsx-filename-extension": 0,
+    "max-len": 0,
+    "object-curly-newline": 0
+  },
+  "globals": {
+    "document": 0
+  }
 }

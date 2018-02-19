@@ -12,12 +12,13 @@ const initialState = {
   address: '',
   phone: '',
   invoice: '',
+  btcPrice: 0,
 };
 
 export default function (state = initialState, action) {
   switch (action.type) {
     case 'INIT': {
-      const { cart, coneCount } = action;
+      const { cart, coneCount, btcPrice } = action;
       cart.forEach((x, i) => {
         cart[i].quantity = 0;
       });
@@ -25,6 +26,7 @@ export default function (state = initialState, action) {
         ...state,
         coneCount,
         cart,
+        btcPrice,
       };
     }
     case 'ADD': {
