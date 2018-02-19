@@ -9,6 +9,7 @@ const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const client = require('twilio')(process.env.TWILIO_SID, process.env.TWILIO_AUTH_TOKEN);
 const axios = require('axios');
+const bp = require('body-parser');
 
 const {
   Order,
@@ -54,6 +55,28 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use('/dashboard/order/:orderId', async (req, res) => {
+  const data = await OrderIcecream.findAll({
+    where: {
+      order_id: req.params.orderId,
+    },
+    include: [{ model: Icecream }],
+  });
+  res.json({ data });
+});
+
+app.use('/dashboard', bp.json(), bp.urlencoded({ extended: false }), async (req, res) => {
+  if (req.body.baseball === process.env.BASEBALL) {
+    const data = await Order.findAll({
+    });
+    res.json({ success: true, data });
+  } else {
+    res.json({ success: false });
+    // ping us that there was an incorrect password attempt
+    // log and save request data
+  }
+});
+
 io.on('connection', (socket) => {
   socket.emit('INIT', { coneCount, cart });
   socket.on('GENERATE_INVOICE', async (order) => {
@@ -89,7 +112,7 @@ async function init() {
     order: [
       ['id', 'ASC'],
     ],
-  })
+  });
 }
 
 http.listen(5000, () => {

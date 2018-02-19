@@ -22,6 +22,8 @@ const OrderIcecream = db.import('./order_icecream.js');
 
 Order.hasMany(OrderIcecream);
 Icecream.hasMany(OrderIcecream);
+OrderIcecream.belongsTo(Order);
+OrderIcecream.belongsTo(Icecream);
 
 module.exports = {
   db,
