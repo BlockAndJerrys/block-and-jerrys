@@ -14,25 +14,22 @@ import {
 import {
   orange500,
 } from 'material-ui/styles/colors';
-// import {
-//   Link,
-// } from 'react-router-dom';
 
 const styles = {
   form: {
     display: 'flex',
     flexFlow: 'column nowrap',
-    alignItems: 'center',
   },
 };
 
 const InfoCart = ({ name, address, phone, handleInputChange, handleGenerate }) => (
-  <Paper zDepth={3} >
-    <form action="" style={styles.form} >
+  <Paper zDepth={3} style={styles.form}>
+    <div style={{ padding: '0 1em' }}>
       <TextField
         floatingLabelText="Name"
         name="name"
         type="text"
+        fullWidth
         value={name}
         onChange={handleInputChange}
       />
@@ -46,6 +43,7 @@ const InfoCart = ({ name, address, phone, handleInputChange, handleGenerate }) =
         rows={2}
         multiLine
         rowsMax={4}
+        fullWidth
         value={address}
         onChange={handleInputChange}
       />
@@ -53,10 +51,12 @@ const InfoCart = ({ name, address, phone, handleInputChange, handleGenerate }) =
         floatingLabelText="Phone Number"
         name="phone"
         type="number"
+        fullWidth
         value={phone}
         onChange={handleInputChange}
       />
-    </form>
+    </div>
+
     <RaisedButton
       label="Request"
       secondary

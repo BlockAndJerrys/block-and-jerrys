@@ -81,8 +81,8 @@ class qrCart extends React.Component {
               label="Gimme Real Icecream!"
               secondary
               onClick={(e) => {
-                this.setState({ open: false });
                 this.props.handleEmail(e);
+                setTimeout(() => this.setState({ open: false }), 1500);
               }}
             />,
           ]}
