@@ -70,6 +70,10 @@ io.on('connection', (socket) => {
       }
     });
   });
+  socket.on('EMAIL', async ({ email, phone }) => {
+    const foundOrder = await Order.findOne({ where: { phone } });
+    await foundOrder.update({ email });
+  });
 });
 
 async function init() {
