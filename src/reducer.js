@@ -8,6 +8,7 @@ const initialState = {
   coneCount: 'loading cones...',
   cart: [],
   cartTotal: 0,
+  quantity: 0,
   btcPrice: 0,
   name: '',
   address: '',
@@ -31,14 +32,19 @@ export default function (state = initialState, action) {
       };
     }
     case 'ADD': {
+      let conePrice;
       const newCart = state.cart.map(x => {
-        if (x.id === action.id) x.quantity += 1;
+        if (x.id === action.id) {
+          x.quantity += 1;
+          conePrice = x.price;
+        }
         return x;
       });
       return {
         ...state,
         cart: newCart,
-        cartTotal: state.cartTotal + 7,
+        cartTotal: state.cartTotal + conePrice,
+        quantity: state.quantity + 1,
       };
     }
     case 'INPUT_CHANGE': {
@@ -83,6 +89,7 @@ export default function (state = initialState, action) {
         invoice: '',
         cart: cartOrder,
         cartTotal: 0,
+        quantity: 0,
         name: '',
         address: '',
         phone: '',

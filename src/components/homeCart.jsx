@@ -15,15 +15,18 @@ const styles = {
   rightIcon: { display: 'flex', justifyContent: 'flex-end', width: '30%' },
 };
 
-const HomeCart = ({ cart, cartTotal, btcPrice }) => (
-  <Paper zDepth={3} >
-    <List>
-      {cart.map((x) => {
-        const len = x.quantity;
-        let rightIcon;
-        if (len === 0) {
+const HomeCart = ({ cart, cartTotal, btcPrice, quantity }) => {
+  const coneMsg = quantity === 1 ? '1 cone' : `${quantity} cones`;
+  const primaryText = `${coneMsg}: $${cartTotal} ~ ${(cartTotal / btcPrice).toFixed(6)} BTC`;
+  return (
+    <Paper zDepth={3} >
+      <List>
+        {cart.map((x) => {
+          const len = x.quantity;
+          let rightIcon;
+          if (len === 0) {
           rightIcon = <Sad key={Math.random()} color="red" />;
-        } else {
+          } else {
           let arr = new Array(len).fill(null);
           arr = arr.map(() => Math.random());
           rightIcon = (
@@ -31,30 +34,32 @@ const HomeCart = ({ cart, cartTotal, btcPrice }) => (
               {arr.map(j => <Happy key={j} color="green" />)}
             </div>
           );
-        }
-        return (
-          <div key={x.flavor} >
-            <ListItem disabled rightIcon={rightIcon} primaryText={`${x.flavor} x ${x.quantity}`} />
-            <Divider />
-          </div>
-        );
-        })}
-      <ListItem disabled primaryText={`$${cartTotal} ~ ${(cartTotal / btcPrice).toFixed(6)} BTC`} />
-    </List>
-    <Link to="/checkout">
-      <RaisedButton
-        label="Order"
-        secondary
-        fullWidth
-        /* disabled={cartTotal == 0} */
-      />
-    </Link>
-  </Paper>
-);
+          }
+          return (
+            <div key={x.flavor} >
+              <ListItem disabled rightIcon={rightIcon} primaryText={`${x.flavor} x ${x.quantity}`} />
+              <Divider />
+            </div>
+          );
+          })}
+        <ListItem disabled primaryText={primaryText} />
+      </List>
+      <Link to="/checkout">
+        <RaisedButton
+          label="Order"
+          secondary
+          fullWidth
+          /* disabled={cartTotal == 0} */
+        />
+      </Link>
+    </Paper>
+  );
+};
 
 const mapStateToProps = state => ({
   cartTotal: state.cartTotal,
   cart: state.cart,
+  quantity: state.quantity,
   btcPrice: state.btcPrice,
 });
 

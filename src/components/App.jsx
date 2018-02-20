@@ -34,7 +34,11 @@ import Cart from './cart';
 import Gallery from './gallery';
 
 const styles = {
-  grid: { display: 'flex', flexFlow: 'column nowrap' },
+  grid: {
+    display: 'flex',
+    flexFlow: 'column nowrap',
+    height: '100vh',
+  },
   coneCount: { backgroundColor: 'white', textAlign: 'center', padding: '0' },
 };
 
@@ -50,12 +54,7 @@ class App extends React.Component {
       });
       this.props.handleInit({ coneCount, cart, btcPrice });
     });
-    this.handleOpen = this.handleOpen.bind(this);
-    this.handleClose = this.handleClose.bind(this);
   }
-
-  handleOpen() { this.setState({ open: true }); }
-  handleClose() { this.setState({ open: false }); }
 
   render() {
     return (
@@ -73,22 +72,18 @@ class App extends React.Component {
             ConeCount: <b>{this.props.coneCount}</b>
           </Col>
         </Row>
-        <Row>
-          <Gallery />
-        </Row>
-        <Dialog open={this.state.open} onRequestClose={this.handleClose}>
-          <Cart />
-        </Dialog>
+        <Gallery />
         <RaisedButton
           label="Checkout"
           secondary
-          onClick={this.handleOpen}
+          onClick={() => this.setState({ open: true })}
         />
-        <Row>
-          <Col>
-            Use of this website constitutes your acceptance of Block And Jerry&#39;s <a href="/t-and-c">Terms & Conditions</a>.
-          </Col>
-        </Row>
+        <p>
+          Use of this website constitutes your acceptance of Block And Jerry&#39;s <a href="">Terms & Conditions</a>.
+        </p>
+        <Dialog open={this.state.open} onRequestClose={() => this.setState({ open: false })}>
+          <Cart />
+        </Dialog>
       </Grid>
     );
   }
