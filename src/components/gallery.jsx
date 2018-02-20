@@ -7,6 +7,7 @@ import {
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import Right from 'material-ui/svg-icons/hardware/keyboard-arrow-right';
+import Snackbar from 'material-ui/Snackbar';
 
 import { connect } from 'react-redux';
 
@@ -14,7 +15,6 @@ const styles = {
   gallery: {
     display: 'flex',
     flexFlow: 'row nowrap',
-    paddingTop: '1em',
     marginBottom: '1em',
     overflowX: 'auto',
     boxShadow: '3px 5px 6px black',
@@ -46,35 +46,73 @@ const styles = {
   },
 };
 
-const Gallery = ({ cart, handleAdd }) => (
-  <div style={styles.gallery}>
-    {cart.map(x => (
-      <Col key={x.id} xs={12} md={6} style={styles.col} >
-        <Image src={x.img_url} style={{}} />
-        <div style={styles.opaque}>
-          <p>{x.flavor} <br />
-            <span style={{ fontSize: '0.5em', lineHeight: '0' }}>
-              ${x.price} ~ {x.priceBtc.toFixed(6)} BTC
-            </span>
-          </p>
-          <FloatingActionButton
-            secondary
-            mini
-            onClick={() => handleAdd({ id: x.id })}
-            zDepth={0}
-            style={{ fontSize: '1rem' }}
-          >
-            <ContentAdd />
-          </FloatingActionButton>
-          { x.id < 4 && <Right color="white" style={styles.right} /> }
-        </div>
-      </Col>
-    ))}
-  </div>
-);
+// const Gallery = ({ cart, handleAdd }) => (
+class Gallery extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      open: false,
+      action: '🍦',
+    };
+    this.handleOpen = this.handleOpen.bind(this);
+    this.handleActionClick = this.handleActionClick.bind(this);
+  }
+  handleOpen({ id }) {
+    this.setState({
+      open: true,
+    });
+    this.props.handleAdd({ id });
+  }
+  handleActionClick() {
+    if (this.state.action === '🍦') this.setState({ action: '🍨' });
+    else if (this.state.action === '🍨') this.setState({ action: '⚡️' });
+    else this.setState({ action: '🍦' });
+  }
+  render() {
+    const msg = 'added to your cart!';
+    const message = this.props.quantity === 1 ? `1 cone ${msg}` : `${this.props.quantity} cones ${msg}`;
+    return (
+      <div style={styles.gallery}>
+        {this.props.cart.map(x => (
+          <Col key={x.id} xs={12} md={6} style={styles.col} >
+            <Image src={x.img_url} style={{ height: '95%' }} />
+            <div style={styles.opaque}>
+              <p>{x.flavor} <br />
+                <span style={{ fontSize: '0.5em', lineHeight: '0' }}>
+                  ${x.price} ~ {x.priceBtc.toFixed(6)} BTC
+                </span>
+              </p>
+              <FloatingActionButton
+                secondary
+                mini
+                onClick={() => {
+                  this.handleOpen({ id: x.id });
+                }}
+                zDepth={3}
+                style={{ fontSize: '1rem' }}
+              >
+                <ContentAdd />
+              </FloatingActionButton>
+              { x.id < 4 && <Right color="white" style={styles.right} /> }
+            </div>
+          </Col>
+        ))}
+        <Snackbar
+          open={this.state.open}
+          message={message}
+          autoHideDuration={4000}
+          onRequestClose={() => this.setState({ open: false })}
+          action={this.state.action}
+          onActionClick={this.handleActionClick}
+        />
+      </div>
+    );
+  }
+}
 
 const mapStateToProps = state => ({
   cart: state.cart,
+  quantity: state.quantity,
 });
 
 const mapDispatchToProps = dispatch => ({
