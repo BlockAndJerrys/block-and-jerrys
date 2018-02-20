@@ -6,7 +6,6 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import axios from 'axios';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {
   BrowserRouter as Router,
@@ -31,32 +30,19 @@ const store = createStore(reducer);
   to styled components.
 */
 
-axios.get('http://localhost:3000') // TODO: change back
-  .then(() => {
-    ReactDOM.render(
-      <Provider store={store} >
-        <Router >
-          <MuiThemeProvider>
-            <div>
-              <Route path="/" exact component={App} />
-              <Route path="/t-and-c" exact component={TAndC} />
-              <Route path="/dashboard" exact component={Dashboard} />
-            </div>
-          </MuiThemeProvider>
-        </Router>
-      </Provider>,
-      document.getElementById('root'),
-    );
-  })
-  .catch(() => {
-    ReactDOM.render(
+ReactDOM.render(
+  <Provider store={store} >
+    <Router >
       <MuiThemeProvider>
-        <div className="Error">
-          <h1 className="error_message">ERROR: Not connected to LND</h1>
+        <div>
+          <Route path="/" exact component={App} />
+          <Route path="/t-and-c" exact component={TAndC} />
+          <Route path="/dashboard" exact component={Dashboard} />
         </div>
-      </MuiThemeProvider>,
-      document.getElementById('root'),
-    );
-  });
+      </MuiThemeProvider>
+    </Router>
+  </Provider>,
+  document.getElementById('root'),
+);
 
 registerServiceWorker();
