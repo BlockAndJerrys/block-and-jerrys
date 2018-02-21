@@ -14,6 +14,7 @@ const initialState = {
   address: '',
   phone: '',
   invoice: '',
+  email: '',
 };
 
 export default function (state = initialState, action) {
@@ -78,6 +79,18 @@ export default function (state = initialState, action) {
       return {
         ...state,
         coneCount: action.coneCount,
+      };
+    case 'EMAIL':
+      state.socket.emit(
+        'EMAIL',
+        {
+          email: state.email,
+          phone: state.phone,
+        },
+      );
+      return {
+        ...state,
+        email: '',
       };
     case 'RESTART': {
       const cartOrder = state.cart.map((x) => {

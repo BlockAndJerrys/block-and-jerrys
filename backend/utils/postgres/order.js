@@ -24,6 +24,9 @@ module.exports = (db, Sequelize) => (
       type: Sequelize.STRING(1234),
       unique: true,
     },
+    email: {
+      type: Sequelize.STRING,
+    },
   }, {
     underscored: true,
   })
