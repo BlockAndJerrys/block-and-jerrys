@@ -12,6 +12,7 @@
     "object-curly-newline": 0
   },
   "globals": {
-    "document": 0
+    "document": 0,
+    "window": 0
   }
 }

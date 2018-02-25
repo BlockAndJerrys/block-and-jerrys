@@ -1,7 +1,7 @@
 import ioClient from 'socket.io-client';
 
-const url = '10.0.0.131';
-const socket = ioClient(url + ':5000');
+const host = 'http://localhost';
+const socket = ioClient(host + ':5000');
 
 const initialState = {
   socket,

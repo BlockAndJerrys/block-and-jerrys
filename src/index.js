@@ -13,6 +13,7 @@ import {
 } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
+import ReactGA from 'react-ga';
 
 import registerServiceWorker from './registerServiceWorker';
 import reducer from './reducer';
@@ -21,6 +22,9 @@ import TAndC from './components/TAndC';
 import Dashboard from './components/Dashboard';
 
 const store = createStore(reducer);
+
+ReactGA.initialize('UA-114736021-1');
+ReactGA.pageview(window.location.pathname + window.location.search);
 
 /*
   Checks to see if LND running on port 10009.
