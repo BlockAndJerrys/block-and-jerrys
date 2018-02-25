@@ -35,7 +35,7 @@ const styles = {
     bottom: '0',
     width: '100%',
     color: 'white',
-    fontSize: '3em',
+    fontSize: '2em',
     lineHeight: '1em',
   },
   right: {
@@ -75,7 +75,7 @@ class Gallery extends React.Component {
       <div style={styles.gallery}>
         {this.props.cart.map(x => (
           <Col key={x.id} xs={12} md={6} style={styles.col} >
-            <Image src={x.img_url} style={{ height: '95%' }} />
+            <Image src={x.img_url} style={{ height: '65vh' }} />
             <div style={styles.opaque}>
               <p>{x.flavor} <br />
                 <span style={{ fontSize: '0.5em', lineHeight: '0' }}>
