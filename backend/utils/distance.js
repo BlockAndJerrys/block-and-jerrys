@@ -24,14 +24,24 @@ const googleDistance = async ({ origins, destinations }) => {
   }
 };
 
-// example using googleDistance function
-const call = async () => {
-  const res = await googleDistance({
-    origins: 'Brenda\'s+French+Soul+Food',
-    destinations: 'Galvanize+-+San+Francisco+(SoMa)',
-  });
-  console.log(res);
-};
-call();
+// // example
+// const twilio = require('./twilio');
+// const call = async () => {
+//   try {
+//     const res = await googleDistance({
+//       origins: 'Brenda\'s+French+Soul+Food',
+//       destinations: 'Galvanize+-+San+Francisco+(SoMa)',
+//     });
+//     const a = await twilio.messages.create({
+//       from: process.env.TWILIO_PHONE_NUMBER,
+//       to: process.env.PHONE_NUMBER,
+//       body: `Your payment has been receieved! Your ice cream will arrive in ${res.distance.text}.`,
+//     });
+//     console.log(a);
+//   } catch (err) {
+//     console.log('error making call', err);
+//   }
+// };
+// call();
 
 module.exports = googleDistance;
