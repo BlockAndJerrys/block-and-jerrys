@@ -26,6 +26,7 @@
     "react-table": "^6.7.6",
     "react-test-renderer": "^16.2.0",
     "redux": "^3.7.2",
+    "request": "^2.83.0",
     "sequelize": "^4.33.4",
     "socket.io": "^2.0.4",
     "socket.io-client": "^2.0.4",
