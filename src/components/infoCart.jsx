@@ -58,17 +58,6 @@ const InfoCart = ({ name, address, phone, handleInputChange, handleGenerate }) =
         onChange={handleInputChange}
       />
     </div>
-    <RaisedButton
-      label="Request"
-      secondary
-      fullWidth
-      /* disabled={!(this.state.name &&
-        this.state.address &&
-        this.state.phone.length >= 10
-      )} */
-      onClick={handleGenerate}
-      style={{ marginTop: '1em' }}
-    />
   </Paper>
 );
 
