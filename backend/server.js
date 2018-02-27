@@ -13,7 +13,7 @@ const {
   Icecream,
   OrderIcecream,
 } = require('./utils/postgres');
-const lightning = require('./utils/lightning.js');
+const lightning = require('./utils/lightning');
 const getBtcPrice = require('./utils/getBtcPrice');
 const routes = require('./utils/routes');
 const twilio = require('./utils/twilio');

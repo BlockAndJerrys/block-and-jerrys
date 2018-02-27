@@ -25,6 +25,7 @@ const store = createStore(reducer);
 
 ReactGA.initialize('UA-114736021-1');
 ReactGA.pageview(window.location.pathname + window.location.search);
+console.log(process.env, 'ENV');
 
 /*
   Checks to see if LND running on port 10009.

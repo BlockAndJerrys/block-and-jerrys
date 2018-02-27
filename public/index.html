@@ -11,10 +11,11 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
           rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Patrick+Hand+SC" rel="stylesheet">
-  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAWLVWTpSEhGAWwbGS5sHxeuoo8c03F0og&libraries=places"></script>
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=%REACT_APP_GOOGLE_API_KEY%&libraries=places"></script>
 
 <!-- Start of Async Drift Code -->
 <script>
+console.log('%REACT_APP_GOOGLE_API_KEY%');
 !function() {
   var t;
   if (t = window.driftt = window.drift = window.driftt || [], !t.init) return t.invoked ? void (window.console && console.error && console.error("Drift snippet included twice.")) : (t.invoked = !0, 
