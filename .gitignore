@@ -22,4 +22,4 @@ yarn-error.log*
 
 env.sh
 
-/backend/utils/lndConnectDocs/tls.cert
+*.cert

@@ -7,7 +7,7 @@ const {
   Icecream,
   OrderIcecream,
 } = require('./postgres');
-const googleDistance = require('./distance');
+const getDistance = require('./getDistance');
 
 router.use(bp.json());
 router.use(bp.urlencoded({ extended: false }));
@@ -47,7 +47,7 @@ router.post('/twilio', async (req, res) => {
       // split[0] is the id to look up, split[1] is the address of the driver
       const split = req.body.Body.split(' - ');
       const o = await Order.findOne({ where: { id: split[0] } });
-      const d = await googleDistance({ origins: split[1], destinations: o.address });
+      const d = await getDistance({ origins: split[1], destinations: o.address });
       if (d.status === 'OK') {
         let time = parseFloat(d.duration.text); // time taken if bicycling
         time += 10;
