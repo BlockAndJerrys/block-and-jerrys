@@ -11,40 +11,42 @@ import {
   Paper,
   TextField,
 } from 'material-ui';
-import {
-  orange500,
-} from 'material-ui/styles/colors';
+// import {
+//   orange500,
+// } from 'material-ui/styles/colors';
+import PlacesAutocomplete from 'react-places-autocomplete';
 
 const styles = {
   form: {
     display: 'flex',
     flexFlow: 'column nowrap',
   },
+  autocomplete: {
+    autocompleteContainer: { zIndex: '2' },
+    input: { margin: '1.5em 0 0.5em 0', padding: '0', border: '0', borderBottom: '1px solid #f3f3f3' },
+  },
 };
 
 const InfoCart = ({ name, address, phone, handleInputChange, handleGenerate }) => (
   <Paper zDepth={3} style={styles.form}>
     <div style={{ padding: '0 1em' }}>
+      <PlacesAutocomplete
+        inputProps={{
+          value: address,
+          onChange: (x) => handleInputChange({ target: { value: x, name: 'address' } }),
+          name: 'address',
+          type: 'search',
+          placeholder: 'Address (MUST BE IN SAN FRANCISCO)',
+        }}
+        styles={styles.autocomplete}
+        highlightFirstSuggestion
+      />
       <TextField
         floatingLabelText="Name"
         name="name"
         type="text"
         fullWidth
         value={name}
-        onChange={handleInputChange}
-      />
-      <TextField
-        hintText="Delivery address must be in the city of San Francisco."
-        hintStyle={{ color: orange500 }}
-        floatingLabelStyle={{ color: orange500 }}
-        floatingLabelText="Delivery Address"
-        name="address"
-        type="text"
-        rows={2}
-        multiLine
-        rowsMax={4}
-        fullWidth
-        value={address}
         onChange={handleInputChange}
       />
       <TextField
@@ -56,7 +58,6 @@ const InfoCart = ({ name, address, phone, handleInputChange, handleGenerate }) =
         onChange={handleInputChange}
       />
     </div>
-
     <RaisedButton
       label="Request"
       secondary
