@@ -1,98 +1,47 @@
 // lightweight wrapper for google distance matrix
 
-'use strict';
+const qs = require('querystring');
+const axios = require('axios');
 
-var qs = require('querystring'),
-    request = require('request');
+const DISTANCE_API_URL = 'https://maps.googleapis.com/maps/api/distancematrix/json?';
+const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY;
 
-var DISTANCE_API_URL = 'https://maps.googleapis.com/maps/api/distancematrix/json?';
-
-var GoogleDistance = function() {
-	// todo: replace this with env var
-	this.apiKey = "AIzaSyDixoQhSDJD2UdcJpT449uAPsgTPmxspSc";
-};
-
-GoogleDistance.prototype.get = function(args, callback) {
-  var self = this;
-  var options = formatOptions.call(this, args);
-  fetchData(options, function(err, data) {
-    if (err) return callback(err);
-    formatResults(data, options, function(err, results) {
-      if (err) return callback(err);
-      return callback(null, results);
+const googleDistance = async ({ origins, destinations }) => {
+  try {
+    const query = DISTANCE_API_URL + qs.stringify({
+      origins,
+      destinations,
+      key: GOOGLE_API_KEY,
+      mode: 'bicycling',
+      units: 'imperial',
     });
-  });
-};
-
-var formatOptions = function(args) {
-  var options = {
-    index: args.index || null,
-    origins: args.origin,
-    destinations: args.destination,
-    mode: args.mode,
-    units: args.units,
-    language: args.language,
-    key: this.apiKey
-  };
-  return options;
-};
-
-var formatResults = function(data, options, callback) {
-  var formatData = function (element) {
-    return {
-      index: options.index,
-      distance: element.distance.text,
-      distanceValue: element.distance.value,
-      duration: element.duration.text,
-      durationValue: element.duration.value,
-      origin: element.origin,
-      destination: element.destination,
-      mode: options.mode,
-      units: options.units,
-      language: options.language
-    };
-  };
-
-  var requestStatus = data.status;
-  if (requestStatus != 'OK') {
-    return callback(new Error('Status error: ' + requestStatus + ': ' + data.error_message));
+    const res = await axios.get(query);
+    const data = res.data.rows[0].elements[0];
+    return data;
+  } catch (err) {
+    console.log('Error getting google distance', err);
+    throw err;
   }
-  var results = [];
-
-  for (var i = 0; i < data.origin_addresses.length; i++) {
-    for (var j = 0; j < data.destination_addresses.length; j++) {
-      var element = data.rows[i].elements[j];
-      var resultStatus = element.status;
-      if (resultStatus != 'OK') {
-        return callback(new Error('Result error: ' + resultStatus));
-      }
-      element.origin = data.origin_addresses[i];
-      element.destination = data.destination_addresses[j];
-
-      results.push(formatData(element));
-    }
-  }
-
-  if (results.length == 1 && !options.batchMode) {
-    results = results[0];
-  }
-  return callback(null, results);
 };
 
-var fetchData = function(options, callback) {
-  request(DISTANCE_API_URL + qs.stringify(options), function (err, res, body) {
-    if (!err && res.statusCode == 200) {
-      var data = JSON.parse(body);
-      callback(null, data);
-    } else {
-      callback(new Error('Request error: Could not fetch data from Google\'s servers: ' + body));
-    }
-  });
-};
+// // example
+// const twilio = require('./twilio');
+// const call = async () => {
+//   try {
+//     const res = await googleDistance({
+//       origins: 'Brenda\'s+French+Soul+Food',
+//       destinations: 'Galvanize+-+San+Francisco+(SoMa)',
+//     });
+//     const a = await twilio.messages.create({
+//       from: process.env.TWILIO_PHONE_NUMBER,
+//       to: process.env.PHONE_NUMBER,
+//       body: `Your payment has been receieved! Your ice cream will arrive in ${res.distance.text}.`,
+//     });
+//     console.log(a);
+//   } catch (err) {
+//     console.log('error making call', err);
+//   }
+// };
+// call();
 
-module.exports = new GoogleDistance();
-
-
-
-
-
+module.exports = googleDistance;

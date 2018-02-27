@@ -9,7 +9,10 @@
     "no-param-reassign": 0,
     "react/jsx-filename-extension": 0,
     "max-len": 0,
-    "object-curly-newline": 0
+    "object-curly-newline": 0,
+    "prefer-destructuring": 0,
+    "space-before-function-paren": 0,
+    "prefer-template": 0
   },
   "globals": {
     "document": 0
