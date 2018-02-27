@@ -17,9 +17,11 @@ const initialState = {
   phone: '',
   invoice: '',
   email: '',
+  open: false,
 };
 
 export default function (state = initialState, action) {
+  console.log(action, state);
   switch (action.type) {
     case 'INIT': {
       const { cart, coneCount, btcPrice } = action;
@@ -34,11 +36,21 @@ export default function (state = initialState, action) {
         btcPrice,
       };
     }
+    case 'OPEN': {
+      return {
+        ...state,
+        open: !state.open,
+      };
+    }
     case 'ADD': {
       let conePrice;
       const newCart = state.cart.map(x => {
         if (x.id === action.id) {
-          x.quantity += 1;
+          if (action.quantity) {
+            x.quantity = action.quantity;
+          } else {
+            x.quantity += 1;
+          }
           conePrice = x.price;
         }
         return x;

@@ -1,20 +1,3 @@
-/*
-   App.js - Main Component
-   2018 Robert Durst
-   https://github.com/robertDurst/blockandjerrys
-
-   The structure of the this view is as follows:
-
-    TOP LEFT: "Powered by LND."
-    TOP RIGHT: Cone counter.
-    HEADER: Block and Jerry's logo.
-    CART: Varies by state.
-      1. browseCart: shopping state, displays current cart
-      2. checkoutCart: checkout state, displays invoice
-      3. paidCart: paid state, displays paid confirmation and restart button
-    BODY: Displays the ice cream selection.
-*/
-
 import React from 'react';
 import {
   Grid,
@@ -57,6 +40,7 @@ class App extends React.Component {
   }
 
   render() {
+    console.log(this.props);
     return (
       <Grid style={styles.grid}>
         <Row>
@@ -76,12 +60,12 @@ class App extends React.Component {
         <RaisedButton
           label="Checkout"
           secondary
-          onClick={() => this.setState({ open: true })}
+          onClick={this.props.handleOpenClose}
         />
         <p>
           Use of this website constitutes your acceptance of Block And Jerry&#39;s <a href="">Terms & Conditions</a>.
         </p>
-        <Dialog open={this.state.open} onRequestClose={() => this.setState({ open: false })}>
+        <Dialog open={this.props.open} onRequestClose={this.props.handleOpenClose}>
           <Cart />
         </Dialog>
       </Grid>
@@ -93,6 +77,7 @@ const mapStateToProps = state => ({
   socket: state.socket,
   coneCount: state.coneCount,
   cart: state.cart,
+  open: state.open,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -101,6 +86,10 @@ const mapDispatchToProps = dispatch => ({
   },
   handleInit: ({ coneCount, cart, btcPrice }) => {
     dispatch({ type: 'INIT', coneCount, cart, btcPrice });
+  },
+  handleOpenClose: () => {
+    console.log("HERE");
+    dispatch({ type: 'OPEN' });
   },
 });
 
