@@ -19,20 +19,13 @@ const styles = {
     display: 'flex',
     flexFlow: 'column nowrap',
   },
-  autocomplete: {
-    autocompleteContainer: { zIndex: '2' },
-    input: { margin: '1.5em 0 0.5em 0', padding: '0', border: '0', borderBottom: '1px solid #f3f3f3' },
-  },
 };
 
 const orderCart = ({ cart, currency, handleAdd, handleSubtract }) => {
   return (
     <Paper zDepth={0} style={styles.form}>
       <Table selectable={false} >
-        <TableHeader
-          displaySelectAll={false}
-          adjustForCheckbox={false}
-        >
+        <TableHeader displaySelectAll={false} adjustForCheckbox={false} >
           <TableRow>
             <TableHeaderColumn>Flavor</TableHeaderColumn>
             <TableHeaderColumn style={{ textAlign: 'center' }}>Quantity</TableHeaderColumn>
@@ -45,25 +38,21 @@ const orderCart = ({ cart, currency, handleAdd, handleSubtract }) => {
               const price = currency === 'BTC' ? ((item.quantity * item.priceBtc).toFixed(6)) + ' BTC' : '$' + ((item.quantity * item.price).toFixed(2));
               return (
                 <TableRow key={item.id} >
-                  <TableRowColumn>
-                    <Avatar
-                      src={item.img_url}
-                      size={30}
-                      style={{ marginRight: '5px' }}
-                    />
-                    {item.flavor}
+                  <TableRowColumn style={{ textAlign: 'left' }}>
+                    <Avatar src={item.img_logo} size={30} style={{ marginRight: '5px' }} />
+                    <span className="mobile-hide">{item.flavor}</span>
                   </TableRowColumn>
                   <TableRowColumn style={{ textAlign: 'center' }}>
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
-                      <span style={{ cursor: 'pointer' }} onClick={() => handleSubtract(item.id) }><ChevronLeftIcon /></span>
-                      <span style={{ fontSize: '16px', marginLeft: '10px', marginRight: '10px'}}>{item.quantity}</span>
-                      <span style={{ cursor: 'pointer' }} onClick={() => handleAdd(item.id) }><ChevronRightIcon /></span>
+                      <span style={{ cursor: 'pointer' }} onClick={() => handleSubtract({ id: item.id })}><ChevronLeftIcon /></span>
+                      <span style={{ fontSize: '16px', marginLeft: '5px', marginRight: '5px' }}>{item.quantity}</span>
+                      <span style={{ cursor: 'pointer' }} onClick={() => handleAdd({ id: item.id })}><ChevronRightIcon /></span>
                     </div>
                   </TableRowColumn>
-                  <TableRowColumn style={{ textAlign: 'right' }}>{price}</TableRowColumn>
+                  <TableRowColumn style={{ textAlign: 'right', padding: 0 }}>{price}</TableRowColumn>
                 </TableRow>
-            );
-          })
+              );
+            })
           }
         </TableBody>
       </Table>
@@ -72,17 +61,15 @@ const orderCart = ({ cart, currency, handleAdd, handleSubtract }) => {
 };
 
 const mapStateToProps = state => ({
-  cartTotal: state.cartTotal,
   cart: state.cart,
   quantity: state.quantity,
-  btcPrice: state.btcPrice,
 });
 
 const mapDispatchToProps = dispatch => ({
-  handleAdd: (id) => {
+  handleAdd: ({ id }) => {
     dispatch({ type: 'ADD', id });
   },
-  handleSubtract: (id) => {
+  handleSubtract: ({ id }) => {
     dispatch({ type: 'SUBTRACT', id });
   },
 });

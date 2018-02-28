@@ -64,23 +64,24 @@ export default function (state = initialState, action) {
     }
 
     case 'SUBTRACT': {
-      let conePrice;
+      let newQuant = state.quantity;
+      let newTotal = state.cartTotal;
       const newCart = state.cart.map(x => {
         if (x.id === action.id) {
-          if (action.quantity) {
-            x.quantity = action.quantity;
-          } else {
+          if (action.quantity) x.quantity = action.quantity;
+          else if (x.quantity > 0) {
             x.quantity -= 1;
+            newQuant -= 1;
+            newTotal -= x.price;
           }
-          conePrice = x.price;
         }
         return x;
       });
       return {
         ...state,
         cart: newCart,
-        cartTotal: state.cartTotal + conePrice,
-        quantity: state.quantity - 1,
+        cartTotal: newTotal,
+        quantity: newQuant,
       };
     }
 
@@ -94,7 +95,7 @@ export default function (state = initialState, action) {
       };
     }
     case 'GENERATE_INVOICE':
-      console.log("GEnerating an invoice");
+      console.log('Generating an invoice');
       state.socket.emit(
         'GENERATE_INVOICE',
         {
