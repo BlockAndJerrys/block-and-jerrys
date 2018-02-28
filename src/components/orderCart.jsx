@@ -28,9 +28,7 @@ const styles = {
 const orderCart = ({ cart, currency, handleAdd, handleSubtract }) => {
   return (
     <Paper zDepth={0} style={styles.form}>
-      <Table
-        selectable={false}
-      >
+      <Table selectable={false} >
         <TableHeader
           displaySelectAll={false}
           adjustForCheckbox={false}
@@ -41,14 +39,12 @@ const orderCart = ({ cart, currency, handleAdd, handleSubtract }) => {
             <TableHeaderColumn style={{ textAlign: 'right' }}>Total</TableHeaderColumn>
           </TableRow>
         </TableHeader>
-        <TableBody
-          displayRowCheckbox={false}
-        >
+        <TableBody displayRowCheckbox={false} >
           {
             cart.map(item => {
-              const price = currency === 'BTC' ? ((item.quantity * item.priceBtc).toFixed(6))+ ' BTC' : '$'+((item.quantity * item.price).toFixed(2))
+              const price = currency === 'BTC' ? ((item.quantity * item.priceBtc).toFixed(6)) + ' BTC' : '$' + ((item.quantity * item.price).toFixed(2));
               return (
-                <TableRow>
+                <TableRow key={item.id} >
                   <TableRowColumn>
                     <Avatar
                       src={item.img_url}
@@ -63,7 +59,6 @@ const orderCart = ({ cart, currency, handleAdd, handleSubtract }) => {
                       <span style={{ fontSize: '16px', marginLeft: '10px', marginRight: '10px'}}>{item.quantity}</span>
                       <span style={{ cursor: 'pointer' }} onClick={() => handleAdd(item.id) }><ChevronRightIcon /></span>
                     </div>
-
                   </TableRowColumn>
                   <TableRowColumn style={{ textAlign: 'right' }}>{price}</TableRowColumn>
                 </TableRow>

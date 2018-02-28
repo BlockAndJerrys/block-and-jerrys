@@ -7,7 +7,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import {
-  RaisedButton,
+  // RaisedButton,
   Paper,
   TextField,
 } from 'material-ui';
@@ -68,9 +68,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  handleGenerate: () => {
-    dispatch({ type: 'GENERATE_INVOICE' });
-  },
   handleInputChange: (event) => {
     dispatch({ type: 'INPUT_CHANGE', event });
   },

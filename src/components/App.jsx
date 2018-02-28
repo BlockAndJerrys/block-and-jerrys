@@ -18,8 +18,7 @@ import Gallery from './gallery';
 import coneImg from '../assets/ice-cream-cone.png';
 
 const styles = {
-  coneCount: { marginTop: '10px' }
-
+  coneCount: { marginTop: '10px' },
 };
 
 class App extends React.Component {
@@ -50,7 +49,7 @@ class App extends React.Component {
             <Image responsive rounded src={logo} alt="LND logo" style={{ paddingTop: '0.5em' }} />
           </Col>
           <Col xsOffset={0} xs={3} md={2} mdOffset={1} style={styles.coneCount}>
-            <img src={coneImg} style={{ width: '33px' }}/>
+            <img alt="Cute Cone" src={coneImg} style={{ width: '33px' }} />
             <span style={{ fontSize: '16px', color: 'white' }}>Cones sold: <b>{this.props.coneCount}</b></span>
           </Col>
         </Row>
@@ -63,7 +62,7 @@ class App extends React.Component {
             style={{ marginRight: '10px' }}
             onClick={this.props.handleOpenClose}
           />
-          <span style={{ fontSize: '17px' }}> Spend: {this.props.cartTotal} BTC</span>
+          <span style={{ fontSize: '17px' }}> Cart Total: ${this.props.cartTotal}</span>
           <RaisedButton
             label="Clear Cart"
             default
@@ -72,7 +71,7 @@ class App extends React.Component {
           />
         </div>
         <p>
-          Use of this website constitutes your acceptance of Block And Jerry&#39;s <a href="">Terms & Conditions</a>.
+          Use of this website constitutes your acceptance of Block And Jerry&#39;s <a href="/t-and-c">Terms & Conditions</a>.
         </p>
         <Dialog open={this.props.open} onRequestClose={this.props.handleOpenClose}>
           <Cart />

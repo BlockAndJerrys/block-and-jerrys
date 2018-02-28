@@ -21,7 +21,6 @@ const initialState = {
 };
 
 export default function (state = initialState, action) {
-  console.log(action, state);
   switch (action.type) {
     case 'INIT': {
       const { cart, coneCount, btcPrice } = action;
@@ -95,6 +94,7 @@ export default function (state = initialState, action) {
       };
     }
     case 'GENERATE_INVOICE':
+      console.log("GEnerating an invoice");
       state.socket.emit(
         'GENERATE_INVOICE',
         {
@@ -143,6 +143,7 @@ export default function (state = initialState, action) {
         name: '',
         address: '',
         phone: '',
+        open: false,
       };
     }
 
