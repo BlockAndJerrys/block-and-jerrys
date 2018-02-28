@@ -1,26 +1,17 @@
 module.exports = [
   {
     id: 1,
-    img_url: 'https://imgur.com/3ANZiYa.png',
-    flavor: 'Ethereum Split',
-    // price: 0.000012,
+    img_url: 'https://s9.postimg.org/omo4h8agf/Doge_Food_Pint.png',
+    flavor: 'Doge Food',
   },
   {
     id: 2,
-    img_url: 'https://i.imgur.com/hVb71IB.png',
-    flavor: 'Chunky Blocky',
-    // price: 0.000020,
+    img_url: 'https://s9.postimg.org/mi3rg5o9b/Vitalik_Garcia_Pint.png',
+    flavor: 'Vitalik Garcia',
   },
   {
     id: 3,
-    img_url: 'https://imgur.com/M0AFAjA.png',
-    flavor: 'Doge Food',
-    // price: 0.000018,
-  },
-  {
-    id: 4,
-    img_url: 'https://imgur.com/EsTI5i6.png',
-    flavor: "S'more Privacy",
-    // price: 0.000031,
+    img_url: 'https://s9.postimg.org/nkdxyozcv/Segwit2x_Pint.png',
+    flavor: 'Segwit2x',
   },
 ];
