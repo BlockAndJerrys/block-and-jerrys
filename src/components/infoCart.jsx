@@ -27,7 +27,7 @@ const styles = {
   },
 };
 
-const InfoCart = ({ name, address, phone, handleInputChange, handleGenerate }) => (
+const InfoCart = ({ name, address, phone, handleInputChange }) => (
   <Paper zDepth={0} style={styles.form}>
     <div style={{ padding: '0 1em' }}>
       <PlacesAutocomplete

@@ -42,26 +42,18 @@ class HomeCart extends React.Component {
       case 0:
         return <OrderCart currency={this.state.currency} />;
       case 1:
-        return (
-          <InfoCart />
-        );
+        return <InfoCart />;
       case 2:
-        return (
-          <QrCart />
-        );
+        return <QrCart />;
       default:
         return 'You\'re a long way from home sonny jim!';
     }
   }
 
   handleNext() {
-     const {stepIndex} = this.state;
-    if (stepIndex < 1) {
-      this.setState({stepIndex: stepIndex + 1});
-    }
-    if (stepIndex === 1) {
-      this.props.handleGenerate();
-    }
+    const { stepIndex } = this.state;
+    if (stepIndex < 1) this.setState({ stepIndex: stepIndex + 1 });
+    if (stepIndex === 1) this.props.handleGenerate();
   }
 
   handlePrev() {
@@ -118,7 +110,7 @@ class HomeCart extends React.Component {
               style={{ marginRight: 12 }}
             />
             <RaisedButton
-              label="Next"
+              label={stepIndex === 1 ? 'Checkout' : 'Next'}
               disabled={stepIndex === 2 || ((!this.props.name || !this.props.address || !this.props.phone) && stepIndex === 1)}
               primary
               onClick={this.handleNext}
@@ -144,9 +136,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   handleGenerate: () => {
     dispatch({ type: 'GENERATE_INVOICE' });
-  },
-  handleAdd: ({ id, quantity }) => {
-    dispatch({ type: 'ADD', id, quantity });
   },
   handleOpenClose: () => {
     dispatch({ type: 'OPEN' });

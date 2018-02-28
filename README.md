@@ -1,6 +1,6 @@
 # Block and Jerry's
 
-*LAUNCHING SOON:* Block and Jerry's is coming to the Bitcoin Mainnet.
+*LAUNCHING SOON:* Block and Jerry's is coming to the Bitcoin mainnet March 3rd.
 
 ## Background
 Motivated by [Starblocks](https://starblocks.acinq.co/#/), I wanted to offer the world a dessert to compliment their Testnet coffee. Using Lighting Lab's [LND](https://github.com/lightningnetwork/lnd) as my gateway to the Lightning Network, I built a React front end to generate invoices for ice cream on top of my LND node.
