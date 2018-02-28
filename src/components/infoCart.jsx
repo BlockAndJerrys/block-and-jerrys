@@ -7,7 +7,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import {
-  RaisedButton,
+  // RaisedButton,
   Paper,
   TextField,
 } from 'material-ui';
@@ -28,7 +28,7 @@ const styles = {
 };
 
 const InfoCart = ({ name, address, phone, handleInputChange, handleGenerate }) => (
-  <Paper zDepth={3} style={styles.form}>
+  <Paper zDepth={0} style={styles.form}>
     <div style={{ padding: '0 1em' }}>
       <PlacesAutocomplete
         inputProps={{
