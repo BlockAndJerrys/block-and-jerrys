@@ -6,7 +6,6 @@ import {
 
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
-import Right from 'material-ui/svg-icons/hardware/keyboard-arrow-right';
 import Snackbar from 'material-ui/Snackbar';
 
 import { connect } from 'react-redux';
@@ -22,7 +21,7 @@ const styles = {
     flexFlow: 'column nowrap',
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: '15px'
+    marginTop: '15px',
   },
   opaque: {
     display: 'flex',
