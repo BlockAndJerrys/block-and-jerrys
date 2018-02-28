@@ -55,9 +55,12 @@ class HomeCart extends React.Component {
   }
 
   handleNext() {
-    const { stepIndex } = this.state;
-    if (stepIndex < 2) {
-      this.setState({ stepIndex: stepIndex + 1 });
+     const {stepIndex} = this.state;
+    if (stepIndex < 1) {
+      this.setState({stepIndex: stepIndex + 1});
+    }
+    if (stepIndex === 1) {
+      this.props.handleGenerate();
     }
   }
 
@@ -139,6 +142,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
+  handleGenerate: () => {
+    dispatch({ type: 'GENERATE_INVOICE' });
+  },
   handleAdd: ({ id, quantity }) => {
     dispatch({ type: 'ADD', id, quantity });
   },
