@@ -103,6 +103,9 @@ const mapDispatchToProps = dispatch => ({
   handleOpenClose: () => {
     dispatch({ type: 'OPEN' });
   },
+  handleClearCart: () => {
+    dispatch({ type: 'HANDLE_CLEAR_CART' });
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

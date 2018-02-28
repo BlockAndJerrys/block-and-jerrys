@@ -145,6 +145,19 @@ export default function (state = initialState, action) {
         phone: '',
       };
     }
+
+    case 'HANDLE_CLEAR_CART': {
+      const newCartOrder = state.cart.map((x) => {
+        x.quantity = 0;
+        return x;
+      });
+      return {
+        ...state,
+        cart: newCartOrder,
+        cartTotal: 0,
+        quantity: 0,
+      };
+    }
     default:
       return state;
   }

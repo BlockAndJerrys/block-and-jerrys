@@ -26,7 +26,6 @@ const styles = {
 };
 
 const orderCart = ({ cart, currency, handleAdd, handleSubtract }) => {
-
   return (
     <Paper zDepth={0} style={styles.form}>
       <Table
