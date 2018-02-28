@@ -148,6 +148,9 @@ const mapDispatchToProps = dispatch => ({
   handleAdd: ({ id, quantity }) => {
     dispatch({ type: 'ADD', id, quantity });
   },
+  handleSubtract: ({ id }) => {
+    dispatch({ type: 'SUBTRACT', id });
+  },
   handleOpenClose: () => {
     dispatch({ type: 'OPEN' });
   },

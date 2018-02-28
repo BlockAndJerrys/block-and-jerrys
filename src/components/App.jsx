@@ -93,12 +93,17 @@ const mapDispatchToProps = dispatch => ({
   handleAdd: ({ id }) => {
     dispatch({ type: 'ADD', id });
   },
+  handleSubtract: ({ id }) => {
+    dispatch({ type: 'SUBTRACT', id });
+  },
   handleInit: ({ coneCount, cart, btcPrice }) => {
     dispatch({ type: 'INIT', coneCount, cart, btcPrice });
   },
   handleOpenClose: () => {
-    console.log("HERE");
     dispatch({ type: 'OPEN' });
+  },
+  handleClearCart: () => {
+    dispatch({ type: 'HANDLE_CLEAR_CART' });
   },
 });
 
