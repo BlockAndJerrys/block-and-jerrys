@@ -31,9 +31,7 @@ const orderCart = ({ cart, currency, handleAdd }) => {
   };
   return (
     <Paper zDepth={0} style={styles.form}>
-      <Table
-        selectable={false}
-      >
+      <Table selectable={false} >
         <TableHeader
           displaySelectAll={false}
           adjustForCheckbox={false}
@@ -44,14 +42,12 @@ const orderCart = ({ cart, currency, handleAdd }) => {
             <TableHeaderColumn style={{ textAlign: 'right' }}>Total</TableHeaderColumn>
           </TableRow>
         </TableHeader>
-        <TableBody
-          displayRowCheckbox={false}
-        >
+        <TableBody displayRowCheckbox={false} >
           {
             cart.map(item => {
-              const price = currency === 'BTC' ? ((item.quantity * item.priceBtc).toFixed(6))+ ' BTC' : '$'+((item.quantity * item.price).toFixed(2))
+              const price = currency === 'BTC' ? ((item.quantity * item.priceBtc).toFixed(6)) + ' BTC' : '$' + ((item.quantity * item.price).toFixed(2));
               return (
-                <TableRow>
+                <TableRow key={item.id} >
                   <TableRowColumn>
                     <Avatar
                       src={item.img_url}
@@ -65,7 +61,8 @@ const orderCart = ({ cart, currency, handleAdd }) => {
                       value={item.quantity}
                       type="number"
                       style={{ textAlign: 'center' }}
-                      onChange={ this.handleQuantityChange.bind(this, item) }/>
+                      onChange={this.handleQuantityChange.bind(this, item)}
+                    />
                   </TableRowColumn>
                   <TableRowColumn style={{ textAlign: 'right' }}>{price}</TableRowColumn>
                 </TableRow>
