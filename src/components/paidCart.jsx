@@ -12,7 +12,7 @@ import { connect } from 'react-redux';
 import history from '../history';
 
 const PaidCart = ({ handleRestart }) => (
-  <Paper zDepth={3} >
+  <Paper zDepth={0} >
     <p>Thank you come again!</p>
     <RaisedButton
       label="Restart"

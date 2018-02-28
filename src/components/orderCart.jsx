@@ -11,6 +11,8 @@ import {
   TableRowColumn,
   TableBody,
 } from 'material-ui';
+import ChevronLeftIcon from 'material-ui/svg-icons/navigation/chevron-left';
+import ChevronRightIcon from 'material-ui/svg-icons/navigation/chevron-right';
 
 const styles = {
   form: {
@@ -23,17 +25,10 @@ const styles = {
   },
 };
 
-const orderCart = ({ cart, currency, handleAdd }) => {
-  this.handleQuantityChange = (item, e) => {
-    if (e.target.value > -1) {
-      handleAdd({ id: item.id, quantity: e.target.value });
-    }
-  };
+const orderCart = ({ cart, currency, handleAdd, handleSubtract }) => {
   return (
-    <Paper zDepth={3} style={styles.form}>
-      <Table
-        selectable={false}
-      >
+    <Paper zDepth={0} style={styles.form}>
+      <Table selectable={false} >
         <TableHeader
           displaySelectAll={false}
           adjustForCheckbox={false}
@@ -44,14 +39,12 @@ const orderCart = ({ cart, currency, handleAdd }) => {
             <TableHeaderColumn style={{ textAlign: 'right' }}>Total</TableHeaderColumn>
           </TableRow>
         </TableHeader>
-        <TableBody
-          displayRowCheckbox={false}
-        >
+        <TableBody displayRowCheckbox={false} >
           {
             cart.map(item => {
-              const price = currency === 'BTC' ? ((item.quantity * item.priceBtc).toFixed(6))+ ' BTC' : '$'+((item.quantity * item.price).toFixed(2))
+              const price = currency === 'BTC' ? ((item.quantity * item.priceBtc).toFixed(6)) + ' BTC' : '$' + ((item.quantity * item.price).toFixed(2));
               return (
-                <TableRow>
+                <TableRow key={item.id} >
                   <TableRowColumn>
                     <Avatar
                       src={item.img_url}
@@ -61,11 +54,11 @@ const orderCart = ({ cart, currency, handleAdd }) => {
                     {item.flavor}
                   </TableRowColumn>
                   <TableRowColumn style={{ textAlign: 'center' }}>
-                    <input
-                      value={item.quantity}
-                      type="number"
-                      style={{ textAlign: 'center' }}
-                      onChange={ this.handleQuantityChange.bind(this, item) }/>
+                    <div style={{ display: 'flex', justifyContent: 'center' }}>
+                      <span style={{ cursor: 'pointer' }} onClick={() => handleSubtract(item.id) }><ChevronLeftIcon /></span>
+                      <span style={{ fontSize: '16px', marginLeft: '10px', marginRight: '10px'}}>{item.quantity}</span>
+                      <span style={{ cursor: 'pointer' }} onClick={() => handleAdd(item.id) }><ChevronRightIcon /></span>
+                    </div>
                   </TableRowColumn>
                   <TableRowColumn style={{ textAlign: 'right' }}>{price}</TableRowColumn>
                 </TableRow>
@@ -86,8 +79,11 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  handleAdd: ({ id, quantity }) => {
-    dispatch({ type: 'ADD', id, quantity });
+  handleAdd: (id) => {
+    dispatch({ type: 'ADD', id });
+  },
+  handleSubtract: (id) => {
+    dispatch({ type: 'SUBTRACT', id });
   },
 });
 
