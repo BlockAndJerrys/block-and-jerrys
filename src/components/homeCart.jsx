@@ -149,7 +149,7 @@ class HomeCart extends React.Component {
             />
             <RaisedButton
               label="Next"
-              disabled={stepIndex === 2 || ((!this.props.name || !this.props.address || !this.props.phone) && stepIndex === 1 )}
+              disabled={stepIndex === 2}
               primary={true}
               onClick={this.handleNext}
             />
