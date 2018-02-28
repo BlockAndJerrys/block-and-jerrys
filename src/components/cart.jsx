@@ -14,6 +14,7 @@ import history from '../history';
 
 const Cart = ({ socket, handleInvoice, handleConeUpdate }) => {
   socket.on('INVOICE', ({ invoice }) => {
+    console.log("HERE");
     handleInvoice({ invoice });
     history.push('/qr');
   });

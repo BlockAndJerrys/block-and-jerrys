@@ -68,9 +68,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  handleGenerate: () => {
-    dispatch({ type: 'GENERATE_INVOICE' });
-  },
   handleInputChange: (event) => {
     dispatch({ type: 'INPUT_CHANGE', event });
   },
