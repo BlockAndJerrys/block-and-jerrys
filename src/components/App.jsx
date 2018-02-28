@@ -63,7 +63,7 @@ class App extends React.Component {
             style={{ marginRight: '10px' }}
             onClick={this.props.handleOpenClose}
           />
-          <span style={{ fontSize: '17px' }}> Spend: {this.props.cartTotal} BTC</span>
+          <span style={{ fontSize: '17px' }}> Cart Total: ${this.props.cartTotal}</span>
           <RaisedButton
             label="Clear Cart"
             default
