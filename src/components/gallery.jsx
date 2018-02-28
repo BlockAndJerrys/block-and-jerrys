@@ -49,10 +49,8 @@ class Gallery extends React.Component {
     super(props);
     this.state = {
       open: false,
-      action: '🍦',
     };
     this.handleOpen = this.handleOpen.bind(this);
-    this.handleActionClick = this.handleActionClick.bind(this);
   }
   handleOpen({ id }) {
     this.setState({
@@ -60,12 +58,8 @@ class Gallery extends React.Component {
     });
     this.props.handleAdd({ id });
   }
-  handleActionClick() {
-    if (this.state.action === '🍦') this.setState({ action: '🍨' });
-    else if (this.state.action === '🍨') this.setState({ action: '⚡️' });
-    else this.setState({ action: '🍦' });
-  }
   render() {
+    const action = this.props.quantity % 3 === 0 ? '🍦' : this.props.quantity % 3 === 1 ? '🍨' : '⚡️';
     const msg = 'added to your cart!';
     const message = this.props.quantity === 1 ? `1 cone ${msg}` : `${this.props.quantity} cones ${msg}`;
     return (
@@ -90,7 +84,6 @@ class Gallery extends React.Component {
               >
                 <ContentAdd />
               </FloatingActionButton>
-
             </div>
           </Col>
         ))}
@@ -99,9 +92,9 @@ class Gallery extends React.Component {
           message={message}
           autoHideDuration={4000}
           onRequestClose={() => this.setState({ open: false })}
-          action={this.state.action}
+          action={action}
           onActionClick={this.handleActionClick}
-          style={{ left: '20%' }}
+          style={{}}
         />
       </div>
     );

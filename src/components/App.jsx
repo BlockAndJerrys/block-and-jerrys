@@ -48,9 +48,9 @@ class App extends React.Component {
           <Col xs={6} xsOffset={1} mdOffset={2} >
             <Image responsive rounded src={logo} alt="LND logo" style={{ paddingTop: '0.5em' }} />
           </Col>
-          <Col xsOffset={0} xs={3} md={2} mdOffset={1} style={styles.coneCount}>
-            <img alt="Cute Cone" src={coneImg} style={{ width: '33px' }} />
-            <span style={{ fontSize: '16px', color: 'white' }}>Cones sold: <b>{this.props.coneCount}</b></span>
+          <Col xsOffset={0} xs={3} md={2} mdOffset={2} style={styles.coneCount}>
+            <img alt="Cute Cone" src={coneImg} style={{ width: '32px' }} />
+            <span style={{ fontSize: '16px', color: 'white' }}>{this.props.coneCount}</span>
           </Col>
         </Row>
         <Gallery />

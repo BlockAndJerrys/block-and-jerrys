@@ -1,6 +1,6 @@
 import ioClient from 'socket.io-client';
 
-let url = 'localhost';
+let url = '10.0.0.131';
 url += ':5000';
 const socket = ioClient(url);
 console.log('Connected to socket at', url);
