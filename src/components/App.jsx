@@ -41,16 +41,16 @@ class App extends React.Component {
       <Grid style={styles.grid}>
         <Row>
           <Col xs={2} md={1} style={{ backgroundColor: 'white' }}>
-            <a href="http://dev.lightning.community/" target="_blank" rel="noopener noreferrer">
+            <a href="/about-us" >
               <Image responsive rounded src="https://github.com/lightningnetwork/lnd/raw/master/logo.png" alt="LND logo" />
             </a>
           </Col>
           <Col xs={6} xsOffset={1} mdOffset={2} >
             <Image responsive rounded src={logo} alt="LND logo" style={{ paddingTop: '0.5em' }} />
           </Col>
-          <Col xsOffset={0} xs={3} md={2} mdOffset={2} style={styles.coneCount}>
-            <img alt="Cute Cone" src={coneImg} style={{ width: '32px' }} />
-            <span style={{ fontSize: '16px', color: 'white' }}>{this.props.coneCount}</span>
+          <Col xsOffset={0} xs={3} md={2} mdOffset={1} style={styles.coneCount}>
+            <span style={{ fontSize: '16px', color: 'white' }}><b>{this.props.coneCount}</b></span>
+            <img alt="Cute Cone" src={coneImg} style={{ width: '33px' }} />
           </Col>
         </Row>
         <Gallery />
