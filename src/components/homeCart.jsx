@@ -137,7 +137,7 @@ class HomeCart extends React.Component {
         </Stepper>
         <div style={contentStyle}>
           <p>{this.getStepContent(stepIndex)}</p>
-          <div style={{marginTop: 12}}>
+          <div style={{marginTop: '35px'}}>
             <FlatButton
               label="Back"
               disabled={stepIndex === 0 || stepIndex === 2}

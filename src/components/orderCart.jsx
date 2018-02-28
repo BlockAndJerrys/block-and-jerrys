@@ -30,7 +30,7 @@ const orderCart = ({ cart, currency, handleAdd }) => {
     }
   };
   return (
-    <Paper zDepth={3} style={styles.form}>
+    <Paper zDepth={0} style={styles.form}>
       <Table
         selectable={false}
       >
