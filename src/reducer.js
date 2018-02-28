@@ -41,6 +41,7 @@ export default function (state = initialState, action) {
         open: !state.open,
       };
     }
+
     case 'ADD': {
       let conePrice;
       const newCart = state.cart.map(x => {
@@ -61,6 +62,29 @@ export default function (state = initialState, action) {
         quantity: state.quantity + 1,
       };
     }
+
+    case 'SUBTRACT': {
+      let newQuant = state.quantity;
+      let newTotal = state.cartTotal;
+      const newCart = state.cart.map(x => {
+        if (x.id === action.id) {
+          if (action.quantity) x.quantity = action.quantity;
+          else if (x.quantity > 0) {
+            x.quantity -= 1;
+            newQuant -= 1;
+            newTotal -= x.price;
+          }
+        }
+        return x;
+      });
+      return {
+        ...state,
+        cart: newCart,
+        cartTotal: newTotal,
+        quantity: newQuant,
+      };
+    }
+
     case 'INPUT_CHANGE': {
       const { target } = action.event;
       const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -71,7 +95,7 @@ export default function (state = initialState, action) {
       };
     }
     case 'GENERATE_INVOICE':
-      console.log("GEnerating an invoice");
+      console.log('Generating an invoice');
       state.socket.emit(
         'GENERATE_INVOICE',
         {
@@ -121,6 +145,19 @@ export default function (state = initialState, action) {
         address: '',
         phone: '',
         open: false,
+      };
+    }
+
+    case 'HANDLE_CLEAR_CART': {
+      const newCartOrder = state.cart.map((x) => {
+        x.quantity = 0;
+        return x;
+      });
+      return {
+        ...state,
+        cart: newCartOrder,
+        cartTotal: 0,
+        quantity: 0,
       };
     }
     default:

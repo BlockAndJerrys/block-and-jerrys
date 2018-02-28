@@ -17,6 +17,9 @@ module.exports = (db, Sequelize) => (
     img_url: {
       type: Sequelize.STRING,
     },
+    img_logo: {
+      type: Sequelize.STRING,
+    },
     description: {
       type: Sequelize.STRING(1234),
       defaultValue: '',

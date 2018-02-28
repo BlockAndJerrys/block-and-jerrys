@@ -86,17 +86,17 @@ class HomeCart extends React.Component {
         <Stepper activeStep={stepIndex} connector={<ArrowForwardIcon />}>
           <Step>
             <StepLabel>
-              Confirm Order
+              <span className="mobile-hide">Confirm Order</span>
             </StepLabel>
           </Step>
           <Step>
             <StepLabel>
-              Enter Delivery Info
+              <span className="mobile-hide">Enter Delivery Info</span>
             </StepLabel>
           </Step>
           <Step>
             <StepLabel>
-              Pay with Bitcoin
+              <span className="mobile-hide">Pay with Bitcoin</span>
             </StepLabel>
           </Step>
         </Stepper>
@@ -136,6 +136,12 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   handleGenerate: () => {
     dispatch({ type: 'GENERATE_INVOICE' });
+  },
+  handleAdd: ({ id, quantity }) => {
+    dispatch({ type: 'ADD', id, quantity });
+  },
+  handleSubtract: ({ id }) => {
+    dispatch({ type: 'SUBTRACT', id });
   },
   handleOpenClose: () => {
     dispatch({ type: 'OPEN' });

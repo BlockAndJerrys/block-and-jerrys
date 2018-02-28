@@ -46,3 +46,12 @@ html, body, #root {
   background-color: white;
   padding: 50px;
 }
+
+@media (max-width: 425px) {
+  .mobile-hide {
+    display: none;
+  }
+  .price {
+    padding: 0;
+  }
+}
