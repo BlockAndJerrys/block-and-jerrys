@@ -48,7 +48,7 @@ io.on('connection', (socket) => {
 
     setTimeout(async () => {
       socket.emit('PAID');
-    }, 2000);
+    }, 200000);
   });
 });
 

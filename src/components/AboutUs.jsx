@@ -4,9 +4,6 @@ import {
   Row,
   Col,
 } from 'react-bootstrap';
-import {
-  Link,
-} from 'react-router-dom';
 
 import jeff from '../assets/jeff.jpg';
 import rob from '../assets/rob.jpg';
