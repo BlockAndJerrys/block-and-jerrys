@@ -16,6 +16,8 @@ import logo from '../assets/logo.png';
 import Cart from './cart';
 import Gallery from './gallery';
 import coneImg from '../assets/ice-cream-cone.png';
+import teamImg from '../assets/team.png';
+import history from '../history';
 
 const styles = {
   coneCount: { marginTop: '10px' },
@@ -35,15 +37,18 @@ class App extends React.Component {
     });
   }
 
+  handleTeamClick() {
+    history.push('/aboutus');
+  }
+
   render() {
     console.log(this.props);
     return (
       <Grid style={styles.grid}>
         <Row>
-          <Col xs={2} md={1} style={{ backgroundColor: 'white' }}>
-            <a href="http://dev.lightning.community/" target="_blank" rel="noopener noreferrer">
-              <Image responsive rounded src="https://github.com/lightningnetwork/lnd/raw/master/logo.png" alt="LND logo" />
-            </a>
+          <Col xs={2} md={1} onClick={this.handleTeamClick.bind(this)} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginTop: '10px' }}>
+              <img alt="Cute Cone" src={teamImg} style={{ width: '33px' }} />
+              <span style={{ fontSize: '16px', color: 'white' }}><b>Our Team</b></span>
           </Col>
           <Col xs={6} xsOffset={1} mdOffset={2} >
             <Image responsive rounded src={logo} alt="LND logo" style={{ paddingTop: '0.5em' }} />

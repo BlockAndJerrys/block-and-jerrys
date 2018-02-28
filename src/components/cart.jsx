@@ -10,11 +10,13 @@ import HomeCart from './homeCart';
 import InfoCart from './infoCart';
 import QRCart from './qrCart';
 import Paid from './paidCart';
+import AboutUs from './AboutUs';
+
 import history from '../history';
+console.log(AboutUs);
 
 const Cart = ({ socket, handleInvoice, handleConeUpdate }) => {
   socket.on('INVOICE', ({ invoice }) => {
-    console.log("HERE");
     handleInvoice({ invoice });
     history.push('/qr');
   });
@@ -35,6 +37,7 @@ const Cart = ({ socket, handleInvoice, handleConeUpdate }) => {
         <Route path="/checkout" component={InfoCart} />
         <Route path="/qr" component={QRCart} />
         <Route path="/paid" component={Paid} />
+        <Route path="/aboutus" component={AboutUs} />
       </div>
     </Router>
   );
