@@ -42,6 +42,7 @@ export default function (state = initialState, action) {
         open: !state.open,
       };
     }
+
     case 'ADD': {
       let conePrice;
       const newCart = state.cart.map(x => {
@@ -62,6 +63,28 @@ export default function (state = initialState, action) {
         quantity: state.quantity + 1,
       };
     }
+
+    case 'SUBTRACT': {
+      let conePrice;
+      const newCart = state.cart.map(x => {
+        if (x.id === action.id) {
+          if (action.quantity) {
+            x.quantity = action.quantity;
+          } else {
+            x.quantity -= 1;
+          }
+          conePrice = x.price;
+        }
+        return x;
+      });
+      return {
+        ...state,
+        cart: newCart,
+        cartTotal: state.cartTotal + conePrice,
+        quantity: state.quantity - 1,
+      };
+    }
+
     case 'INPUT_CHANGE': {
       const { target } = action.event;
       const value = target.type === 'checkbox' ? target.checked : target.value;
