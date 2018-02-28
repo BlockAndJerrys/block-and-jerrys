@@ -1,8 +1,12 @@
 import React from 'react';
 import Avatar from 'material-ui/Avatar';
 import {
+  Row,
   Col,
 } from 'react-bootstrap';
+import {
+  Link,
+} from 'react-router-dom';
 
 import jeff from '../assets/jeff.jpg';
 import rob from '../assets/rob.jpg';
@@ -24,7 +28,7 @@ const cards = [
   {
     img: jeff,
     name: 'Jeff Tang',
-    description: 'Jeff is taking a gap year from Rice University, where he is majoring in Computer Science. When he is not thinking about startups and entrepreneurship, he is reading a book listening to music.',
+    description: 'Jeff is taking a gap year from Rice University, where he is majoring in Computer Science. When he is not thinking about startups and entrepreneurship, he is reading a book and/or listening to music.',
     flavor: 'Vitalik Garcia',
     icons: [
       { href: 'http://tangjeff.com', faClass: 'fa-angle-double-right' },
@@ -52,7 +56,7 @@ const styles = {
     // justifyContent: 'space-around',
     textAlign: 'center',
     color: 'white',
-    background: 'linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.5) 70%, rgba(0, 0, 0, 0.2) 100%)',
+    // background: 'linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.5) 70%, rgba(0, 0, 0, 0.2) 100%)',
   },
   card: {
   },
@@ -83,22 +87,32 @@ export default class AboutUs extends React.Component {
   render() {
     return (
       <div style={styles.container}>
-        {cards.map(x => (
-          <Col xsOffset={1} xs={10} md={4} mdOffset={0} key={x.name} style={styles.card}>
-            <h1 style={{ fontSize: '4em' }}>{x.name}</h1>
-            <Avatar src={x.img} size={180} />
-            <p style={styles.desc}>
-              {x.description}
-            </p>
-            <div style={styles.icons}>
-              {x.icons.map(y => (
-                <a key={y.href} href={y.href}>
-                  <i style={styles.icon} className={`fa ${y.faClass} fa-lg`} />
-                </a>
-              ))}
-            </div>
+        <Row>
+          <Col>
+            <a href="/" style={{ color: 'white', position: 'absolute', left: '1em', fontSize: '2em' }}>
+              <i className="fa fa-arrow-left" />
+              Back
+            </a>
           </Col>
-        ))}
+        </Row>
+        <Row style={{ marginTop: '1em' }}>
+          {cards.map(x => (
+            <Col xsOffset={1} xs={10} md={4} mdOffset={0} key={x.name} style={styles.card}>
+              <h1 style={{ fontSize: '4em' }}>{x.name}</h1>
+              <Avatar src={x.img} size={180} />
+              <p style={styles.desc}>
+                {x.description}
+              </p>
+              <div style={styles.icons}>
+                {x.icons.map(y => (
+                  <a key={y.href} href={y.href}>
+                    <i style={styles.icon} className={`fa ${y.faClass} fa-lg`} />
+                  </a>
+                ))}
+              </div>
+            </Col>
+          ))}
+        </Row>
       </div>
     );
   }
