@@ -14,25 +14,19 @@ import {
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import ReactGA from 'react-ga';
+import 'font-awesome/css/font-awesome.css';
 
 import registerServiceWorker from './registerServiceWorker';
 import reducer from './reducer';
 import App from './components/App';
 import TAndC from './components/TAndC';
 import Dashboard from './components/Dashboard';
+import AboutUs from './components/AboutUs';
 
 const store = createStore(reducer);
 
 ReactGA.initialize('UA-114736021-1');
 ReactGA.pageview(window.location.pathname + window.location.search);
-
-/*
-  Checks to see if LND running on port 10009.
-  If not, returns error.
-
-  App is wrapped in Material UI Tag for access
-  to styled components.
-*/
 
 ReactDOM.render(
   <Provider store={store} >
@@ -42,6 +36,7 @@ ReactDOM.render(
           <Route path="/" exact component={App} />
           <Route path="/t-and-c" exact component={TAndC} />
           <Route path="/dashboard" exact component={Dashboard} />
+          <Route path="/about-us" exact component={AboutUs} />
         </div>
       </MuiThemeProvider>
     </Router>
