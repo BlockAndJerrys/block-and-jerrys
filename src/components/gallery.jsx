@@ -13,8 +13,6 @@ import { connect } from 'react-redux';
 
 const styles = {
   gallery: {
-    display: 'flex',
-    flexFlow: 'row nowrap',
     marginBottom: '1em',
     overflowX: 'auto',
     boxShadow: '3px 5px 6px black',
@@ -24,7 +22,7 @@ const styles = {
     flexFlow: 'column nowrap',
     alignItems: 'center',
     justifyContent: 'center',
-    marginRight: '2px',
+    marginTop: '15px'
   },
   opaque: {
     display: 'flex',
@@ -74,8 +72,8 @@ class Gallery extends React.Component {
     return (
       <div style={styles.gallery}>
         {this.props.cart.map(x => (
-          <Col key={x.id} xs={12} md={6} style={styles.col} >
-            <Image src={x.img_url} style={{ height: '65vh' }} />
+          <Col key={x.id} xs={12} sm={4} style={styles.col} >
+            <Image src={x.img_url} style={{ width: '80%', height: 'auto', maxWidth: '350px' }} />
             <div style={styles.opaque}>
               <p>{x.flavor} <br />
                 <span style={{ fontSize: '0.5em', lineHeight: '0' }}>
@@ -93,7 +91,7 @@ class Gallery extends React.Component {
               >
                 <ContentAdd />
               </FloatingActionButton>
-              { x.id < 4 && <Right color="white" style={styles.right} /> }
+
             </div>
           </Col>
         ))}
@@ -104,6 +102,7 @@ class Gallery extends React.Component {
           onRequestClose={() => this.setState({ open: false })}
           action={this.state.action}
           onActionClick={this.handleActionClick}
+          style={{ left: '20%' }}
         />
       </div>
     );
