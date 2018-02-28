@@ -37,7 +37,42 @@ class qrCart extends React.Component {
     super(props);
     this.state = {
       open: false,
+      days: '00',
+      hours: '00',
+      min: '00',
+      sec: '00',
+      interval: '',
     };
+    this.updateTime = this.updateTime.bind(this);
+  }
+
+  componentDidMount() {
+    this.updateTime();
+    const interval = setInterval(
+      this.updateTime
+      , 1000
+    );
+
+    this.setState({ interval });
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.state.interval);
+  }
+
+  updateTime() {
+    const curTime = new Date();
+    const launchDate = new Date(1520478000000)
+    const dif = launchDate.getTime() - curTime.getTime();
+
+    const timeVar = dif / (60 * 60 * 24 * 1000);
+
+    const days = Math.floor(timeVar);
+    const hours = Math.floor((timeVar - days) * 24);
+    const min = Math.floor((((timeVar - days) * 24) - hours) * 60);
+    const sec = Math.floor((timeVar - (days + (hours / 24) + (min / (24 * 60)))) * (60 * 60 * 24));
+
+    this.setState({ days, hours, min, sec });
   }
 
   render() {
@@ -45,49 +80,25 @@ class qrCart extends React.Component {
     const primaryText = `${coneMsg}: $${this.props.cartTotal} ~ ${(this.props.cartTotal / this.props.btcPrice).toFixed(6)} BTC`;
     return (
       <Paper zDepth={3} style={{ display: 'flex', flexFlow: 'column nowrap' }}>
-        <div style={styles.container} >
-          <h2 style={{ margin: '0.2em 0', textAlign: 'center' }}>{primaryText}</h2>
-          <QRCode value={this.props.invoice} />
-          <div style={styles.invoice}>
-            {this.props.invoice}
+        <h1 style={{ textAlign: 'center' }}> Launching Soon! </h1>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
+          <img style={{ width: '50%' }} src="https://media.giphy.com/media/BT33Hk6FMYHV6/giphy.gif" />
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', padding: '20px', paddingBottom: 0 }}>
+          <div style={{ display: 'flex' }}>
+            <p style={{ flex: 1, textAlign: 'center' }}>{this.state.days}</p>
+            <p style={{ flex: 1, textAlign: 'center' }}>{this.state.hours}</p>
+            <p style={{ flex: 1, textAlign: 'center' }}>{this.state.min}</p>
+            <p style={{ flex: 1, textAlign: 'center' }}>{this.state.sec}</p>
+          </div>
+          <div style={{ display: 'flex' }}>
+            <p style={{ flex: 1, textAlign: 'center' }}>Days</p>
+            <p style={{ flex: 1, textAlign: 'center' }}>Hours</p>
+            <p style={{ flex: 1, textAlign: 'center' }}>Minutes</p>
+            <p style={{ flex: 1, textAlign: 'center' }}>Seconds</p>
           </div>
         </div>
-        <div style={{ display: 'flex' }}>
-          <CopyToClipboard options={{ message: this.props.invoice }} text={this.props.invoice} style={{ flex: 1 }} >
-            <RaisedButton label="Copy" primary />
-          </CopyToClipboard>
-          <RaisedButton
-            label="Do You Want Real Icecream?"
-            secondary
-            style={{ flex: 1.2 }}
-            labelStyle={{ padding: '0' }}
-            onClick={() => {
-              this.setState({ open: true });
-            }}
-          />
-        </div>
-        <Dialog
-          open={this.state.open}
-          style={{ display: 'flex', flexFlow: 'column nowrap' }}
-          title="We want real ice cream too!"
-          onRequestClose={() => this.setState({ open: false })}
-          actions={[
-            <FlatButton
-              label="I Don't Want It"
-              primary
-              onClick={() => this.setState({ open: false })}
-            />,
-            <FlatButton
-              label="Gimme Real Icecream!"
-              secondary
-              onClick={(e) => {
-                this.props.handleEmail(e);
-                setTimeout(() => this.setState({ open: false }), 1500);
-              }}
-            />,
-          ]}
-        >
-          <h4>We&#39;re launching on the Real Net March 7th! Let us remind you :-)</h4>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', padding: 0 }}>
           <TextField
             floatingLabelText="Email"
             onChange={this.props.handleInputChange}
@@ -95,7 +106,16 @@ class qrCart extends React.Component {
             type="text"
             value={this.props.email}
           />
-        </Dialog>
+          <FlatButton
+            label="Join the Waitlist"
+            secondary
+            onClick={(e) => {
+              this.props.handleEmail(e);
+              setTimeout(() => this.setState({ open: false }), 1500);
+            }}
+          />,
+        </div>
+
       </Paper>
     );
   }
