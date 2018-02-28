@@ -40,22 +40,22 @@ class App extends React.Component {
     return (
       <Grid style={styles.grid}>
         <Row>
-          <Col xs={2} md={1} style={{ backgroundColor: 'white' }}>
-            <a href="http://dev.lightning.community/" target="_blank" rel="noopener noreferrer">
-              <Image responsive rounded src="https://github.com/lightningnetwork/lnd/raw/master/logo.png" alt="LND logo" />
+          <Col xs={2} md={2} style={{ marginTop: '10px' }}>
+            <a href="/about-us" style={{ color: 'white' }} >
+              <i className="fa fa-users" />
+              About Us
             </a>
           </Col>
-          <Col xs={6} xsOffset={1} mdOffset={2} >
+          <Col xs={6} xsOffset={1} mdOffset={2} md={4} >
             <Image responsive rounded src={logo} alt="LND logo" style={{ paddingTop: '0.5em' }} />
           </Col>
-          <Col xsOffset={0} xs={3} md={2} mdOffset={1} style={styles.coneCount}>
+          <Col xsOffset={0} xs={3} md={2} mdOffset={2} style={styles.coneCount}>
+            <span style={{ fontSize: '16px', color: 'white' }}><b>{this.props.coneCount}</b></span>
             <img alt="Cute Cone" src={coneImg} style={{ width: '33px' }} />
-            <span style={{ fontSize: '16px', color: 'white' }}>Cones sold: <b>{this.props.coneCount}</b></span>
           </Col>
         </Row>
         <Gallery />
         <div style={{ marginBottom: '20px', marginTop: '30px', textAlign: 'center' }}>
-
           <RaisedButton
             label="Checkout"
             secondary

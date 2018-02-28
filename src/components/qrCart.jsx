@@ -6,31 +6,31 @@
 
 import React from 'react';
 import {
-  RaisedButton,
   Paper,
   FlatButton,
+  Snackbar,
 } from 'material-ui';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
-import QRCode from 'qrcode.react';
+import Exit from 'material-ui/svg-icons/content/clear';
 import { connect } from 'react-redux';
 import TextField from 'material-ui/TextField';
-import Dialog from 'material-ui/Dialog';
+// import { CopyToClipboard } from 'react-copy-to-clipboard';
+// import QRCode from 'qrcode.react';
 
-const styles = {
-  container: {
-    display: 'flex',
-    flexFlow: 'column wrap',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: '0 1em',
-  },
-  invoice: {
-    overflowWrap: 'break-word',
-    width: '95%',
-    marginTop: '0.5em',
-    padding: '1em 0',
-  },
-};
+// const styles = {
+//   container: {
+//     display: 'flex',
+//     flexFlow: 'column wrap',
+//     alignItems: 'center',
+//     justifyContent: 'center',
+//     padding: '0 1em',
+//   },
+//   invoice: {
+//     overflowWrap: 'break-word',
+//     width: '95%',
+//     marginTop: '0.5em',
+//     padding: '1em 0',
+//   },
+// };
 
 class qrCart extends React.Component {
   constructor(props) {
@@ -48,11 +48,7 @@ class qrCart extends React.Component {
 
   componentDidMount() {
     this.updateTime();
-    const interval = setInterval(
-      this.updateTime
-      , 1000
-    );
-
+    const interval = setInterval(this.updateTime, 1000);
     this.setState({ interval });
   }
 
@@ -62,27 +58,27 @@ class qrCart extends React.Component {
 
   updateTime() {
     const curTime = new Date();
-    const launchDate = new Date(1520478000000)
+    const launchDate = new Date(1520478000000);
     const dif = launchDate.getTime() - curTime.getTime();
-
     const timeVar = dif / (60 * 60 * 24 * 1000);
-
     const days = Math.floor(timeVar);
     const hours = Math.floor((timeVar - days) * 24);
     const min = Math.floor((((timeVar - days) * 24) - hours) * 60);
     const sec = Math.floor((timeVar - (days + (hours / 24) + (min / (24 * 60)))) * (60 * 60 * 24));
-
     this.setState({ days, hours, min, sec });
   }
 
   render() {
-    const coneMsg = this.props.quantity === 1 ? '1 cone' : `${this.props.quantity} cones`;
-    const primaryText = `${coneMsg}: $${this.props.cartTotal} ~ ${(this.props.cartTotal / this.props.btcPrice).toFixed(6)} BTC`;
+    // const coneMsg = this.props.quantity === 1 ? '1 cone' : `${this.props.quantity} cones`;
+    // const primaryText = `${coneMsg}: $${this.props.cartTotal} ~ ${(this.props.cartTotal / this.props.btcPrice).toFixed(6)} BTC`;
     return (
-      <Paper zDepth={3} style={{ display: 'flex', flexFlow: 'column nowrap' }}>
+      <Paper zDepth={0} style={{ display: 'flex', flexFlow: 'column nowrap' }}>
+        <div style={{ position: 'absolute', left: 12, top: 12 }}>
+          <Exit style={{ cursor: 'pointer' }} onClick={this.props.handleOpenClose} />
+        </div>
         <h1 style={{ textAlign: 'center' }}> Launching Soon! </h1>
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
-          <img style={{ width: '50%' }} src="https://media.giphy.com/media/BT33Hk6FMYHV6/giphy.gif" />
+          <img alt="HODL" style={{ width: '50%' }} src="https://media.giphy.com/media/BT33Hk6FMYHV6/giphy.gif" />
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', padding: '20px', paddingBottom: 0 }}>
           <div style={{ display: 'flex' }}>
@@ -109,13 +105,19 @@ class qrCart extends React.Component {
           <FlatButton
             label="Join the Waitlist"
             secondary
+            disabled={this.props.email.indexOf('@') === -1}
             onClick={(e) => {
               this.props.handleEmail(e);
-              setTimeout(() => this.setState({ open: false }), 1500);
+              setTimeout(() => this.setState({ open: true }), 1500);
             }}
-          />,
+          />
+          <Snackbar
+            open={this.state.open}
+            message="Email added!"
+            autoHideDuration={3000}
+            onRequestClose={() => this.setState({ open: false })}
+          />
         </div>
-
       </Paper>
     );
   }
@@ -135,6 +137,9 @@ const mapDispatchToProps = dispatch => ({
   },
   handleInputChange: (event) => {
     dispatch({ type: 'INPUT_CHANGE', event });
+  },
+  handleOpenClose: () => {
+    dispatch({ type: 'OPEN' });
   },
 });
 
