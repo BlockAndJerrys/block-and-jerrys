@@ -73,7 +73,7 @@ class Gallery extends React.Component {
       <div style={styles.gallery}>
         {this.props.cart.map(x => (
           <Col key={x.id} xs={12} sm={4} style={styles.col} >
-            <Image src={x.img_url} style={{ width: '80%', height: 'auto' }} />
+            <Image src={x.img_url} style={{ width: '80%', height: 'auto', maxWidth: '350px' }} />
             <div style={styles.opaque}>
               <p>{x.flavor} <br />
                 <span style={{ fontSize: '0.5em', lineHeight: '0' }}>
@@ -91,7 +91,7 @@ class Gallery extends React.Component {
               >
                 <ContentAdd />
               </FloatingActionButton>
-              { x.id < 4 && <Right color="white" style={styles.right} /> }
+
             </div>
           </Col>
         ))}
@@ -102,6 +102,7 @@ class Gallery extends React.Component {
           onRequestClose={() => this.setState({ open: false })}
           action={this.state.action}
           onActionClick={this.handleActionClick}
+          style={{ left: '20%' }}
         />
       </div>
     );
