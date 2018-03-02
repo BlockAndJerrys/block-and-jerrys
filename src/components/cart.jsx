@@ -11,9 +11,8 @@ import InfoCart from './infoCart';
 import QRCart from './qrCart';
 import Paid from './paidCart';
 import AboutUs from './AboutUs';
-
+import TAndC from './TAndC';
 import history from '../history';
-console.log(AboutUs);
 
 const Cart = ({ socket, handleInvoice, handleConeUpdate }) => {
   socket.on('INVOICE', ({ invoice }) => {
@@ -37,7 +36,8 @@ const Cart = ({ socket, handleInvoice, handleConeUpdate }) => {
         <Route path="/checkout" component={InfoCart} />
         <Route path="/qr" component={QRCart} />
         <Route path="/paid" component={Paid} />
-        <Route path="/aboutus" component={AboutUs} />
+        <Route path="/aboutus" component={AboutUs} />/
+        <Route path="/t-and-c" component={TAndC} />
       </div>
     </Router>
   );

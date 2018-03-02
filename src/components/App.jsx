@@ -48,6 +48,7 @@ class App extends React.Component {
           </Col>
           <Col xs={6} xsOffset={1} mdOffset={2} md={4} >
             <Image responsive rounded src={logo} alt="LND logo" style={{ paddingTop: '0.5em' }} />
+            <h3 style={{ textAlign: 'center' }}><i>Ice Cream Delivery powered by the Bitcoin Lightning Network</i></h3>
           </Col>
           <Col xsOffset={0} xs={3} md={2} mdOffset={2} style={styles.coneCount}>
             <span style={{ fontSize: '16px', color: 'white' }}><b>{this.props.coneCount}</b></span>
