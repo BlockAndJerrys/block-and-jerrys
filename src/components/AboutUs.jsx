@@ -4,6 +4,7 @@ import {
   Row,
   Col,
 } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 import jeff from '../assets/jeff.jpg';
 import rob from '../assets/rob.jpg';
@@ -86,10 +87,10 @@ export default class AboutUs extends React.Component {
       <div style={styles.container}>
         <Row>
           <Col>
-            <a href="/" style={{ color: 'white', position: 'absolute', left: '1em', fontSize: '2em' }}>
+            <Link to="/" style={{ color: 'white', position: 'absolute', left: '1em', fontSize: '2em' }}>
               <i className="fa fa-arrow-left" />
               Back
-            </a>
+            </Link>
           </Col>
         </Row>
         <Row style={{ marginTop: '1em' }}>

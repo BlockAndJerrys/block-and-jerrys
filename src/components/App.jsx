@@ -5,6 +5,7 @@ import {
   Col,
   Image,
 } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 import RaisedButton from 'material-ui/RaisedButton';
 import Dialog from 'material-ui/Dialog';
@@ -41,10 +42,10 @@ class App extends React.Component {
       <Grid style={styles.grid}>
         <Row>
           <Col xs={2} md={2} style={{ marginTop: '10px' }}>
-            <a href="/about-us" style={{ color: 'white' }} >
+            <Link to="/about-us" style={{ color: 'white' }} >
               <i className="fa fa-users" />
               About Us
-            </a>
+            </Link>
           </Col>
           <Col xs={6} xsOffset={1} mdOffset={2} md={4} >
             <Image responsive rounded src={logo} alt="LND logo" style={{ paddingTop: '0.5em' }} />
@@ -71,7 +72,7 @@ class App extends React.Component {
           />
         </div>
         <p>
-          Use of this website constitutes your acceptance of Block And Jerry&#39;s <a href="/t-and-c">Terms & Conditions</a>.
+          Use of this website constitutes your acceptance of Block And Jerry&#39;s <Link href="/t-and-c">Terms & Conditions</Link>.
         </p>
         <Dialog open={this.props.open} onRequestClose={this.props.handleOpenClose}>
           <Cart />
