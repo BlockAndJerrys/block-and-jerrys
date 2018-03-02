@@ -86,7 +86,7 @@ export default class AboutUs extends React.Component {
       <div style={styles.container}>
         <Row>
           <Col>
-            <a href="/" style={{ color: 'white', position: 'absolute', left: '1em', fontSize: '2em' }}>
+            <a href="/" style={{ color: 'white', position: 'absolute', left: '1em', fontSize: '2em', zIndex: 10 }}>
               <i className="fa fa-arrow-left" />
               Back
             </a>
