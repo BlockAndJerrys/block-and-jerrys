@@ -33,10 +33,10 @@ ReactDOM.render(
     <Router >
       <MuiThemeProvider>
         <div>
-          <Route path="/" exact component={App} />
           <Route path="/t-and-c" exact component={TAndC} />
           <Route path="/dashboard" exact component={Dashboard} />
           <Route path="/about-us" exact component={AboutUs} />
+          <Route path="/" component={App} />
         </div>
       </MuiThemeProvider>
     </Router>
