@@ -48,13 +48,8 @@ const cards = [
 
 const styles = {
   container: {
-    // display: 'flex',
-    // flexFlow: 'row wrap',
-    // alignItems: 'center',
-    // justifyContent: 'space-around',
     textAlign: 'center',
     color: 'white',
-    // background: 'linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.5) 70%, rgba(0, 0, 0, 0.2) 100%)',
   },
   card: {
   },

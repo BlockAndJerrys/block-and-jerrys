@@ -18,10 +18,6 @@ import Cart from './cart';
 import Gallery from './gallery';
 import coneImg from '../assets/ice-cream-cone.png';
 
-const styles = {
-  coneCount: { marginTop: '10px' },
-};
-
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -35,11 +31,9 @@ class App extends React.Component {
       this.props.handleInit({ coneCount, cart, btcPrice });
     });
   }
-
   render() {
-    console.log(this.props);
     return (
-      <Grid style={styles.grid}>
+      <Grid>
         <Row>
           <Col xs={2} md={2} style={{ marginTop: '10px' }}>
             <Link to="/about-us" style={{ color: 'white' }} >
@@ -50,7 +44,7 @@ class App extends React.Component {
           <Col xs={6} xsOffset={1} mdOffset={2} md={4} >
             <Image responsive rounded src={logo} alt="LND logo" style={{ paddingTop: '0.5em' }} />
           </Col>
-          <Col xsOffset={0} xs={3} md={2} mdOffset={2} style={styles.coneCount}>
+          <Col xsOffset={0} xs={3} md={2} mdOffset={2} style={{ marginTop: '10px' }}>
             <span style={{ fontSize: '16px', color: 'white' }}><b>{this.props.coneCount}</b></span>
             <img alt="Cute Cone" src={coneImg} style={{ width: '33px' }} />
           </Col>
@@ -72,7 +66,7 @@ class App extends React.Component {
           />
         </div>
         <p>
-          Use of this website constitutes your acceptance of Block And Jerry&#39;s <Link href="/t-and-c">Terms & Conditions</Link>.
+          Use of this website constitutes your acceptance of Block And Jerry&#39;s <Link to="/t-and-c">Terms & Conditions</Link>.
         </p>
         <Dialog open={this.props.open} onRequestClose={this.props.handleOpenClose}>
           <Cart />

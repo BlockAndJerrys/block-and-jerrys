@@ -11,9 +11,7 @@ import InfoCart from './infoCart';
 import QRCart from './qrCart';
 import Paid from './paidCart';
 import AboutUs from './AboutUs';
-
 import history from '../history';
-console.log(AboutUs);
 
 const Cart = ({ socket, handleInvoice, handleConeUpdate }) => {
   socket.on('INVOICE', ({ invoice }) => {
