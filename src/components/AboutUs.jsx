@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Avatar from 'material-ui/Avatar';
 import {
   Row,
@@ -33,7 +33,7 @@ const styles = {
   },
 };
 
-export default class AboutUs extends React.Component {
+class AboutUs extends Component {
   constructor(props) {
     super(props);
 
@@ -78,3 +78,5 @@ export default class AboutUs extends React.Component {
     );
   }
 }
+
+export default AboutUs
