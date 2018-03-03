@@ -16,12 +16,9 @@
   "dependencies": {
     "@google/maps": "^0.4.5",
     "axios": "^0.17.1",
-    "bitcore-lib": "^0.15.0",
     "body-parser": "^1.18.2",
-    "bytebuffer": "^5.0.1",
     "express": "^4.16.2",
     "font-awesome": "^4.7.0",
-    "fs": "0.0.1-security",
     "grpc": "^1.8.4",
     "material-ui": "^0.20.0",
     "pg": "^7.4.1",

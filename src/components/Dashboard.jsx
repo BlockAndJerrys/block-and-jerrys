@@ -68,7 +68,7 @@ class Dashboard extends React.Component {
               <ReactTable
                 getTrProps={(state, row, column, instance) => {
                   return {
-                    onClick: async (e) => {
+                    onClick: async () => {
                       history.push(`/dashboard/order/${row.original.id}`);
                     },
                   };

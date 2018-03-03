@@ -4,6 +4,7 @@ import {
   Row,
   Col,
 } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 import jeff from '../assets/jeff.jpg';
 import rob from '../assets/rob.jpg';
@@ -47,13 +48,8 @@ const cards = [
 
 const styles = {
   container: {
-    // display: 'flex',
-    // flexFlow: 'row wrap',
-    // alignItems: 'center',
-    // justifyContent: 'space-around',
     textAlign: 'center',
     color: 'white',
-    // background: 'linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.5) 70%, rgba(0, 0, 0, 0.2) 100%)',
   },
   card: {
   },
@@ -86,10 +82,10 @@ export default class AboutUs extends React.Component {
       <div style={styles.container}>
         <Row>
           <Col>
-            <a href="/" style={{ color: 'white', position: 'absolute', left: '1em', fontSize: '2em', zIndex: 10 }}>
+            <Link to="/" style={{ color: 'white', position: 'absolute', left: '1em', fontSize: '2em', zIndex: 10 }}>
               <i className="fa fa-arrow-left" />
               Back
-            </a>
+            </Link>
           </Col>
         </Row>
         <Row style={{ marginTop: '1em' }}>
