@@ -12,22 +12,75 @@ Motivated by [Starblocks](https://starblocks.acinq.co/#/), I wanted to offer the
 ## Disclaimer
 This is the pre-alpha version... nuff said.
 
-## To run (quick and dirty)
-First, you will need a LND instance running on port 10009. Then you will need to copy the tls.cert into ~/blockandjerrys/backend/utils/lightning. Next you will need to . Then, save the postgres URI like this: postgresql://[user]:[password]@localhost/icecream. 
+## Getting Started
 
+#### Prerequisites
+* [Lightning Network Daemon (LND)](https://github.com/lightningnetwork/lnd)
+* [BTCD](https://github.com/roasbeef/btcd) or [Bitcoind](https://github.com/bitcoin/bitcoin) -- these are unneeded for the [Neutrino Light Wallet](https://github.com/bitcoin/bips/blob/master/bip-0157.mediawiki)
+* [Postgres](https://www.postgresql.org/download/)
+* [Google Maps API Key](https://developers.google.com/maps/)
+* [Twilio API Key (trial works)](https://www.twilio.com/try-twilio)
+* Environment variables:
 ```
-1.  You will need a LND instance running on port 10009
-2. Copy the tls.cert into ~/blockandjerrys/backend/utils/lightning
-3. Create a postgres table called icecream
-4.Ssave the postgres URI and create process var like this: export POSTGRES_URI=postgresql://[user]:[password]@localhost/icecream
-5. Comment out google api auth and twilio auth in the backend
-6. Delete the google api auth from the public/index.html
-7. yarn
-8. yarn sync
-9. yarn start
-10. New terminal
-11. Set environment variables
-12. yarn server
+export POSTGRES_URI="postgresql://[USERNAME]:[PASSWORD]@localhost/icecream"
+export TWILIO_SID=[TWILIO SID]
+export TWILIO_AUTH_TOKEN=[TWILIO AUTHORIZATION TOKEN]
+export TWILIO_PHONE_NUMBER=[TWILIO PHONE NUMBER]
 ```
 
-**NOTE:** To just see the flow of the app, use the testServer.
+#### Setup
+1. Start btcd on simnet or testnet
+```
+btcd --testnet --txindex --rpcuser=REPLACEME --rpcpass=REPLACEME
+```
+2. Once btcd is synced, start up lnd
+```
+lnd --bitcoin.active --bitcoin.testnet --debuglevel=debug --btcd.rpcuser=kek --btcd.rpcpass=kek --externalip=X.X.X.X
+```
+3. Unlock lnd (or create if this is your first time)
+```
+lncli --rpcserver=localhost:10009 create
+```
+4. Create a postgres table called `ice cream` and create a user with the appropriate priviledges
+5. Save all the environment variables from above
+6. Clone Block and Jerry's
+```
+cd ~
+git clone https://github.com/BlockAndJerrys/blockandjerrys.git
+cd blockandjerrys
+```
+7. Install dependencies
+```
+yarn
+```
+8. Setup DB
+```
+yarn sync
+```
+9. Start the web app
+```
+yarn start
+```
+10. Start the server
+Open a new terminal
+```
+cd ~/blockandjerrys
+yarn testServer // For UI only
+yarn server // For real server w/ LND and postgres
+```
+
+## Architecture
+If you are interested in the architecture of this application, check it out [here](https://github.com/BlockAndJerrys/blockandjerrys/blob/master/ARCHITECTURE.md).
+
+## v1 Testnet Release Media:
+A how to [Medium](https://medium.com/@robdurst/so-you-want-to-buy-ice-cream-on-the-bitcoin-testnet-block-and-jerrys-eb66c8d1296e) article.
+
+A demo on [Twitter](https://twitter.com/g_durst/status/960696142445998080).
+
+## A Note to the Community
+First of all, thanks for helping out! Block and Jerry's goal is to create a *Hands on Bitcoin* for the masses, introducing the average Joe to the incredible potential of the Lightning Network. This would not be possible without your help and support. 
+
+#### Why Contribute?
+Besides the above, we offer a few tangible incentives for contributing:
+1. A Block and Jerry's sticker of your choice
+2. A mention on the about us community contributors page
