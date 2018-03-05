@@ -1,12 +1,5 @@
-import ioClient from 'socket.io-client';
-
-let url = 'localhost';
-url += ':5000';
-const socket = ioClient(url);
-console.log('Connected to socket at', url);
-
 const initialState = {
-  socket,
+  socket: null,
   coneCount: 'loading cones...',
   cart: [],
   cartTotal: 0,
@@ -23,13 +16,14 @@ const initialState = {
 export default function (state = initialState, action) {
   switch (action.type) {
     case 'INIT': {
-      const { cart, coneCount, btcPrice } = action;
+      const { socket, cart, coneCount, btcPrice } = action;
       const cartOrder = cart.map((x) => {
         x.quantity = 0;
         return x;
       });
       return {
         ...state,
+        socket,
         coneCount,
         cart: cartOrder,
         btcPrice,

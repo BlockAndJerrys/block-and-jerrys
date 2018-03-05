@@ -6,11 +6,10 @@ import {
   Image,
 } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-
 import RaisedButton from 'material-ui/RaisedButton';
 import Dialog from 'material-ui/Dialog';
-
 import { connect } from 'react-redux';
+import ioClient from 'socket.io-client';
 
 import '../styles/App.css';
 import logo from '../assets/logo.png';
@@ -19,16 +18,16 @@ import Gallery from './gallery';
 import coneImg from '../assets/ice-cream-cone.png';
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      open: false,
-    };
-    this.props.socket.on('INIT', async ({ coneCount, cart, btcPrice }) => {
+  componentDidMount() {
+    let url = 'localhost';
+    url += ':5000';
+    const socket = ioClient(url);
+    console.log('Connected to socket at', url);
+    socket.on('INIT', async ({ coneCount, cart, btcPrice }) => {
       cart.forEach((x, i) => {
         cart[i].priceBtc = cart[i].price / btcPrice;
       });
-      this.props.handleInit({ coneCount, cart, btcPrice });
+      this.props.handleInit({ socket, coneCount, cart, btcPrice });
     });
   }
   render() {
@@ -92,8 +91,8 @@ const mapDispatchToProps = dispatch => ({
   handleSubtract: ({ id }) => {
     dispatch({ type: 'SUBTRACT', id });
   },
-  handleInit: ({ coneCount, cart, btcPrice }) => {
-    dispatch({ type: 'INIT', coneCount, cart, btcPrice });
+  handleInit: ({ socket, coneCount, cart, btcPrice }) => {
+    dispatch({ type: 'INIT', socket, coneCount, cart, btcPrice });
   },
   handleOpenClose: () => {
     dispatch({ type: 'OPEN' });

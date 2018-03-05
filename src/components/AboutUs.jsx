@@ -4,9 +4,9 @@ import {
   Row,
   Col,
 } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
 
+import Back from './back';
 import { teamInfo, constants } from '../utils';
 
 const styles = {
@@ -50,19 +50,6 @@ class AboutUs extends Component {
       });
   }
 
-  handleContributorsRender() {
-    return this.state.contributors.map(x => (
-      <div>
-        <a href={x.html_url} style={{ color: constants.PINK }}>
-          <h2>{x.login}</h2>
-        </a>
-        <a href={x.html_url}>
-          <Avatar src={x.avatar_url} size={150} />
-        </a>
-      </div>
-    ));
-  }
-
   handleTeamInfoRender() {
     return teamInfo.map(teamMember => (
       <Col xsOffset={1} xs={10} md={4} mdOffset={0} key={teamMember.name} style={styles.card}>
@@ -82,17 +69,23 @@ class AboutUs extends Component {
     ));
   }
 
+  handleContributorsRender() {
+    return this.state.contributors.map(x => (
+      <div key={x.login}>
+        <a href={x.html_url} style={{ color: constants.PINK }}>
+          <h2>{x.login}</h2>
+        </a>
+        <a href={x.html_url}>
+          <Avatar src={x.avatar_url} size={150} />
+        </a>
+      </div>
+    ));
+  }
+
   render() {
     return (
       <div style={styles.container}>
-        <Row>
-          <Col>
-            <Link to="/" style={{ color: 'white', position: 'absolute', left: '1em', fontSize: '2em', zIndex: 10 }}>
-              <i className="fa fa-arrow-left" />
-              Back
-            </Link>
-          </Col>
-        </Row>
+        <Back />
         <Row style={{ marginTop: '1em' }}>
           { this.handleTeamInfoRender() }
         </Row>
