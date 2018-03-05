@@ -1,8 +1,11 @@
 import React from 'react';
+import Back from './back';
 
 const TAndC = () => (
-	<div>
-		<h1 id="termsandconditionsforblockandjerrys">Terms and Conditions for Block and Jerry's.</h1>
+	<div style={{ color: 'white', padding: '2em', background: 'rgba(0, 0, 0, 0.4)' }}>
+    <Back />
+    
+		<h1 style={{ marginTop: '2em' }} id="termsandconditionsforblockandjerrys">Terms and Conditions for Block and Jerry's.</h1>
 		
 		<h2 id="technology">Technology</h2>
 		

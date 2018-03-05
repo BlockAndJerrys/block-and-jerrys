@@ -36,7 +36,7 @@ ReactDOM.render(
           <Route path="/t-and-c" exact component={TAndC} />
           <Route path="/dashboard" exact component={Dashboard} />
           <Route path="/about-us" exact component={AboutUs} />
-          <Route path="/" component={App} />
+          <Route path="/" exact component={App} />
         </div>
       </MuiThemeProvider>
     </Router>
