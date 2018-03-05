@@ -24,9 +24,7 @@ yarn-error.log*
 .sass-cache
 
 #css
-
-*/src/css/*.css
-!/src/css/index.css
+*.css
 
 #compiled-assets
 *.map
