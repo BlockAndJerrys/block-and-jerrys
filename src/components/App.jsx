@@ -45,7 +45,7 @@ class App extends React.Component {
             <h3 style={{ textAlign: 'center' }}><i>Ice Cream Delivery powered by the Bitcoin Lightning Network</i></h3>
           </Col>
           <Col xsOffset={0} xs={3} md={2} mdOffset={2} style={{ marginTop: '10px' }}>
-            <span style={{ fontSize: '16px', color: 'white' }}><b>{this.props.coneCount}</b></span>
+            <span style={{ fontSize: '16px', color: 'white' }}>Total Sold: {this.props.coneCount}</span>
             <img alt="Cute Cone" src={coneImg} style={{ width: '33px' }} />
           </Col>
         </Row>
