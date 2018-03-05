@@ -49,6 +49,7 @@ cd ~
 git clone https://github.com/BlockAndJerrys/blockandjerrys.git
 cd blockandjerrys
 ```
+- Copy `tls.cert` from `~/Library/Application\ Support/Lnd/tls.cert` to `backend/utils/lightning/tls.cert`.
 7. Install dependencies
 ```
 yarn
