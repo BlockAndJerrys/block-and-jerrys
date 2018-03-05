@@ -41,7 +41,7 @@ lnd --bitcoin.active --bitcoin.testnet --debuglevel=debug --btcd.rpcuser=kek --b
 ```
 lncli --rpcserver=localhost:10009 create
 ```
-4. Create a postgres table called `ice cream` and create a user with the appropriate priviledges
+4. Create a Postgres database called `icecream` and create a user with the appropriate privileges
 5. Save all the environment variables from above
 6. Clone Block and Jerry's
 ```
