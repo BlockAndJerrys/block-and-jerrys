@@ -23,6 +23,11 @@ yarn-error.log*
 #sass
 .sass-cache
 
+#css
+
+*/src/css/*.css
+!/src/css/index.css
+
 #compiled-assets
 *.map
 
