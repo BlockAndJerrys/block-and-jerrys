@@ -19,6 +19,7 @@
     "axios": "^0.17.1",
     "body-parser": "^1.18.2",
     "express": "^4.16.2",
+    "fast-deep-equal": "^1.1.0",
     "font-awesome": "^4.7.0",
     "grpc": "^1.8.4",
     "material-ui": "^0.20.0",
