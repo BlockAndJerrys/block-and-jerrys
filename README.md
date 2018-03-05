@@ -49,20 +49,20 @@ cd ~
 git clone https://github.com/BlockAndJerrys/blockandjerrys.git
 cd blockandjerrys
 ```
-- Copy `tls.cert` from `~/Library/Application\ Support/Lnd/tls.cert` to `backend/utils/lightning/tls.cert`.
-7. Install dependencies
+7. Copy `tls.cert` from `~/Library/Application\ Support/Lnd/tls.cert` to `backend/utils/lightning/tls.cert`.
+8. Install dependencies
 ```
 yarn
 ```
-8. Setup DB
+9. Setup DB
 ```
 yarn sync
 ```
-9. Start the web app
+10. Start the web app
 ```
 yarn start
 ```
-10. Start the server
+11. Start the server
 Open a new terminal
 ```
 cd ~/blockandjerrys
