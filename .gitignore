@@ -23,6 +23,9 @@ yarn-error.log*
 #sass
 .sass-cache
 
+#compiled-assets
+*.map
+
 env.sh
 
 *.cert
