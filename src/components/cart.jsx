@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 
 import HomeCart from './homeCart';
 import InfoCart from './infoCart';
-import QRCart from './qrCart';
+import QRCart from './checkoutCart';
 import Paid from './paidCart';
 import AboutUs from './AboutUs';
 import TAndC from './TAndC';
