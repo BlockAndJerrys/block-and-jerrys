@@ -1,7 +1,8 @@
 import React from 'react';
 
 const TAndC = () => (
-	<div>
+	<div style={{ color: 'white', padding: '2em', background: 'rgba(0, 0, 0, 0.4)' }}>
+    
 		<h1 id="termsandconditionsforblockandjerrys">Terms and Conditions for Block and Jerry's.</h1>
 		
 		<h2 id="technology">Technology</h2>
