@@ -12,7 +12,6 @@ import Dialog from 'material-ui/Dialog';
 
 import { connect } from 'react-redux';
 
-import '../styles/App.css';
 import logo from '../assets/logo.png';
 import Cart from './cart';
 import Gallery from './gallery';
