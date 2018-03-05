@@ -20,6 +20,15 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+#sass
+.sass-cache
+
+#css
+*.css
+
+#compiled-assets
+*.map
+
 env.sh
 
 *.cert

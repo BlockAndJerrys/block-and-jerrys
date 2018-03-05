@@ -22,6 +22,8 @@ import App from './components/App';
 import TAndC from './components/TAndC';
 import Dashboard from './components/Dashboard';
 import AboutUs from './components/AboutUs';
+import './styles/css/index.css';
+
 
 const store = createStore(reducer);
 
