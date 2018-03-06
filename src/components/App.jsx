@@ -33,6 +33,13 @@ class App extends React.Component {
   render() {
     return (
       <Grid>
+        <div className="status-bar">
+          <div className="status-text">
+            <p>Launch: Wednesday 7pm</p>
+            <p>Serving: San Francisco</p>
+            <p>Hours: 9am-10pm</p>
+          </div>
+        </div>
         <Row>
           <Col xs={2} md={2} style={{ marginTop: '10px' }}>
             <Link to="/about-us" style={{ color: 'white' }} >
