@@ -16,6 +16,7 @@ import logo from '../assets/logo.png';
 import Cart from './cart';
 import Gallery from './gallery';
 import coneImg from '../assets/ice-cream-cone.png';
+import features from '../utils/features';
 
 class App extends React.Component {
   componentDidMount() {
@@ -64,6 +65,12 @@ class App extends React.Component {
             onClick={this.props.handleClearCart}
             style={{ marginRight: '10px', marginLeft: '10px' }}
           />
+        </div>
+        <div style={{ textAlign: 'center' }}>
+          <h1>As Featured In</h1>
+          <div style={{ display: 'flex', justifyContent: 'space-around', margin: '1em 0' }}>
+            {features.map(x => <img key={x.alt} src={x.src} alt={x.alt} style={{ height: '50px', width: 'auto' }} />) }
+          </div>
         </div>
         <p>
           Use of this website constitutes your acceptance of Block And Jerry&#39;s <Link to="/t-and-c">Terms & Conditions</Link>.
