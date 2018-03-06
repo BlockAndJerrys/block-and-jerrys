@@ -70,7 +70,7 @@ class Gallery extends React.Component {
             <div style={styles.opaque}>
               <p>{x.flavor} <br />
                 <span style={{ fontSize: '0.5em', lineHeight: '0' }}>
-                  ${x.price} ~ {x.priceBtc.toFixed(6)} BTC
+                  ${x.price} ~ {x.priceBtc.toFixed(0)} satoshis
                 </span>
               </p>
               <FloatingActionButton
