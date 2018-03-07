@@ -14,10 +14,10 @@ module.exports = (db, Sequelize) => (
       type: Sequelize.DATE,
     },
     grocery_stores: {
-      type: Sequelize.ARRAY(Sequelize.STRING),
+      type: Sequelize.ARRAY(Sequelize.ARRAY(Sequelize.STRING)),
     },
     waypoint_store: {
-      type: Sequelize.STRING,
+      type: Sequelize.ARRAY(Sequelize.STRING),
     },
     nearby_orders: {
       type: Sequelize.ARRAY(Sequelize.INTEGER),
