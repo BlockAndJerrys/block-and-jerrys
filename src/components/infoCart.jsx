@@ -7,13 +7,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import {
-  // RaisedButton,
   Paper,
   TextField,
 } from 'material-ui';
-// import {
-//   orange500,
-// } from 'material-ui/styles/colors';
 import PlacesAutocomplete from 'react-places-autocomplete';
 
 const styles = {
@@ -36,7 +32,7 @@ const InfoCart = ({ name, address, phone, handleInputChange }) => (
           onChange: (x) => handleInputChange({ target: { value: x, name: 'address' } }),
           name: 'address',
           type: 'search',
-          placeholder: 'Address (MUST BE IN SAN FRANCISCO)',
+          placeholder: 'Address (must be in San Francisco)',
         }}
         styles={styles.autocomplete}
         highlightFirstSuggestion
