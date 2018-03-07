@@ -11,7 +11,6 @@ import Dialog from 'material-ui/Dialog';
 import { connect } from 'react-redux';
 import ioClient from 'socket.io-client';
 
-import '../styles/App.css';
 import logo from '../assets/logo.png';
 import Cart from './cart';
 import Gallery from './gallery';

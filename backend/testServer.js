@@ -42,7 +42,7 @@ io.on('connection', (socket) => {
   });
   socket.on('GENERATE_INVOICE', async () => {
     const timeNow = new Date();
-    const payreq = 'this is a testinvoice'+timeNow.getTime();
+    const payreq = 'lntb17u1pdfexnrpp5e5r3lje5p0kun3hdqyxugtrsm4gx7kjl5v3sy5e7z55j648katnsdpzxysy2umswfjhxum0yppk76twypgxzmnwvy026l3aljsxxa70n02xm48hwmzj8cw208y63jj5vyvl6l2wf3zlhjed24euy5j3rv8ytujuzy693sykn0elf9w73lhfz8dmxrlx66vlqp25jplq';
 
     socket.emit('INVOICE', {invoice: payreq});
 
