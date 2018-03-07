@@ -75,7 +75,7 @@ class App extends React.Component {
         <div style={{ textAlign: 'center' }}>
           <h1>As Featured In</h1>
           <div style={{ display: 'flex', justifyContent: 'space-around', margin: '1em 0' }}>
-            {features.map(x => <a href={x.href} rel="noopener noreferrer"><img key={x.alt} src={x.src} alt={x.alt} style={{ height: '50px', width: 'auto' }} /></a>) }
+            {features.map(x => <a href={x.href} target="_blank" rel="noopener noreferrer"><img key={x.alt} src={x.src} alt={x.alt} style={{ height: '50px', width: 'auto' }} /></a>) }
           </div>
         </div>
         <div>
