@@ -55,3 +55,31 @@ html, body, #root {
     padding: 0;
   }
 }
+
+.status-bar {
+  width: 100%;
+  font-size: 1.5em;
+}
+
+.status-text {
+  display: flex;
+  justify-content: space-between;
+  color: white;
+  animation: scroll-left 25s linear infinite;
+}
+
+@media (max-width: 425px) {
+  .status-text {
+    width: 150%;
+    animation: scroll-left 12s linear infinite;
+  }
+}
+
+@keyframes scroll-left {
+ 	0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
