@@ -12,7 +12,7 @@ module.exports = (db, Sequelize) => (
     },
     price: {
       type: Sequelize.DOUBLE,
-      defaultValue: 7.00,
+      defaultValue: 10.00,
     },
     img_url: {
       type: Sequelize.STRING,

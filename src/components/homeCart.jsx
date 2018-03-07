@@ -70,7 +70,7 @@ class HomeCart extends React.Component {
   render() {
     const { stepIndex } = this.state;
     const contentStyle = { margin: '0 16px' };
-    const price = this.state.currency === 'BTC' ? ((this.props.cartTotal / this.props.btcPrice).toFixed(6)) + ' BTC' : '$' + (this.props.cartTotal.toFixed(2));
+    const price = this.state.currency === 'BTC' ? ((this.props.cartTotal / this.props.btcPrice).toFixed(0)) + ' Sats' : '$' + (this.props.cartTotal.toFixed(0));
 
     return (
       <div style={{ width: '100%', maxWidth: 700, margin: 'auto' }}>

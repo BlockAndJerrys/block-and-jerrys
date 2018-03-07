@@ -14,9 +14,9 @@ const {
   OrderIcecream,
 } = require('./utils/postgres');
 const lightning = require('./utils/lightning');
-const getBtcPrice = require('./utils/getBtcPrice');
 const routes = require('./utils/routes');
 const twilio = require('./utils/twilio');
+const { getBtcPrice, btcToSat } = require('./utils/getBtcPrice');
 
 app.use(routes);
 
@@ -60,7 +60,7 @@ io.on('connection', (socket) => {
   socket.emit('INIT', { coneCount, cart, btcPrice });
   console.log('INIT CALLED');
   socket.on('GENERATE_INVOICE', async ({ name, address, phone, cartTotal, cartOrder }) => {
-    const btcCartTotal = parseFloat(cartTotal) / (await getBtcPrice());
+    const btcCartTotal = parseFloat(cartTotal) / (await getBtcPrice()) / btcToSat;
     const invoiceData = (new Date()).getTime() + name + address + phone;
     const genInvoice = await lightning.generateInvoice(btcCartTotal, `Block and Jerry's for ${name}.`);
     const invoice = genInvoice.payment_request;
