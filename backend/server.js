@@ -3,23 +3,71 @@
    2018 Robert Durst
    https://github.com/robertDurst/blockandjerrys
 */
+const express = require('express');
+const path = require('path');
 
-const app = require('express')();
+const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
+
+const passport = require('passport');
+const LocalStrategy = require('passport-local');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const session = require('express-session');
 
 const {
   Order,
   Icecream,
   OrderIcecream,
+  Driver,
+  DriverOrders,
 } = require('./utils/postgres');
 const lightning = require('./utils/lightning');
 const getBtcPrice = require('./utils/getBtcPrice');
 const routes = require('./utils/routes');
 const twilio = require('./utils/twilio');
+const cookieSession = require('cookie-session');
 
-app.use(routes);
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(passport.initialize());
+app.use(passport.session());
+passport.serializeUser((user, done) => {
+  console.log('serializeUser', user.id);
+  done(null, user.id);
+});
 
+passport.deserializeUser((id, done) => {
+  console.log('deserializeUser', id);
+  Driver.findById(id).then(user => {
+    done(null, user);
+  }).catch(err => {
+    console.log("ERR", err);
+  });
+});
+
+passport.use(new LocalStrategy(async (username, password, done) => {
+  console.log("here?", username, password);
+  const driver = await Driver.find({ where: { password } });
+  if (!driver) {
+    return done(null, false, { message: 'Incorrect password' });
+  }
+  return done(null, driver);
+}));
+
+app.use(cookieSession({
+  maxAge: 30 * 24 * 60 * 60 * 1000,
+  keys: ['secret'],
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(routes(passport));
+app.get('*', (request, response) => {
+  response.sendFile(__dirname + '/public/index.html'); // For React/Redux
+});
 let coneCount = 0;
 let cart = [];
 let btcPrice;
@@ -67,6 +115,8 @@ io.on('connection', (socket) => {
     const o = await Order.create({ name, address, phone, invoice });
     invoiceSocketMap[invoice] = { socket, order_id: o.id };
     socket.emit('INVOICE', { invoice });
+    // Assign an order to each driver based on location to delivery. Keep track of state
+
     cartOrder.forEach(x => {
       if (x.quantity > 0) {
         OrderIcecream.create({

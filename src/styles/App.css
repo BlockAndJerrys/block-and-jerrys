@@ -46,7 +46,9 @@ html, body, #root {
   background-color: white;
   padding: 50px;
 }
-
+.rt-tr-group {
+  background-color: white;
+}
 @media (max-width: 425px) {
   .mobile-hide {
     display: none;

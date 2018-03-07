@@ -3,10 +3,39 @@ const {
   Order,
   Icecream,
   OrderIcecream,
+  Driver
 } = require('./index.js');
 
 const menu = require('./menu.js');
-
+const drivers = [
+  {
+    name: 'Andros Wong',
+    stock: {
+      "Doge Food": 0,
+      "Vitalik Garcia": 0,
+      "Segwit2x": 0,
+    },
+    password: 'ninja',
+  },
+  {
+    name: 'Jeff Tang',
+    stock: {
+      "Doge Food": 0,
+      "Vitalik Garcia": 0,
+      "Segwit2x": 0,
+    },
+    password: 'test1',
+  },
+  {
+    name: 'Rob Durst',
+    stock: {
+      "Doge Food": 0,
+      "Vitalik Garcia": 0,
+      "Segwit2x": 0,
+    },
+    password: 'test2',
+  }
+];
 const populate = async () => {
   try {
     await Promise.all(menu.map(x => Icecream.create(x)));
@@ -21,6 +50,7 @@ const populate = async () => {
       icecream_id: 1,
       quantity: 2,
     });
+    await Promise.all(drivers.map(x => Driver.create(x)));
   } catch (err) { console.log('Error populating', err); }
 };
 

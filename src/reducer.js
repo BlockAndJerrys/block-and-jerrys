@@ -18,6 +18,7 @@ const initialState = {
   invoice: '',
   email: '',
   open: false,
+  driver: null,
 };
 
 export default function (state = initialState, action) {
@@ -158,6 +159,14 @@ export default function (state = initialState, action) {
         cart: newCartOrder,
         cartTotal: 0,
         quantity: 0,
+      };
+    }
+
+    case 'SET_DRIVER': {
+      console.log("what", action.driver);
+      return {
+        ...state,
+        driver: action.driver,
       };
     }
     default:

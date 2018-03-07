@@ -1,4 +1,5 @@
 // joins with ice_creams
+
 module.exports = (db, Sequelize) => (
   db.define('order', {
     id: {

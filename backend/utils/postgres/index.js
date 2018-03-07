@@ -19,12 +19,26 @@ db.authenticate()
 const Order = db.import('./order.js');
 const Icecream = db.import('./icecream.js');
 const OrderIcecream = db.import('./order_icecream.js');
-
+const Driver = db.import('./drivers.js');
+const DriverOrders = db.import('./driver_orders.js');
 Order.hasMany(OrderIcecream);
 Icecream.hasMany(OrderIcecream);
 OrderIcecream.belongsTo(Order);
 OrderIcecream.belongsTo(Icecream);
-
+Order.belongsToMany(Driver, {
+  through: {
+    model: DriverOrders,
+  },
+  foreignKey: 'order_id',
+  constraints: false,
+});
+Driver.belongsToMany(Order, {
+  through: {
+    model: DriverOrders,
+  },
+  foreignKey: 'driver_id',
+  constraints: false,
+});
 OrderIcecream.coneCount = async () => {
   const oics = await OrderIcecream.findAll({
     include: [{
@@ -51,4 +65,6 @@ module.exports = {
   Order,
   Icecream,
   OrderIcecream,
+  Driver,
+  DriverOrders,
 };

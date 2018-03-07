@@ -11,6 +11,7 @@ import {
   Router,
   Route,
   withRouter,
+  Link,
 } from 'react-router-dom';
 
 import '../styles/App.css';
@@ -36,23 +37,52 @@ class Dashboard extends React.Component {
     this.handleClose = this.handleClose.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.acceptJob = this.acceptJob.bind(this);
   }
   componentDidMount() {
-    this.handleClick();
+    console.log("this props", this.props);
+    axios.get(url + '/dashboard').then((res) => {
+      this.setState({
+        success: res.data.success,
+        data: res.data.data,
+      });
+      history.push('/dashboard/orders');
+    });
   }
   handleChange(e) {
     this.setState({ baseball: e.target.value });
   }
+
   handleClose() { this.setState({ open: false }); }
+
   async handleClick() {
-    const res = await axios.post(url + '/dashboard', {
-      baseball: this.state.baseball,
+    const res = await axios.post(url + '/login', {
+      username: 'foobar',
+      password: this.state.baseball,
     });
     this.setState({
       success: res.data.success,
       data: res.data.data,
     });
+
+    this.props.addDriver(res.data.driver);
     history.push('/dashboard/orders');
+  }
+  async acceptJob(jobId, orderLocation) {
+    console.log("jobId", jobId, this.props.driver.id);
+    navigator.geolocation.getCurrentPosition((position) => {
+      console.log("POSITION", position);
+      const {latitude, longitude} = position.coords;
+      console.log("latitude", longitude)
+      axios.post(url + '/acceptJob/', {
+        driverId: this.props.driver.id,
+        jobId,
+        latitude,
+        longitude,
+        orderLocation
+      });
+    });
+
   }
   render() {
     if (this.state.success === true) {
@@ -61,10 +91,31 @@ class Dashboard extends React.Component {
         Header: x,
         accessor: x,
       }));
+      columns.push({
+        Header: 'Delivery Driver',
+        accessor: 'Delivery Driver',
+        Cell: row => {
+          console.log("ROW", row);
+          return (
+          <span>
+            {row.delivery_driver ?
+              <span> {row.delivery_driver} </span> : <RaisedButton
+                label="Accept Job"
+                onClick={() => { this.acceptJob(row.original.id, row.original.address); }}
+                secondary
+            />
+            }
+          </span>
+        )},
+      });
       return (
         <Router history={history}>
           <div>
-            <Route exact path='/dashboard/orders' render={() => (
+            <a href="/dashboard/orders">All Orders</a>
+            <a href="/dashboard/driverQueue">Your order queue </a>
+            <Route exact path='/dashboard/orders' render={() => {
+              console.log("in?");
+              return (
               <ReactTable
                 getTrProps={(state, row, column, instance) => {
                   return {
@@ -77,7 +128,7 @@ class Dashboard extends React.Component {
                 data={this.state.data}
                 columns={columns}
               />
-              )}
+            )}}
             />
             <Route exact path="/dashboard/order/:id" render={() => {
               axios.get(url + history.location.pathname)
@@ -108,7 +159,7 @@ class Dashboard extends React.Component {
     }
     return (
       <Dialog open={this.state.open} >
-        <form action="">
+        <form action="/login">
           <TextField
             value={this.state.baseball}
             floatingLabelText="Baseball"
@@ -127,9 +178,13 @@ class Dashboard extends React.Component {
 }
 
 const mapStateToProps = state => ({
+  driver: state.driver,
 });
 
 const mapDispatchToProps = dispatch => ({
+  addDriver: (driver) => {
+    dispatch({ type: 'SET_DRIVER', driver });
+  },
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Dashboard));
