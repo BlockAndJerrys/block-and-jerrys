@@ -11,15 +11,26 @@ import { connect } from 'react-redux';
 
 import history from '../history';
 
+const styles = {
+  container: {
+    display: 'flex',
+    flexFlow: 'column wrap',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: '0 1em',
+  },
+};
+
 const PaidCart = ({ handleRestart }) => (
-  <Paper zDepth={0} >
-    <p>Thank you come again!</p>
+  <Paper zDepth={0} style={styles.container}>
+    <p>Your ice cream is on its way! You will be receiving text updates on your delivery status 😛</p>
+    <img alt="icecream happy baby" src="https://media.giphy.com/media/AGGz7y0rCYxdS/giphy.gif" />
     <RaisedButton
-      label="Restart"
+      style={{ alignSelf: 'flex-end', marginTop: '1em' }}
+      label="Order Again"
       backgroundColor="black"
       labelColor="white"
       primary
-      fullWidth
       onClick={handleRestart}
     />
   </Paper>

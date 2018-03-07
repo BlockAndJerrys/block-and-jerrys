@@ -15,6 +15,7 @@ import Exit from 'material-ui/svg-icons/content/clear';
 import OrderCart from './orderCart';
 import InfoCart from './infoCart';
 import QrCart from './qrCart';
+import PaidCart from './paidCart';
 
 /**
  * Non-linear steppers allow users to enter a multi-step flow at any point.
@@ -40,7 +41,8 @@ class HomeCart extends React.Component {
   getStepContent(stepIndex) {
     switch (stepIndex) {
       case 0:
-        return <OrderCart currency={this.state.currency} />;
+        return <PaidCart />;
+        // return <OrderCart currency={this.state.currency} />;
       case 1:
         return <InfoCart />;
       case 2:
