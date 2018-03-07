@@ -32,19 +32,26 @@ call.on('data', async (data) => {
   const invoice = data.payment_request;
   const o = await Order.findOne({ where: { invoice } });
   await o.update({ status: 'paid' });
+  const oi = await OrderIcecream.findAll({ where: { order_id: o.id }, include: [{ model: Icecream }] });
   coneCount = await OrderIcecream.coneCount();
   invoiceSocketMap[invoice].socket.emit('PAID');
   io.emit('CONE_UPDATE', { coneCount }); // TODO: This only emits to the purchasing socket, not all sockets as would be expected
+
   twilio.messages.create({
     to: o.phone,
     from: process.env.TWILIO_PHONE_NUMBER,
     body: 'Your Lightning Network payment has been accepted 🍦 Your ETA is being calculated 🧐',
   });
-  twilio.messages.create({
-    to: process.env.JEFF_PHONE,
+
+  const msg = {
     from: process.env.TWILIO_PHONE_NUMBER,
-    body: `Order paid\nid: ${o.id}\nAddress: ${o.address}\nPhone: ${o.phone}\nName: ${o.name}\nWhat is your address?`,
-  });
+    body: `Order paid\nid: ${o.id}\nAddress: ${o.address}\nPhone: ${o.phone}\nName: ${o.name}\n===========`,
+  };
+  oi.forEach(x => msg.body += `\n${x.quantity} ${x.icecream.flavor}`);
+  msg.to = process.env.JEFF_PHONE;
+  twilio.messages.create(msg);
+  msg.to = process.env.ROB_PHONE;
+  twilio.messages.create(msg);
 });
 
 // call.on('end', () => {
