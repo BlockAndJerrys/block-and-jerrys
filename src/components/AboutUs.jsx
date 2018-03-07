@@ -27,11 +27,6 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center',
   },
-  icon: {
-    margin: '0 0.4em',
-    fontSize: '2em',
-    color: constants.PINK,
-  },
 };
 
 class AboutUs extends Component {
@@ -60,8 +55,8 @@ class AboutUs extends Component {
         </p>
         <div style={styles.icons}>
           {teamMember.icons.map(socialIcons => (
-            <a key={socialIcons.href} href={socialIcons.href}>
-              <i style={styles.icon} className={`fa ${socialIcons.faClass} fa-lg`} />
+            <a key={socialIcons.href} href={socialIcons.href} target="_blank" rel="noopener noreferrer">
+              <i className={`fa ${socialIcons.faClass} fa-lg icon`} />
             </a>
           ))}
         </div>
@@ -72,10 +67,10 @@ class AboutUs extends Component {
   handleContributorsRender() {
     return this.state.contributors.map(x => (
       <div key={x.login}>
-        <a href={x.html_url} style={{ color: constants.PINK }}>
+        <a href={x.html_url} style={{ color: constants.PINK }} target="_blank" rel="noopener noreferrer">
           <h2>{x.login}</h2>
         </a>
-        <a href={x.html_url}>
+        <a href={x.html_url} target="_blank" rel="noopener noreferrer">
           <Avatar src={x.avatar_url} size={150} />
         </a>
       </div>

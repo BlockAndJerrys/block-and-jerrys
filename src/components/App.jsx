@@ -75,8 +75,12 @@ class App extends React.Component {
         <div style={{ textAlign: 'center' }}>
           <h1>As Featured In</h1>
           <div style={{ display: 'flex', justifyContent: 'space-around', margin: '1em 0' }}>
-            {features.map(x => <a href={x.href}><img key={x.alt} src={x.src} alt={x.alt} style={{ height: '50px', width: 'auto' }} /></a>) }
+            {features.map(x => <a href={x.href} rel="noopener noreferrer"><img key={x.alt} src={x.src} alt={x.alt} style={{ height: '50px', width: 'auto' }} /></a>) }
           </div>
+        </div>
+        <div>
+          <a href="https://github.com/BlockAndJerrys/block-and-jerrys" target="_blank" rel="noopener noreferrer"><i className="fa fa-github icon" /></a>
+          <a href="https://t.me/joinchat/FOyBMw7oOQ_xDGGEvzG0Tg" target="_blank" rel="noopener noreferrer"><i className="fa fa-telegram icon" /></a>
         </div>
         <p>
           Use of this website constitutes your acceptance of Block And Jerry&#39;s <Link to="/t-and-c">Terms & Conditions</Link>.

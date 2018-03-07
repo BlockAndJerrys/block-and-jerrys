@@ -83,3 +83,9 @@ html, body, #root {
     transform: translateX(-100%);
   }
 }
+
+.icon {
+  margin: 0 0.4em;
+  font-size: 2em;
+  color: #ed4d7e;
+}
