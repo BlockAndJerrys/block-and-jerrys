@@ -43,7 +43,6 @@ const styles = {
   },
 };
 
-// const Gallery = ({ cart, handleAdd }) => (
 class Gallery extends React.Component {
   constructor(props) {
     super(props);
@@ -70,7 +69,7 @@ class Gallery extends React.Component {
             <div style={styles.opaque}>
               <p>{x.flavor} <br />
                 <span style={{ fontSize: '0.5em', lineHeight: '0' }}>
-                  ${x.price} ~ {x.priceBtc.toFixed(0)} satoshis
+                  ${x.price} ~ {x.priceBtc.toFixed(0)} sats
                 </span>
               </p>
               <FloatingActionButton

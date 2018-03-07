@@ -10,8 +10,8 @@ import {
   Paper,
 } from 'material-ui';
 import {
-  Router,
-  Route,
+  // Router,
+  // Route,
   withRouter,
 } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -23,7 +23,7 @@ const CheckoutCart = ({ payreq, cartTotal }) => {
   <Paper zDepth={3} style={{display: 'flex', flexDirection: 'column', color: 'white', backgroundColor: '#61a8f5'}} >
     <h1 style={{textAlign: 'center'}}>PAY with BITCOIN</h1>
     <div style={{textAlign: 'center', padding: '20px', fontSize: '12pt'}}>
-      {cartTotal} BTC <br />
+      ${cartTotal}<br />
     </div>
     <div style={{textAlign: 'center'}}>
       {"SCAN THIS INVOICE WITH YOUR LN-ENABLED WALLET"}

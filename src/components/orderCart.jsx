@@ -35,7 +35,7 @@ const orderCart = ({ cart, currency, handleAdd, handleSubtract }) => {
         <TableBody displayRowCheckbox={false} >
           {
             cart.map(item => {
-              const price = currency === 'BTC' ? ((item.quantity * item.priceBtc).toFixed(0)) + ' Satoshis' : '$' + ((item.quantity * item.price).toFixed(0));
+              const price = currency === 'BTC' ? ((item.quantity * item.priceBtc).toFixed(0)) + ' Sats' : '$' + ((item.quantity * item.price).toFixed(0));
               return (
                 <TableRow key={item.id} >
                   <TableRowColumn style={{ textAlign: 'left' }}>
