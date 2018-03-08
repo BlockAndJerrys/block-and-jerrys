@@ -34,8 +34,8 @@ ReactDOM.render(
       <MuiThemeProvider>
         <div>
           <Route path="/t-and-c" exact component={TAndC} />
-          <Route path="/dashboard" exact component={Dashboard} />
-          <Route path="/dashboard/orders" exact component={Dashboard} />
+          <Route exact path="/dashboard" component={Dashboard} />
+          <Route exact path="/dashboard/orders" component={Dashboard} />
           <Route exact path="/dashboard/order/:id" component={Dashboard} />
           <Route path="/about-us" exact component={AboutUs} />
           <Route path="/" component={App} />

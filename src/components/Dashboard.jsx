@@ -33,6 +33,10 @@ class Dashboard extends React.Component {
       orderData: [
         { id: 1, description: 'Loading' },
       ],
+      waypoint_store: [],
+      grocery_stores: [],
+      nearby_orders: [],
+      stopRecursion: false,
     };
     this.handleClose = this.handleClose.bind(this);
     this.handleClick = this.handleClick.bind(this);
@@ -70,17 +74,20 @@ class Dashboard extends React.Component {
   }
   async acceptJob(jobId, orderLocation) {
     console.log("jobId", jobId, this.props.driver.id);
-    navigator.geolocation.getCurrentPosition((position) => {
+    navigator.geolocation.getCurrentPosition(async (position) => {
       console.log("POSITION", position);
       const {latitude, longitude} = position.coords;
       console.log("latitude", longitude)
-      axios.post(url + '/acceptJob/', {
+      const additionalInfo = await axios.post(url + '/acceptJob/', {
         driverId: this.props.driver.id,
         jobId,
         latitude,
         longitude,
-        orderLocation
+        orderLocation,
       });
+      const {waypoint_store, grocery_stores, nearby_orders} = additionalInfo.data;
+      this.setState({waypoint_store, grocery_stores,nearby_orders});
+      history.push(`/dashboard/order/${jobId}`);
     });
 
   }
@@ -101,7 +108,7 @@ class Dashboard extends React.Component {
             {row.delivery_driver ?
               <span> {row.delivery_driver} </span> : <RaisedButton
                 label="Accept Job"
-                onClick={() => { this.acceptJob(row.original.id, row.original.address); }}
+                onClick={(e) => { e.preventDefault(); e.stopPropagation(); this.acceptJob(row.original.id, row.original.address); }}
                 secondary
             />
             }
@@ -131,26 +138,53 @@ class Dashboard extends React.Component {
             )}}
             />
             <Route exact path="/dashboard/order/:id" render={() => {
-              axios.get(url + history.location.pathname)
-              .then(res => {
-                let data = res.data.data;
-                data = data.map(x => {
-                  x.flavor = x.icecream.flavor;
-                  x.price = x.icecream.price;
-                  delete x.icecream;
-                  return x;
+              if(!this.state.stopRecursion) {
+                axios.get(url + history.location.pathname)
+                .then(res => {
+                  let data = res.data.data;
+                  console.log("res.data", res.data.additionalInfo);
+                  if (res.data.additionalInfo) {
+                    const { waypoint_store, grocery_stores, nearby_orders } = res.data.additionalInfo;
+                    this.setState({ waypoint_store, grocery_stores, nearby_orders });
+                  }
+                  data = data.map(x => {
+                    x.flavor = x.icecream.flavor;
+                    x.price = x.icecream.price;
+                    delete x.icecream;
+                    return x;
+                  });
+                  this.setState({ orderData: data, stopRecursion: true });
                 });
-                this.setState({ orderData: data });
-              });
+              }
               let cols = Object.keys(this.state.orderData[0]);
               cols = cols.map(x => ({
                 Header: x,
                 accessor: x,
               }));
-              return (<ReactTable
-                data={this.state.orderData}
-                columns={cols}
-              />);
+              return (
+                <div>
+                  <div className="additionalInfo">
+                    <p>Closest Waypoint FlagShipt Ben and Jerries Store: <span style={{ color: 'blue' }}> {this.state.waypoint_store[0]}, {this.state.waypoint_store[1]} metres away </span></p>
+                    <p> Closest grocery_stores:
+                      {this.state.grocery_stores.map(store => {
+                          return (
+                            <span style={{color: 'blue', display: 'block'}} key={store[0]}> {store[0]}, {store[1]} metres away </span>
+                          )
+                      })}
+                    </p>
+                    <p> Orders {this.state.nearby_orders.map(order => {
+                      return (
+                        <span style={{ color: 'blue' }} key={order}>{order}</span>
+                      )
+                      })} is within a mile of this order
+                    </p>
+                  </div>
+                  <ReactTable
+                    data={this.state.orderData}
+                    columns={cols}
+                  />
+                </div>
+            );
             }}
             />
           </div>

@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const bp = require('body-parser');
 const twilio = require('./twilio');
-const bluebird = require('bluebird');
+const axios = require('axios');
 const googleMapsClient = require('@google/maps').createClient({
   key: process.env.REACT_APP_GOOGLE_API_KEY,
   Promise: Promise,
@@ -13,9 +13,11 @@ const {
   Order,
   Icecream,
   OrderIcecream,
+  DriverOrders,
+  db
 } = require('./postgres');
 const findDistance = (distanceArray) => {
-  return parseFloat(distanceArray[0].distance.text.split(' ')[0]) + parseFloat(distanceArray[1].distance.text.split(' ')[0]);
+  return distanceArray[0].distance.value + distanceArray[1].distance.value;
 }
 const getDistance = require('./getDistance');
 
@@ -37,7 +39,8 @@ module.exports = (passport) => {
       },
       include: [{ model: Icecream }],
     });
-    res.json({ data });
+    const additionalInfo = await DriverOrders.find({ where: { order_id: req.params.orderId } });
+    res.json({ data, additionalInfo});
   });
 
   router.use('/dashboard/orders', async (req, res) => {
@@ -66,7 +69,7 @@ module.exports = (passport) => {
 
   router.post('/acceptJob', async (req, res) => {
     console.log("reqbody", req.body);
-    const {jobId, orderId, latitude, longitude, orderLocation} = req.body;
+    const {jobId, driverId, latitude, longitude, orderLocation} = req.body;
     // find closest waypoint_store
     let distances = await Promise.all(locations.map(location => {
       return googleMapsClient.directions({
@@ -87,15 +90,10 @@ module.exports = (passport) => {
       }
     });
     console.log("min", minDistance, minRoute);
-    const qs = require('querystring');
-    const axios = require('axios');
-
+    // find closest grocery stores and calculate waypoint times to destination
     const DISTANCE_API_URL = 'https://maps.googleapis.com/maps/api/place/textsearch/json?';
     const query = DISTANCE_API_URL + `location=${latitude},${longitude}&key=${process.env.REACT_APP_GOOGLE_API_KEY}&opennow=true&rankby=distance&type=convenience_store`;
-    console.log("QUERY", query);
     let nearByStores = await axios.get(query);
-    // let nearByStores = await googleMapsClient.places({ location: [latitude, longitude], opennow: true, type: 'convenience_store', radius: 800 }).asPromise();
-    // nearByStores = nearByStores.json.results.slice(3);
     nearByStores = nearByStores.data.results.slice(0, 3);
 
     let storeDistances = await Promise.all(nearByStores.map(store => {
@@ -108,10 +106,32 @@ module.exports = (passport) => {
     storeDistances = storeDistances.map(x => [x.json.routes[0].legs[0].end_address,findDistance(x.json.routes[0].legs)]);
     console.log("stores", storeDistances);
     // calculate geolocation and batch orders. I think it's only a greedy algorithm
-    // find closest grocery stores and calculate waypoint times to destination
-    // find closest orders within 5 minutes of the order.
 
-    // DriverOrders.create({progress: 'Accepted', accepted_at: new Date(), order_id: req.body.jobId, driver_id: req.body.})
+    // find closest orders within 5 minutes of the order.
+    let untakenOrders = await db.query('SELECT * FROM orders o WHERE  NOT EXISTS (SELECT 1 FROM   driver_orders i WHERE  o.id = i.order_id);');
+    untakenOrders = untakenOrders[0];
+    const filteredOrders = await Promise.all(untakenOrders.map(order => {
+      console.log("order", order, orderLocation);
+      return googleMapsClient.distanceMatrix({
+        origins: [orderLocation],
+        destinations: [order.address],
+      }).asPromise();
+    }));
+    console.log("filtered orders", filteredOrders);
+    const closeByOrders = [];
+    untakenOrders.forEach(order => {
+      filteredOrders.forEach(filteredOrder => {
+        const distanceFromTargetOrder = filteredOrder.json.rows[0].elements[0].distance.value;
+        if( filteredOrder.query.destinations !== filteredOrder.query.origins && order.address === filteredOrder.query.destinations && distanceFromTargetOrder <= 1600) {
+          closeByOrders.push(order.id);
+        }
+      })
+    })
+    console.log("closeByOrders", closeByOrders);
+    DriverOrders.create({progress: 'Accepted', accepted_at: new Date(), order_id: jobId, driver_id: driverId, grocery_stores: storeDistances, waypoint_store: [minRoute[0].end_address, minDistance], nearby_orders: closeByOrders}).then(result => {
+      console.log("RESULT");
+      res.json(result);
+    })
   });
   router.post('/twilio', async (req, res) => {
     try {
