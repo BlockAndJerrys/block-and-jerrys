@@ -64,9 +64,10 @@ class Dashboard extends React.Component {
       username: 'foobar',
       password: this.state.baseball,
     });
+    console.log("DATA", res.data.data);
     this.setState({
       success: res.data.success,
-      data: res.data.data,
+      data: res.data.data[0],
     });
 
     this.props.addDriver(res.data.driver);
@@ -75,9 +76,7 @@ class Dashboard extends React.Component {
   async acceptJob(jobId, orderLocation) {
     console.log("jobId", jobId, this.props.driver.id);
     navigator.geolocation.getCurrentPosition(async (position) => {
-      console.log("POSITION", position);
       const {latitude, longitude} = position.coords;
-      console.log("latitude", longitude)
       const additionalInfo = await axios.post(url + '/acceptJob/', {
         driverId: this.props.driver.id,
         jobId,
@@ -105,8 +104,8 @@ class Dashboard extends React.Component {
           console.log("ROW", row);
           return (
           <span>
-            {row.delivery_driver ?
-              <span> {row.delivery_driver} </span> : <RaisedButton
+            {row.original.delivery_driver ?
+              <span> {row.original.delivery_driver} </span> : <RaisedButton
                 label="Accept Job"
                 onClick={(e) => { e.preventDefault(); e.stopPropagation(); this.acceptJob(row.original.id, row.original.address); }}
                 secondary
@@ -117,11 +116,10 @@ class Dashboard extends React.Component {
       });
       return (
         <Router history={history}>
-          <div>
-            <a href="/dashboard/orders">All Orders</a>
-            <a href="/dashboard/driverQueue">Your order queue </a>
+          <div style={{ textAlign: 'center', padding: '20px' }}>
+            <RaisedButton href="/dashboard/orders" style={{ marginRight: '15px', marginBottom: '15px' }}>All Orders</RaisedButton>
+            <RaisedButton href="/dashboard/driverQueue">Your order queue </RaisedButton>
             <Route exact path='/dashboard/orders' render={() => {
-              console.log("in?");
               return (
               <ReactTable
                 getTrProps={(state, row, column, instance) => {

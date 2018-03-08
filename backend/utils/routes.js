@@ -44,31 +44,23 @@ module.exports = (passport) => {
   });
 
   router.use('/dashboard/orders', async (req, res) => {
-    const data = await Order.findAll({
-    });
+    let data = await db.query('SELECT d.name as delivery_driver, o.id, o.name, o.status, o.address, o.invoice, o.email, o.created_at, o.updated_at FROM driver_orders d_o left join drivers d on d_o.driver_id=d.id right join orders o on d_o.order_id=o.id;');
     res.json({ success: true, data });
   });
   router.post('/login', passport.authenticate('local'), async (req, res) => {
-    const data = await Order.findAll();
-    // req.logIn(req.user, (err) => {
-    //   return res.redirect('/dashboard');
-    // });
-    res.cookie('driver', req.user.get(), { maxAge: 900000, httpOnly: true });
+    let data = await db.query('SELECT d.name as delivery_driver, o.id, o.name, o.status, o.address, o.invoice, o.email, o.created_at, o.updated_at FROM driver_orders d_o left join drivers d on d_o.driver_id=d.id right join orders o on d_o.order_id=o.id;');
     res.json({ success: true, data, driver: req.user.get() });
   });
   router.use('/dashboard', async(req, res) => {
-    console.log("req user", req.user);
-    console.log("req cookies", req.cookies);
     if (!req.user) {
       res.json({ success: false });
     } else {
-      const data = await Order.findAll();
+      let data = await db.query('SELECT d.name as delivery_driver, o.id, o.name, o.status, o.address, o.invoice, o.email, o.created_at, o.updated_at FROM driver_orders d_o left join drivers d on d_o.driver_id=d.id right join orders o on d_o.order_id=o.id;');
       res.json({ success: true, data });
     }
   });
 
   router.post('/acceptJob', async (req, res) => {
-    console.log("reqbody", req.body);
     const {jobId, driverId, latitude, longitude, orderLocation} = req.body;
     // find closest waypoint_store
     let distances = await Promise.all(locations.map(location => {
@@ -79,7 +71,6 @@ module.exports = (passport) => {
       }).asPromise();
     }));
     distances = distances.map(x => x.json.routes[0].legs);
-    console.log("distances", distances[0][0].duration,distances[0][0].distance, distances[0][1].duration,distances[0][1].distance );
     let minDistance = distances[0][0].distance.value + distances[0][1].distance.value;
     let minRoute = distances[0];
     distances.forEach(distance => {
@@ -89,7 +80,6 @@ module.exports = (passport) => {
         minRoute = distance;
       }
     });
-    console.log("min", minDistance, minRoute);
     // find closest grocery stores and calculate waypoint times to destination
     const DISTANCE_API_URL = 'https://maps.googleapis.com/maps/api/place/textsearch/json?';
     const query = DISTANCE_API_URL + `location=${latitude},${longitude}&key=${process.env.REACT_APP_GOOGLE_API_KEY}&opennow=true&rankby=distance&type=convenience_store`;
@@ -104,34 +94,28 @@ module.exports = (passport) => {
       }).asPromise();
     }));
     storeDistances = storeDistances.map(x => [x.json.routes[0].legs[0].end_address,findDistance(x.json.routes[0].legs)]);
-    console.log("stores", storeDistances);
-    // calculate geolocation and batch orders. I think it's only a greedy algorithm
 
     // find closest orders within 5 minutes of the order.
     let untakenOrders = await db.query('SELECT * FROM orders o WHERE  NOT EXISTS (SELECT 1 FROM   driver_orders i WHERE  o.id = i.order_id);');
     untakenOrders = untakenOrders[0];
     const filteredOrders = await Promise.all(untakenOrders.map(order => {
-      console.log("order", order, orderLocation);
       return googleMapsClient.distanceMatrix({
         origins: [orderLocation],
         destinations: [order.address],
       }).asPromise();
     }));
-    console.log("filtered orders", filteredOrders);
     const closeByOrders = [];
     untakenOrders.forEach(order => {
       filteredOrders.forEach(filteredOrder => {
         const distanceFromTargetOrder = filteredOrder.json.rows[0].elements[0].distance.value;
-        if( filteredOrder.query.destinations !== filteredOrder.query.origins && order.address === filteredOrder.query.destinations && distanceFromTargetOrder <= 1600) {
+        if (filteredOrder.query.destinations !== filteredOrder.query.origins && order.address === filteredOrder.query.destinations && distanceFromTargetOrder <= 1600) {
           closeByOrders.push(order.id);
         }
-      })
-    })
-    console.log("closeByOrders", closeByOrders);
-    DriverOrders.create({progress: 'Accepted', accepted_at: new Date(), order_id: jobId, driver_id: driverId, grocery_stores: storeDistances, waypoint_store: [minRoute[0].end_address, minDistance], nearby_orders: closeByOrders}).then(result => {
-      console.log("RESULT");
+      });
+    });
+    DriverOrders.create({ progress: 'Accepted', accepted_at: new Date(), order_id: jobId, driver_id: driverId, grocery_stores: storeDistances, waypoint_store: [minRoute[0].end_address, minDistance], nearby_orders: closeByOrders }).then(result => {
       res.json(result);
-    })
+    });
   });
   router.post('/twilio', async (req, res) => {
     try {

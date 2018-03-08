@@ -46,6 +46,9 @@ html, body, #root {
   background-color: white;
   padding: 50px;
 }
+.-highlight {
+  margin-top: 15px;
+}
 .rt-tr-group {
   background-color: white;
 }
