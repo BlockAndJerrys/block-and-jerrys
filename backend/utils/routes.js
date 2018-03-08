@@ -31,7 +31,10 @@ module.exports = (passport) => {
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
     next();
   });
-
+  router.use('/dashboard/driverQueue/:driverId', async(req, res) => {
+    const data = db.query('SELECT d_o.order_id, d.name as driver_name, o.id, o.name, o.status, o.address, o.invoice, o.email, o.created_at, o.updated_at FROM driver_orders d_o left join drivers d on d_o.driver_id=d.id left join orders o on d_o.order_id=o.id');
+    res.json({ data });
+  });
   router.use('/dashboard/order/:orderId', async (req, res) => {
     const data = await OrderIcecream.findAll({
       where: {

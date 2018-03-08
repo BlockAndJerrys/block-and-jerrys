@@ -33,6 +33,10 @@ class Dashboard extends React.Component {
       orderData: [
         { id: 1, description: 'Loading' },
       ],
+      driverData: [
+        { id: 1, description: 'Loading' },
+      ],
+      driver: null,
       waypoint_store: [],
       grocery_stores: [],
       nearby_orders: [],
@@ -44,7 +48,6 @@ class Dashboard extends React.Component {
     this.acceptJob = this.acceptJob.bind(this);
   }
   componentDidMount() {
-    console.log("this props", this.props);
     axios.get(url + '/dashboard').then((res) => {
       this.setState({
         success: res.data.success,
@@ -64,13 +67,13 @@ class Dashboard extends React.Component {
       username: 'foobar',
       password: this.state.baseball,
     });
-    console.log("DATA", res.data.data);
     this.setState({
       success: res.data.success,
       data: res.data.data[0],
     });
 
     this.props.addDriver(res.data.driver);
+    this.setState({ driver: res.data.driver });
     history.push('/dashboard/orders');
   }
   async acceptJob(jobId, orderLocation) {
@@ -101,7 +104,6 @@ class Dashboard extends React.Component {
         Header: 'Delivery Driver',
         accessor: 'Delivery Driver',
         Cell: row => {
-          console.log("ROW", row);
           return (
           <span>
             {row.original.delivery_driver ?
@@ -114,11 +116,12 @@ class Dashboard extends React.Component {
           </span>
         )},
       });
+      // put ${this.props.driver.id or whatever the persisted driver it into the driver Queue route}
       return (
         <Router history={history}>
           <div style={{ textAlign: 'center', padding: '20px' }}>
             <RaisedButton href="/dashboard/orders" style={{ marginRight: '15px', marginBottom: '15px' }}>All Orders</RaisedButton>
-            <RaisedButton href="/dashboard/driverQueue">Your order queue </RaisedButton>
+            <RaisedButton href={`/dashboard/driverQueue/`}>Your order queue </RaisedButton>
             <Route exact path='/dashboard/orders' render={() => {
               return (
               <ReactTable
@@ -140,7 +143,6 @@ class Dashboard extends React.Component {
                 axios.get(url + history.location.pathname)
                 .then(res => {
                   let data = res.data.data;
-                  console.log("res.data", res.data.additionalInfo);
                   if (res.data.additionalInfo) {
                     const { waypoint_store, grocery_stores, nearby_orders } = res.data.additionalInfo;
                     this.setState({ waypoint_store, grocery_stores, nearby_orders });
@@ -185,6 +187,33 @@ class Dashboard extends React.Component {
             );
             }}
             />
+            <Route exact path="/dashboard/driverQueue/:driverId" render= {() => {
+              if (!this.state.stopDriverRecursion) {
+                axios.get(url + history.location.pathname)
+                .then(res => {
+                  let data = res.data.data;
+                  data = data.map(x => {
+                    x.flavor = x.icecream.flavor;
+                    x.price = x.icecream.price;
+                    delete x.icecream;
+                    return x;
+                  });
+                  this.setState({ driverData: data, stopDriverRecursion: true });
+                });
+              }
+              let cols = Object.keys(this.state.driverData[0]);
+              cols = cols.map(x => ({
+                Header: x,
+                accessor: x,
+              }));
+              return (
+                <ReactTable
+                  data={this.state.driverData}
+                  columns={cols}
+                />
+              );
+            }}
+             />
           </div>
         </Router>
       );
