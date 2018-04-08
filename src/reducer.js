@@ -40,12 +40,12 @@ export default function (state = initialState, action) {
       let conePrice;
       const newCart = state.cart.map(x => {
         if (x.id === action.id) {
-          if (action.quantity) {
-            x.quantity = action.quantity;
-          } else {
-            x.quantity += 1;
-          }
           conePrice = x.price;
+          if (action.quantity) {
+            return { ...x, quantity: action.quantity };
+          } else {
+            return { ...x, quantity: x.quantity + 1 };
+          }
         }
         return x;
       });
@@ -62,11 +62,13 @@ export default function (state = initialState, action) {
       let newTotal = state.cartTotal;
       const newCart = state.cart.map(x => {
         if (x.id === action.id) {
-          if (action.quantity) x.quantity = action.quantity;
-          else if (x.quantity > 0) {
-            x.quantity -= 1;
+          if (action.quantity) {
+            newQuant += x.quantity - action.quantity;
+            return { ...x, quantity: action.quantity };
+          } else if (x.quantity > 0) {
             newQuant -= 1;
             newTotal -= x.price;
+            return { ...x, quantity: x.quantity - 1 };
           }
         }
         return x;
