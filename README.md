@@ -1,6 +1,8 @@
 # Block and Jerry's
 
-*LAUNCHING SOON:* Block and Jerry's is coming to the Bitcoin mainnet March 7th.
+*LAUNCHED:* Block and Jerry's launch was successful! We sold few ice cream and had a great time! Checkout our feature on Coindesk: https://www.coindesk.com/bitcoin-lightning-risky-maybe-ice-cream-will-tempt/
+
+*SHUT DOWN FOR NOW:* Unfortunately delivery is hard and time consuming -- thus, for now we are not operating. **If anyone is interested in continuing this, forking it and making it their own, or simply want some Bitcoin Lightning Network implementation advice, email Rob: rsdurst@colby.edu**
 
 ## Background
 Motivated by [Starblocks](https://starblocks.acinq.co/#/), I wanted to offer the world a dessert to compliment their Testnet coffee. Using Lighting Lab's [LND](https://github.com/lightningnetwork/lnd) as my gateway to the Lightning Network, I built a React front end to generate invoices for ice cream on top of my LND node.
