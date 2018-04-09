@@ -37,23 +37,27 @@ export default function (state = initialState, action) {
     }
 
     case 'ADD': {
-      let conePrice;
+      let newQuant = state.quantity;
+      let newTotal = state.cartTotal;
       const newCart = state.cart.map(x => {
         if (x.id === action.id) {
           if (action.quantity) {
-            x.quantity = action.quantity;
+            newQuant += action.quantity - x.quantity;
+            newTotal += (action.quantity - x.quantity) * x.price
+            return { ...x, quantity: action.quantity };
           } else {
-            x.quantity += 1;
+            newQuant += 1;
+            newTotal += x.price;
+            return { ...x, quantity: x.quantity + 1 };
           }
-          conePrice = x.price;
         }
         return x;
       });
       return {
         ...state,
         cart: newCart,
-        cartTotal: state.cartTotal + conePrice,
-        quantity: state.quantity + 1,
+        cartTotal: newTotal,
+        quantity: newQuant,
       };
     }
 
@@ -62,11 +66,13 @@ export default function (state = initialState, action) {
       let newTotal = state.cartTotal;
       const newCart = state.cart.map(x => {
         if (x.id === action.id) {
-          if (action.quantity) x.quantity = action.quantity;
-          else if (x.quantity > 0) {
-            x.quantity -= 1;
+          if (action.quantity) {
+            newQuant += x.quantity - action.quantity;
+            return { ...x, quantity: action.quantity };
+          } else if (x.quantity > 0) {
             newQuant -= 1;
             newTotal -= x.price;
+            return { ...x, quantity: x.quantity - 1 };
           }
         }
         return x;
