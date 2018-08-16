@@ -1,6 +1,8 @@
 # Block and Jerry's
 
-*LAUNCHED:* Block and Jerry's launch was successful! We sold few ice cream and had a great time! Checkout our feature on Coindesk: https://www.coindesk.com/bitcoin-lightning-risky-maybe-ice-cream-will-tempt/
+*LAUNCHED:* Block and Jerry's launch was successful! We sold few ice cream and had a great time! Check out our feature on Coindesk: https://www.coindesk.com/bitcoin-lightning-risky-maybe-ice-cream-will-tempt/
+
+![Coindesk](https://imgur.com/w44C5yj.png)
 
 *SHUT DOWN FOR NOW:* Unfortunately delivery is hard and time consuming -- thus, for now we are not operating. **If anyone is interested in continuing this, forking it and making it their own, or simply want some Bitcoin Lightning Network implementation advice, email Rob: rsdurst@colby.edu**
 
