@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@google/maps": "^0.5.5",
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
     "fast-deep-equal": "^2.0.1",
